@@ -4,6 +4,6 @@ project(sand_sim)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(sand_sim
-        "SandSimulation/main.cpp" "SandSimulation/updateFunctions.cpp" "SandSimulation/updateFunctions.hpp" SandSimulation/materialClass.hpp SandSimulation/materialClass.cpp)
+        "SandSimulation/main.cpp" "SandSimulation/updateFunctions/updateFunctions.cpp" "SandSimulation/updateFunctions/updateFunctions.hpp" "SandSimulation/materialClass/materialClass.hpp" "SandSimulation/materialClass/materialClass.cpp")
 
-target_link_libraries(sand_sim SDL2)
+target_link_libraries(sand_sim sfml-system sfml-graphics sfml-window)

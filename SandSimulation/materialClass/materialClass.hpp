@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 struct particle {
     float speed_x;
@@ -9,7 +10,7 @@ struct particle {
 };
 
 struct material {
-    std::vector<unsigned char> color;//this will probably get changed from vector
+    sf::Color color;//this will probably get changed from vector
     short constant_force;
 };
 
@@ -18,6 +19,15 @@ public:
     sand() {
         constant_force = 10;
         color = {237, 205, 88};
+    }
+    void update();
+};
+
+class air:material{
+public:
+    air(){
+        constant_force = 10;
+        color = {0, 0, 0, 0};
     }
     void update();
 };
