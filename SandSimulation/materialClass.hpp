@@ -4,7 +4,6 @@ class particle{
     float speed_x;
     float speed_y;
     int timer;
-
 }
 
 class material{
@@ -15,4 +14,5 @@ class material{
 class sand:material{
     constant_force = 10;
     color = {237, 205, 88};
+    void update();
 };
