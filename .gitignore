@@ -1,7 +1,5 @@
 **/.DS_Store
 **.png~
 **/UserInterfaceState.xcuserstate
-.vs/Terralistic/
 cmake-build-debug/
 .idea/workspace.xml
-Dependencies/
