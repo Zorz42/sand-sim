@@ -19,8 +19,8 @@ void ParticleRenderer::render() {
     
     for(int x = 0; x < width; x++)
         for(int y = 0; y < height; y++) {
-            Material* particle = container->getParticle(x, y);
-            sf::Color color = particle->getColor();
+            Particle& particle = container->getParticle(x, y);
+            sf::Color color = particle.getUniqueMaterial().color;
             int index = (y * width + x) * 4;
             pixels[index]     = color.r;
             pixels[index + 1] = color.g;
