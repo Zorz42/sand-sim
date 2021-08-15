@@ -4,7 +4,7 @@
 class Renderer {
     sf::RenderWindow* window;
 public:
-    void init();
-    bool isOpen();
+    Renderer(unsigned short window_width, unsigned short window_height);
+    bool isRunning();
     void render();
 };

@@ -1,7 +1,7 @@
 #include "renderer.hpp"
 
-void Renderer::init() {
-    window = new sf::RenderWindow(sf::VideoMode(800, 600), "Sand Simulation");
+Renderer::Renderer(unsigned short window_width, unsigned short window_height) {
+    window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Sand Simulation", sf::Style::Titlebar | sf::Style::Close);
 }
 
 void Renderer::render() {
@@ -16,6 +16,6 @@ void Renderer::render() {
     window->display();
 }
 
-bool Renderer::isOpen() {
+bool Renderer::isRunning() {
     return window->isOpen();
 }

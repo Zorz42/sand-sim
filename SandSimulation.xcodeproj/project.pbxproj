@@ -21,7 +21,6 @@
 		366665C626C81F150009A9DC /* ogg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		366665CA26C821E50009A9DC /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665C826C821E50009A9DC /* renderer.cpp */; };
 		366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665CC26C8F39C0009A9DC /* materialClass.cpp */; };
-		366665D226C8F39D0009A9DC /* updateFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665D026C8F39D0009A9DC /* updateFunctions.cpp */; };
 		368249E126C81766002B43FB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 368249E026C81766002B43FB /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -76,8 +75,6 @@
 		366665C926C821E50009A9DC /* renderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = renderer.hpp; sourceTree = "<group>"; };
 		366665CC26C8F39C0009A9DC /* materialClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = materialClass.cpp; sourceTree = "<group>"; };
 		366665CD26C8F39C0009A9DC /* materialClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = materialClass.hpp; sourceTree = "<group>"; };
-		366665CF26C8F39C0009A9DC /* updateFunctions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = updateFunctions.hpp; sourceTree = "<group>"; };
-		366665D026C8F39D0009A9DC /* updateFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = updateFunctions.cpp; sourceTree = "<group>"; };
 		368249BF26C81473002B43FB /* SandSimulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SandSimulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		368249DC26C814A4002B43FB /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		368249E026C81766002B43FB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -123,15 +120,6 @@
 			path = materialClass;
 			sourceTree = "<group>";
 		};
-		366665CE26C8F39C0009A9DC /* updateFunctions */ = {
-			isa = PBXGroup;
-			children = (
-				366665CF26C8F39C0009A9DC /* updateFunctions.hpp */,
-				366665D026C8F39D0009A9DC /* updateFunctions.cpp */,
-			);
-			path = updateFunctions;
-			sourceTree = "<group>";
-		};
 		368249B626C81473002B43FB = {
 			isa = PBXGroup;
 			children = (
@@ -153,7 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				366665CB26C8F39C0009A9DC /* materialClass */,
-				366665CE26C8F39C0009A9DC /* updateFunctions */,
 				366665C726C821D40009A9DC /* renderer */,
 				368249E026C81766002B43FB /* main.cpp */,
 			);
@@ -268,7 +255,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				366665D226C8F39D0009A9DC /* updateFunctions.cpp in Sources */,
 				366665CA26C821E50009A9DC /* renderer.cpp in Sources */,
 				368249E126C81766002B43FB /* main.cpp in Sources */,
 				366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */,
