@@ -29,7 +29,7 @@ public:
 class air: public Material{
 public:
     sf::Color getColor() {
-        return {0, 0, 0};
+        return {90, 90, 90};
     }
 
     short getConstantForce() {

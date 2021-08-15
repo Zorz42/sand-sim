@@ -14,6 +14,12 @@ particle_container::particle_container(int x_size, int y_size) {
     initMap();
 }
 
+void particle_container::updateAll() {
+    for(int i = 0; i < arraySizeX * arraySizeY; i++){
+        particleMap[i]->update();
+    }
+}
+
 Material* particle_container::getParticle(unsigned short x, unsigned short y) {
     return particleMap[y * arraySizeX + x];
 }
