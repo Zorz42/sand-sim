@@ -19,19 +19,17 @@ void initMaterials() {
                 if(i + 1 > container->getParticle(x, y + 1).speed_y)
                     container->getParticle(x, y + 1).updated = !even;
                 y++;
-            }else if((rand() & 1) == 1)
+            } else if((rand() & 1) == 1) {
                 if(!sandSwapLeftDown(x, y, container, even, i))
                     if(!sandSwapRightDown(x, y, container, even, i)){
                         container->getParticle(x, y).speed_y = 0;
                         break;
                     }
-            else
-                if(!sandSwapRightDown(x, y, container, even, i))
-                    if(!sandSwapLeftDown(x, y, container, even, i)){
-                        container->getParticle(x, y).speed_y = 0;
-                        break;
-                    }
-
+            } else if(!sandSwapRightDown(x, y, container, even, i))
+                if(!sandSwapLeftDown(x, y, container, even, i)) {
+                    container->getParticle(x, y).speed_y = 0;
+                    break;
+            }
             i++;
         }
         while(i < container->getParticle(x, y).speed_y);
@@ -50,20 +48,19 @@ void initMaterials() {
                 if(i + 1 > container->getParticle(x, y + 1).speed_y)
                     container->getParticle(x, y + 1).updated = !even;
                 y++;
-            }else if((rand() & 1) == 1)
+            } else if((rand() & 1) == 1) {
                 if(!waterSwapLeftDown(x, y, container, even, i))
                     if(!waterSwapRightDown(x, y, container, even, i)){
                         container->getParticle(x, y).speed_y = 0;
                         break;
                     }
-            else
-                if(!waterSwapRightDown(x, y, container, even, i))
-                    if(!waterSwapLeftDown(x, y, container, even, i)){
-                        container->getParticle(x, y).speed_y = 0;
-                        break;
-                    }
+            } else if(!waterSwapRightDown(x, y, container, even, i))
+                if(!waterSwapLeftDown(x, y, container, even, i)) {
+                    container->getParticle(x, y).speed_y = 0;
+                    break;
+                }
 
-                i++;
+            i++;
         }
         while(i < container->getParticle(x, y).speed_y);
     });
