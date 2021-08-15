@@ -15,27 +15,25 @@ void ParticleRenderer::render() {
             window->close();
     }
     
-    sf::Uint8 pixels[width * height * 4];
+    sf::Uint8* pixels = new sf::Uint8[width * height * 4];
+    sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
     
-    Particle* iter = container->map;
-    for(int i = 0; i < width * height; i++) {
+    Particle* iter = container->getMapBegin();
+    for(int i = 0; i < container->getMapSize(); i++) {
         sf::Color color = iter->getUniqueMaterial().color;
-        int index = i * 4;
-        pixels[index]     = color.r;
-        pixels[index + 1] = color.g;
-        pixels[index + 2] = color.b;
-        pixels[index + 3] = color.a;
+        *pixel_iter = color.r | color.g << 8 | color.b << 16 | color.a << 24;
         iter++;
+        pixel_iter++;
     }
     
-    sf::Image image;
-    image.create(width, height, pixels);
-    
     sf::Texture texture;
-    texture.loadFromImage(image);
+    texture.create(width, height);
+    texture.update(pixels);
     
     window->draw(sf::Sprite(texture));
     window->display();
+    
+    delete[] pixels;
     
     float currentTime = clock.restart().asSeconds();
     float fps = 1.f / currentTime;

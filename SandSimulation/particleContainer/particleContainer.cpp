@@ -45,31 +45,35 @@ void initMaterials() {
     });
 }
 
-ParticleContainer::ParticleContainer(int size_x, int size_y) : size_x(size_x), size_y(size_y) {
+ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), height(size_y) {
     map = new Particle[size_x * size_y];
 }
 
 void ParticleContainer::updateAll() {
     static bool even = false;
     even = !even;
-    Particle* iter = map;
-    for(int i = 0; i < size_x * size_y; i++) {
+    Particle* iter = getMapBegin();
+    for(int i = 0; i < getMapSize(); i++) {
         auto update = iter->getUniqueMaterial().update;
         if(update)
-            update(this, i % size_x, i / size_x, even);
+            update(this, i % width, i / width, even);
         iter++;
-        if(((i % size_x) - 620) * ((i % size_x) - 500) + ((i / size_x) - 400) * ((i / size_x) - 400) < 200)
+        if(((i % width) - 620) * ((i % width) - 500) + ((i / width) - 400) * ((i / width) - 400) < 200)
             *iter = Particle(MaterialType::SAND);
     }
 }
 
 Particle& ParticleContainer::getParticle(unsigned short x, unsigned short y) {
     static Particle out_of_bounds;
-    if(x < 0 || x >= size_x || y < 0 || y >= size_y)
+    if(x < 0 || x >= width || y < 0 || y >= height)
         return out_of_bounds;
-    return map[y * size_x + x];
+    return map[y * width + x];
 }
 
 const Material& Particle::getUniqueMaterial() {
     return materials[(int)type];
+}
+
+unsigned int ParticleContainer::getMapSize() {
+    return width * height;
 }

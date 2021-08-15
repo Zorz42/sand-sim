@@ -31,12 +31,13 @@ public:
 };
 
 class ParticleContainer {
-    int size_x, size_y;
-public:
+    int width, height;
     Particle* map = nullptr;
+public:
+    ParticleContainer(int size_x, int size_y);
+    Particle* getMapBegin() { return map; }
+    unsigned int getMapSize();
     void initMap();
     void updateAll();
-    MaterialType getType(short x, short y);
-    ParticleContainer(int size_x, int size_y);
     Particle& getParticle(unsigned short x, unsigned short y);
 };
