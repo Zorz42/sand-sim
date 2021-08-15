@@ -3,13 +3,16 @@
 
 ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height)
 : container(container), width(window_width), height(window_height) {
-    window = new sf::RenderWindow(sf::VideoMode(width, height), "Sand Simulation", sf::Style::Titlebar | sf::Style::Close);
+    window = new sf::RenderWindow(sf::VideoMode(width * 2, height * 2), "Sand Simulation", sf::Style::Titlebar | sf::Style::Close);
     window->setVerticalSyncEnabled(true);
+    sf::FloatRect visibleArea(0, 0, (unsigned int)width, (unsigned int)height);
+    window->setView(sf::View(visibleArea));
+    
     pixels = new sf::Uint8[width * height * 4];
+    texture.create(width, height);
 }
 
 void ParticleRenderer::render() {
-    static unsigned short frame_count = 0;
     sf::Event event;
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed)
@@ -26,15 +29,13 @@ void ParticleRenderer::render() {
         pixel_iter++;
     }
     
-    sf::Texture texture;
-    texture.create(width, height);
     texture.update(pixels);
     
     window->draw(sf::Sprite(texture));
     window->display();
     
+    static unsigned short frame_count = 0;
     frame_count++;
-    
     if(clock.getElapsedTime().asSeconds() > 1) {
         std::cout << "FPS: " << frame_count << std::endl;
         clock.restart();

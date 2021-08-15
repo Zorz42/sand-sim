@@ -8,6 +8,7 @@ class ParticleRenderer {
     sf::Clock clock;
     unsigned short width, height;
     sf::Uint8* pixels;
+    sf::Texture texture;
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
     bool isRunning();

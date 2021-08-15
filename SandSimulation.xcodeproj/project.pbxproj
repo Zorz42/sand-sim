@@ -140,8 +140,8 @@
 		368249C126C81473002B43FB /* SandSimulation */ = {
 			isa = PBXGroup;
 			children = (
-				366665D326C8F8250009A9DC /* particleContainer */,
 				366665C726C821D40009A9DC /* particleRenderer */,
+				366665D326C8F8250009A9DC /* particleContainer */,
 				368249E026C81766002B43FB /* main.cpp */,
 			);
 			path = SandSimulation;
