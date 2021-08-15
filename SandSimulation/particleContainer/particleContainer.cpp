@@ -4,9 +4,7 @@
 Material materials[(int)MaterialType::NUM_MATERIALS];
 
 void initMaterials() {
-    materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0, [](particle_container* container, int x, int y, bool even) {
-        
-    });
+    materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0);
     
     materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 0, [](particle_container* container, int x, int y, bool even) {
         if(container->getParticle(x, y).updated == even && container->getParticle(x, y + 1).type == MaterialType::AIR) {
@@ -31,7 +29,8 @@ void particle_container::updateAll() {
     for(int x = 1; x < arraySizeX - 1; x++){
         for(int y = 1; y < arraySizeY - 1; y++){
             Particle& particle = getParticle(x, y);
-            particle.getUniqueMaterial().update(this, x, y, even);
+            if(particle.getUniqueMaterial().update)
+                particle.getUniqueMaterial().update(this, x, y, even);
         }
     }
 }

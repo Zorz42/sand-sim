@@ -10,7 +10,7 @@ void initMaterials();
 class particle_container;
 
 struct Material {
-    Material(sf::Color color, short constant_force, void (*update)(particle_container* container, int x, int y, bool even)) :
+    Material(sf::Color color, short constant_force, void (*update)(particle_container* container, int x, int y, bool even)=nullptr) :
     color(color), constant_force(constant_force), update(update) {}
     Material() = default;
     sf::Color color;
