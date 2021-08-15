@@ -193,7 +193,7 @@ bool waterSwapRightDown(int& x, int& y, ParticleContainer* container, bool even,
 bool waterSwapLeft(int x, int y, ParticleContainer* container, bool even, int i){
     if(container->getParticle(x, y).updated == even && container->getParticle(x - 1, y).type == MaterialType::AIR) {
         swapParticles(container->getParticle(x, y), container->getParticle(x - 1, y));
-        if(i + 1 > container->getParticle(x, y).speed_y)
+        if(i + 1 > container->getParticle(x, y).speed_x)
             container->getParticle(x - 1, y).updated = !even;
         x--;
         return true;
@@ -205,7 +205,7 @@ bool waterSwapLeft(int x, int y, ParticleContainer* container, bool even, int i)
 bool waterSwapRight(int& x, int& y, ParticleContainer* container, bool even, int i){
     if(container->getParticle(x, y).updated == even && container->getParticle(x + 1, y).type == MaterialType::AIR) {
         swapParticles(container->getParticle(x, y), container->getParticle(x + 1, y));
-        if(i + 1 > container->getParticle(x, y).speed_y)
+        if(i + 1 > container->getParticle(x, y).speed_x)
             container->getParticle(x + 1, y).updated = !even;
         x++;
         return true;

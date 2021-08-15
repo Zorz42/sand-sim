@@ -23,7 +23,7 @@ public:
     Particle(MaterialType type) : type(type) {}
     Particle() = default;
     MaterialType type = MaterialType::AIR;
-    float speed_x = 1;
+    float speed_x = -1;
     float speed_y = 1;
     unsigned short timer = 0;
     bool updated = false;
