@@ -1,6 +1,8 @@
 #include <iostream>
 #include "particleRenderer.hpp"
 
+#define RADIUS 15
+
 ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height)
 : container(container), width(window_width), height(window_height) {
     window = new sf::RenderWindow(sf::VideoMode(width * 2, height * 2), "Sand Simulation", sf::Style::Titlebar | sf::Style::Close);
@@ -27,8 +29,10 @@ void ParticleRenderer::render() {
     if(button_pressed) {
         sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
         unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
-        container->getParticle(mouse_x, mouse_y).type = MaterialType::SAND;
-        
+        for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
+            for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
+                if(rand() % (RADIUS * 3) == 0)
+                    container->getParticle(x, y).type = MaterialType::SAND;
     }
     
     sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
