@@ -1,6 +1,8 @@
 #include <vector>
 #include "particleContainer.hpp"
 
+void swapParticles(Particle& particle1, Particle& particle2);
+
 Material materials[(int)MaterialType::NUM_MATERIALS];
 
 void initMaterials() {
@@ -10,8 +12,9 @@ void initMaterials() {
         container->getParticle(x, y).speed_y *= 0.95;
         container->getParticle(x, y).speed_x *= 0.95;
         container->getParticle(x, y).speed_y += container->getParticle(x, y).getUniqueMaterial().constant_force;
+        
         int i = 0;
-        do{
+        do {
             if(container->getParticle(x, y).updated == even && (container->getParticle(x, y + 1).type == MaterialType::AIR || container->getParticle(x, y + 1).type == MaterialType::WATER)) {
                 Particle temporary_particle = container->getParticle(x, y);
                 container->getParticle(x, y) = container->getParticle(x, y + 1);
@@ -19,9 +22,9 @@ void initMaterials() {
                 if(i + 1 > container->getParticle(x, y + 1).speed_y)
                     container->getParticle(x, y + 1).updated = !even;
                 y++;
-            } else if((rand() & 1) == 1) {
+            } else if(rand() % 2 == 1) {
                 if(!sandSwapLeftDown(x, y, container, even, i))
-                    if(!sandSwapRightDown(x, y, container, even, i)){
+                    if(!sandSwapRightDown(x, y, container, even, i)) {
                         container->getParticle(x, y).speed_y = 0;
                         break;
                     }
@@ -82,10 +85,10 @@ void ParticleContainer::updateAll() {
         if(update)
             update(this, i % width, i / width, even);
         iter++;
-        if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
+        if(frameCount < 500 && (i % width - width / 2) * (i % width - width / 2) + (i / width - height / 4) * (i / width - height / 4) < 1000 && rand() % 512 == 0)
             *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::WATER);
+        //if(frameCount < 500 && (i % width - width / 2) * (i % width - width / 2) + (i / width - height / 4) * (i / width - height / 4) < 1000 && rand() % 511 == 0)
+            //*iter = Particle(MaterialType::WATER);
     }
 }
 
