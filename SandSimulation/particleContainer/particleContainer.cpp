@@ -84,9 +84,9 @@ void ParticleContainer::updateAll() {
         if(update)
             update(this, i % width, i / width, even);
         iter++;
-        if(frameCount < 500 && ((i % size_x) - 620) * ((i % size_x) - 500) + ((i / size_x) - 400) * ((i / size_x) - 400) < 200 && (rand() & 511) == 0)
+        if(frameCount < 500 && ((i % width) - 620) * ((i % width) - 500) + ((i / width) - 400) * ((i / width) - 400) < 200 && (rand() & 511) == 0)
             *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % size_x) - 620) * ((i % size_x) - 500) + ((i / size_x) - 400) * ((i / size_x) - 400) < 200 && (rand() & 511) == 0)
+        if(frameCount < 500 && ((i % width) - 620) * ((i % width) - 500) + ((i / width) - 400) * ((i / width) - 400) < 200 && (rand() & 511) == 0)
             *iter = Particle(MaterialType::WATER);
     }
 }
