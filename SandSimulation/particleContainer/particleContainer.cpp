@@ -83,6 +83,10 @@ void initMaterials() {
         }
 
     });
+
+    materials[(int)MaterialType::WOOD] = Material({105, 73, 6}, 0/*, [](ParticleContainer* container, int x, int y, bool even){
+
+    }*/);
 }
 
 ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), height(size_y) {
