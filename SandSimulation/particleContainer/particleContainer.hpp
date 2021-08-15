@@ -3,7 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-enum class MaterialType {AIR, SAND, NUM_MATERIALS};
+enum class MaterialType {AIR, SAND, WATER, NUM_MATERIALS};
 
 void initMaterials();
 
@@ -41,3 +41,12 @@ public:
     void updateAll();
     Particle& getParticle(unsigned short x, unsigned short y);
 };
+
+bool sandSwapLeftDown(int x, int y, ParticleContainer* container, bool even, int i);
+
+bool sandSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
+
+
+bool waterSwapLeftDown(int x, int y, ParticleContainer* container, bool even, int i);
+
+bool waterSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
