@@ -10,7 +10,7 @@ struct Material {
     float speed_x = 0;
     float speed_y = 0;
     unsigned short timer = 0;
-    virtual ~Material();
+    virtual ~Material() {}
 };
 
 class sand: public Material {
@@ -24,8 +24,6 @@ public:
     }
 
     void update();
-
-    ~sand();
 };
 
 class air: public Material{
@@ -39,6 +37,4 @@ public:
     }
 
     void update();
-
-    ~air();
 };

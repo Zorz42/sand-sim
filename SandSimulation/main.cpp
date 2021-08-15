@@ -1,11 +1,14 @@
-#include "renderer.hpp"
+#include "particleRenderer.hpp"
+#include "particleContainer.hpp"
 
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1618
+#define HEIGHT 1000
 
 int main() {
-    Renderer renderer(WIDTH, HEIGHT);
-    while(renderer.isRunning())
+    particle_container container(WIDTH, HEIGHT);
+    ParticleRenderer renderer(WIDTH, HEIGHT);
+    while(renderer.isRunning()) {
         renderer.render();
+    }
     return 0;
 }

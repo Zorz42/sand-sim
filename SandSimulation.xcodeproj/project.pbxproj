@@ -19,8 +19,9 @@
 		366665BA26C81EF70009A9DC /* freetype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666653F26C81B470009A9DC /* freetype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		366665C526C81F150009A9DC /* ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; };
 		366665C626C81F150009A9DC /* ogg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		366665CA26C821E50009A9DC /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665C826C821E50009A9DC /* renderer.cpp */; };
+		366665CA26C821E50009A9DC /* particleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665C826C821E50009A9DC /* particleRenderer.cpp */; };
 		366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665CC26C8F39C0009A9DC /* materialClass.cpp */; };
+		366665D626C8F8250009A9DC /* particleContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665D526C8F8250009A9DC /* particleContainer.cpp */; };
 		368249E126C81766002B43FB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 368249E026C81766002B43FB /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -71,10 +72,12 @@
 		3666658026C81C280009A9DC /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = "../Terralistic/Dependencies/SFML-2.5.1-macos-clang/extlibs/ogg.framework"; sourceTree = "<group>"; };
 		3666658126C81C280009A9DC /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = "../Terralistic/Dependencies/SFML-2.5.1-macos-clang/extlibs/vorbis.framework"; sourceTree = "<group>"; };
 		366665B426C81EDB0009A9DC /* SandSimulation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SandSimulation.xcodeproj; sourceTree = "<group>"; };
-		366665C826C821E50009A9DC /* renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = renderer.cpp; sourceTree = "<group>"; };
-		366665C926C821E50009A9DC /* renderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = renderer.hpp; sourceTree = "<group>"; };
+		366665C826C821E50009A9DC /* particleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particleRenderer.cpp; sourceTree = "<group>"; };
+		366665C926C821E50009A9DC /* particleRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = particleRenderer.hpp; sourceTree = "<group>"; };
 		366665CC26C8F39C0009A9DC /* materialClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = materialClass.cpp; sourceTree = "<group>"; };
 		366665CD26C8F39C0009A9DC /* materialClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = materialClass.hpp; sourceTree = "<group>"; };
+		366665D426C8F8250009A9DC /* particleContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = particleContainer.hpp; sourceTree = "<group>"; };
+		366665D526C8F8250009A9DC /* particleContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleContainer.cpp; sourceTree = "<group>"; };
 		368249BF26C81473002B43FB /* SandSimulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SandSimulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		368249DC26C814A4002B43FB /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		368249E026C81766002B43FB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -102,13 +105,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		366665C726C821D40009A9DC /* renderer */ = {
+		366665C726C821D40009A9DC /* particleRenderer */ = {
 			isa = PBXGroup;
 			children = (
-				366665C926C821E50009A9DC /* renderer.hpp */,
-				366665C826C821E50009A9DC /* renderer.cpp */,
+				366665C926C821E50009A9DC /* particleRenderer.hpp */,
+				366665C826C821E50009A9DC /* particleRenderer.cpp */,
 			);
-			path = renderer;
+			path = particleRenderer;
 			sourceTree = "<group>";
 		};
 		366665CB26C8F39C0009A9DC /* materialClass */ = {
@@ -118,6 +121,15 @@
 				366665CD26C8F39C0009A9DC /* materialClass.hpp */,
 			);
 			path = materialClass;
+			sourceTree = "<group>";
+		};
+		366665D326C8F8250009A9DC /* particleContainer */ = {
+			isa = PBXGroup;
+			children = (
+				366665D426C8F8250009A9DC /* particleContainer.hpp */,
+				366665D526C8F8250009A9DC /* particleContainer.cpp */,
+			);
+			path = particleContainer;
 			sourceTree = "<group>";
 		};
 		368249B626C81473002B43FB = {
@@ -140,8 +152,9 @@
 		368249C126C81473002B43FB /* SandSimulation */ = {
 			isa = PBXGroup;
 			children = (
+				366665D326C8F8250009A9DC /* particleContainer */,
 				366665CB26C8F39C0009A9DC /* materialClass */,
-				366665C726C821D40009A9DC /* renderer */,
+				366665C726C821D40009A9DC /* particleRenderer */,
 				368249E026C81766002B43FB /* main.cpp */,
 			);
 			path = SandSimulation;
@@ -255,7 +268,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				366665CA26C821E50009A9DC /* renderer.cpp in Sources */,
+				366665CA26C821E50009A9DC /* particleRenderer.cpp in Sources */,
+				366665D626C8F8250009A9DC /* particleContainer.cpp in Sources */,
 				368249E126C81766002B43FB /* main.cpp in Sources */,
 				366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */,
 			);

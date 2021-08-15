@@ -1,10 +1,10 @@
-#include "renderer.hpp"
+#include "particleRenderer.hpp"
 
-Renderer::Renderer(unsigned short window_width, unsigned short window_height) {
+ParticleRenderer::ParticleRenderer(unsigned short window_width, unsigned short window_height) {
     window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Sand Simulation", sf::Style::Titlebar | sf::Style::Close);
 }
 
-void Renderer::render() {
+void ParticleRenderer::render() {
     sf::Event event;
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed)
@@ -16,6 +16,6 @@ void Renderer::render() {
     window->display();
 }
 
-bool Renderer::isRunning() {
+bool ParticleRenderer::isRunning() {
     return window->isOpen();
 }
