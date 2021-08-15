@@ -1,7 +1,7 @@
 #include <iostream>
 #include "particleRenderer.hpp"
 
-#define RADIUS 15
+#define RADIUS 5
 
 ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height)
 : container(container), width(window_width), height(window_height) {
@@ -44,7 +44,7 @@ void ParticleRenderer::render() {
     if(button_pressed) {
         for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
             for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
-                if(rand() % (RADIUS * 3) == 0 && pow(x - mouse_x, 2) + pow(y - mouse_y, 2) < RADIUS * RADIUS)
+                if(rand() % (RADIUS * 8) == 0 && pow(x - mouse_x, 2) + pow(y - mouse_y, 2) < RADIUS * RADIUS)
                     container->getParticle(x, y).type = selected_material;
     }
     

@@ -83,6 +83,10 @@ void initMaterials() {
         }
 
     });
+
+    materials[(int)MaterialType::WOOD] = Material({105, 73, 6}, 0/*, [](ParticleContainer* container, int x, int y, bool even){
+
+    }*/);
 }
 
 ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), height(size_y) {
@@ -100,20 +104,6 @@ void ParticleContainer::updateAll() {
         if(update)
             update(this, i % width, i / width, even);
         iter++;
-        /*if(frameCount < 500 && (i % width - width / 2) * (i % width - width / 2) + (i / width - height / 4) * (i / width - height / 4) < 1000 && rand() % 512 == 0)
-            *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::WATER);
-
-        if(frameCount < 500 && ((i % width) - width / 3) * ((i % width) - width / 3) + ((i / width) - height / 2) * ((i / width) - height / 2) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - width / 3) * ((i % width) - width / 3) + ((i / width) - height / 2) * ((i / width) - height / 2) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::WATER);
-
-        if(frameCount < 500 && ((i % width) - width / 3 * 2) * ((i % width) - width / 3 * 2) + ((i / width) - height / 3) * ((i / width) - height / 3) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - width / 3 * 2) * ((i % width) - width / 3 * 2) + ((i / width) - height / 3) * ((i / width) - height / 3) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::WATER);*/
     }
 }
 
