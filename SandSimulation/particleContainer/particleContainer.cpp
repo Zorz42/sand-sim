@@ -22,12 +22,16 @@ void particle_container::updateAll() {
     }
 }
 
-Material* particle_container::getParticle(unsigned short x, unsigned short y) {
+Material*& particle_container::getParticle(unsigned short x, unsigned short y) {
     return particleMap[y * arraySizeX + x];
 }
 
 void sand::update(particle_container* container, int x, int y) {
-    //if(container->getParticle()->getType)
+    if(container->getParticle(x, y - 1)->getType() == materials::AIR){
+        Material* temporary_ponter = container->getParticle(x, y);
+        container->getParticle(x, y) = container->getParticle(x, y - 1);
+        container->getParticle(x, y - 1) = temporary_ponter;
+    }
 }
 
 void air::update(particle_container* container, int x, int y) {
