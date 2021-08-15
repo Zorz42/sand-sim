@@ -6,7 +6,7 @@
 
 int main() {
     particle_container container(WIDTH, HEIGHT);
-    ParticleRenderer renderer(WIDTH, HEIGHT);
+    ParticleRenderer renderer(&container, WIDTH, HEIGHT);
     while(renderer.isRunning()) {
         renderer.render();
     }

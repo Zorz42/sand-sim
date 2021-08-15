@@ -20,7 +20,6 @@
 		366665C526C81F150009A9DC /* ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; };
 		366665C626C81F150009A9DC /* ogg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		366665CA26C821E50009A9DC /* particleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665C826C821E50009A9DC /* particleRenderer.cpp */; };
-		366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665CC26C8F39C0009A9DC /* materialClass.cpp */; };
 		366665D626C8F8250009A9DC /* particleContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665D526C8F8250009A9DC /* particleContainer.cpp */; };
 		368249E126C81766002B43FB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 368249E026C81766002B43FB /* main.cpp */; };
 /* End PBXBuildFile section */
@@ -74,8 +73,6 @@
 		366665B426C81EDB0009A9DC /* SandSimulation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SandSimulation.xcodeproj; sourceTree = "<group>"; };
 		366665C826C821E50009A9DC /* particleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particleRenderer.cpp; sourceTree = "<group>"; };
 		366665C926C821E50009A9DC /* particleRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = particleRenderer.hpp; sourceTree = "<group>"; };
-		366665CC26C8F39C0009A9DC /* materialClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = materialClass.cpp; sourceTree = "<group>"; };
-		366665CD26C8F39C0009A9DC /* materialClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = materialClass.hpp; sourceTree = "<group>"; };
 		366665D426C8F8250009A9DC /* particleContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = particleContainer.hpp; sourceTree = "<group>"; };
 		366665D526C8F8250009A9DC /* particleContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleContainer.cpp; sourceTree = "<group>"; };
 		368249BF26C81473002B43FB /* SandSimulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SandSimulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,15 +111,6 @@
 			path = particleRenderer;
 			sourceTree = "<group>";
 		};
-		366665CB26C8F39C0009A9DC /* materialClass */ = {
-			isa = PBXGroup;
-			children = (
-				366665CC26C8F39C0009A9DC /* materialClass.cpp */,
-				366665CD26C8F39C0009A9DC /* materialClass.hpp */,
-			);
-			path = materialClass;
-			sourceTree = "<group>";
-		};
 		366665D326C8F8250009A9DC /* particleContainer */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,7 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				366665D326C8F8250009A9DC /* particleContainer */,
-				366665CB26C8F39C0009A9DC /* materialClass */,
 				366665C726C821D40009A9DC /* particleRenderer */,
 				368249E026C81766002B43FB /* main.cpp */,
 			);
@@ -271,7 +258,6 @@
 				366665CA26C821E50009A9DC /* particleRenderer.cpp in Sources */,
 				366665D626C8F8250009A9DC /* particleContainer.cpp in Sources */,
 				368249E126C81766002B43FB /* main.cpp in Sources */,
-				366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +385,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4CKFJDZL4P;
 				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -423,6 +410,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4CKFJDZL4P;
 				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
