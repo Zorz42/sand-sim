@@ -39,6 +39,7 @@ void initMaterials() {
         container->getParticle(x, y).speed_y *= 0.95;
         container->getParticle(x, y).speed_x *= 0.95;
         container->getParticle(x, y).speed_y += container->getParticle(x, y).getUniqueMaterial().constant_force;
+        container->getParticle(x, y).speed_x += container->getParticle(x, y).getUniqueMaterial().constant_force / 3;
         int i = 0;
         do{
             if(container->getParticle(x, y).updated == even && container->getParticle(x, y + 1).type == MaterialType::AIR) {
@@ -81,9 +82,9 @@ void ParticleContainer::updateAll() {
         if(update)
             update(this, i % width, i / width, even);
         iter++;
-        if(frameCount < 500 && ((i % width) - 620) * ((i % width) - 500) + ((i / width) - 400) * ((i / width) - 400) < 200 && (rand() & 511) == 0)
+        if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
             *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - 620) * ((i % width) - 500) + ((i / width) - 400) * ((i / width) - 400) < 200 && (rand() & 511) == 0)
+        if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
             *iter = Particle(MaterialType::WATER);
     }
 }
@@ -161,3 +162,29 @@ bool waterSwapRightDown(int& x, int& y, ParticleContainer* container, bool even,
     else
         return false;
 }
+
+bool waterSwapLeft(int x, int y, ParticleContainer* container, bool even, int i){
+    if(container->getParticle(x, y).updated == even && container->getParticle(x - 1, y + 1).type == MaterialType::AIR) {
+        swapParticles(container->getParticle(x, y), container->getParticle(x - 1, y + 1));
+        if(i + 1 > container->getParticle(x, y).speed_y)
+            container->getParticle(x - 1, y + 1).updated = !even;
+        x--;
+        return true;
+    }
+    else
+        return false;
+}
+
+bool waterSwapRight(int& x, int& y, ParticleContainer* container, bool even, int i){
+    if(container->getParticle(x, y).updated == even && container->getParticle(x + 1, y).type == MaterialType::AIR) {
+        swapParticles(container->getParticle(x, y), container->getParticle(x + 1, y));
+        if(i + 1 > container->getParticle(x, y).speed_y)
+            container->getParticle(x + 1, y).updated = !even;
+        x++;
+        return true;
+    }
+    else
+        return false;
+}
+
+

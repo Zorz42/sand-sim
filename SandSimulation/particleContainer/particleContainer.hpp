@@ -50,3 +50,7 @@ bool sandSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, 
 bool waterSwapLeftDown(int x, int y, ParticleContainer* container, bool even, int i);
 
 bool waterSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
+
+bool waterSwapLeft(int x, int y, ParticleContainer* container, bool even, int i);
+
+bool waterSwapRight(int& x, int& y, ParticleContainer* container, bool even, int i);
