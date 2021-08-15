@@ -8,9 +8,9 @@ Material materials[(int)MaterialType::NUM_MATERIALS];
 void initMaterials() {
     materials[(int)MaterialType::AIR]   = Material({90, 90, 90}, 0);
 
-    materials[(int)MaterialType::SAND]  = Material({237, 205, 88}, 1.5, [](ParticleContainer* container, int x, int y, bool even) {
-        container->getParticle(x, y).speed_y *= 0.95;
-        container->getParticle(x, y).speed_x *= 0.95;
+    materials[(int)MaterialType::SAND]  = Material({237, 205, 88}, 0.01, [](ParticleContainer* container, int x, int y, bool even) {
+        container->getParticle(x, y).speed_y *= 1;
+        container->getParticle(x, y).speed_x *= 1;
         container->getParticle(x, y).speed_y += container->getParticle(x, y).getUniqueMaterial().constant_force;
 
         int i = 0;
@@ -38,7 +38,7 @@ void initMaterials() {
         while(i < container->getParticle(x, y).speed_y);
     });
 
-    materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 0.2, [](ParticleContainer* container, int x, int y, bool even){
+    materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 1.5, [](ParticleContainer* container, int x, int y, bool even){
         container->getParticle(x, y).speed_y *= 0.95;
         container->getParticle(x, y).speed_x *= 0.95;
         container->getParticle(x, y).speed_y += container->getParticle(x, y).getUniqueMaterial().constant_force;
