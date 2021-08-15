@@ -24,15 +24,28 @@ void ParticleRenderer::render() {
             button_pressed = true;
         else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Left)
             button_pressed = false;
+        else if(event.type == sf::Event::KeyPressed) {
+            switch (event.key.code) {
+                case sf::Keyboard::Key::Num1:
+                    selected_material = MaterialType::SAND;
+                    break;
+                case sf::Keyboard::Key::Num2:
+                    selected_material = MaterialType::WATER;
+                    break;
+                    
+                default:;
+            }
+        }
+        
     }
     
+    sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
+    unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
     if(button_pressed) {
-        sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
-        unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
         for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
             for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
-                if(rand() % (RADIUS * 3) == 0)
-                    container->getParticle(x, y).type = MaterialType::SAND;
+                if(rand() % (RADIUS * 3) == 0 && pow(x - mouse_x, 2) + pow(y - mouse_y, 2) < RADIUS * RADIUS)
+                    container->getParticle(x, y).type = selected_material;
     }
     
     sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
@@ -48,6 +61,23 @@ void ParticleRenderer::render() {
     texture.update(pixels);
     
     window->draw(sf::Sprite(texture));
+    
+    sf::CircleShape mouse_circle;
+    mouse_circle.setPosition(mouse_x - RADIUS, mouse_y - RADIUS);
+    mouse_circle.setRadius(RADIUS);
+    mouse_circle.setFillColor({50, 50, 50, sf::Uint8(button_pressed ? 150 : 50)});
+    mouse_circle.setOutlineThickness(1);
+    mouse_circle.setOutlineColor({60, 60, 60});
+    window->draw(mouse_circle);
+    
+    sf::RectangleShape selected_material_rect;
+    selected_material_rect.setPosition(5, 5);
+    selected_material_rect.setSize(sf::Vector2f(20, 20));
+    selected_material_rect.setFillColor(getMaterialByType(selected_material).color);
+    selected_material_rect.setOutlineColor({50, 50, 50});
+    selected_material_rect.setOutlineThickness(1);
+    window->draw(selected_material_rect);
+    
     window->display();
     
     static unsigned short frame_count = 0;

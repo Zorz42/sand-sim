@@ -5,7 +5,10 @@
 
 enum class MaterialType {AIR, SAND, WATER, NUM_MATERIALS};
 
+struct Material;
+
 void initMaterials();
+const Material& getMaterialByType(MaterialType type);
 
 class ParticleContainer;
 

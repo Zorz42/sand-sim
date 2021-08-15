@@ -124,8 +124,12 @@ Particle& ParticleContainer::getParticle(unsigned short x, unsigned short y) {
     return map[y * width + x];
 }
 
-const Material& Particle::getUniqueMaterial() {
+const Material& getMaterialByType(MaterialType type) {
     return materials[(int)type];
+}
+
+const Material& Particle::getUniqueMaterial() {
+    return getMaterialByType(type);
 }
 
 unsigned int ParticleContainer::getMapSize() {
