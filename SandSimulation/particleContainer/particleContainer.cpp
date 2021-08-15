@@ -3,7 +3,10 @@
 
 void particle_container::initMap() {
     for(int i = 0; i < arraySizeX * arraySizeY; i++) {
-        particleMap[i] = i > 100000 ? (Material*)new air : (Material*)new sand;
+        if(((i % arraySizeX) - 620) * ((i % arraySizeX) - 500) + ((i / arraySizeX) - 400) * ((i / arraySizeX) - 400) < 200)
+            particleMap[i] = (Material*)new sand;
+        else
+            particleMap[i] = (Material*)new air;
     }
 }
 
