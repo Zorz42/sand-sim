@@ -7,8 +7,10 @@ class ParticleRenderer {
     ParticleContainer* container;
     sf::Clock clock;
     unsigned short width, height;
+    sf::Uint8* pixels;
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
     bool isRunning();
     void render();
+    ~ParticleRenderer();
 };

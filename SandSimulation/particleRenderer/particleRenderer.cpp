@@ -5,17 +5,17 @@ ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short 
 : container(container), width(window_width), height(window_height) {
     window = new sf::RenderWindow(sf::VideoMode(width, height), "Sand Simulation", sf::Style::Titlebar | sf::Style::Close);
     window->setVerticalSyncEnabled(true);
+    pixels = new sf::Uint8[width * height * 4];
 }
 
 void ParticleRenderer::render() {
-    static float lastTime = 0;
+    static unsigned short frame_count = 0;
     sf::Event event;
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             window->close();
     }
     
-    sf::Uint8* pixels = new sf::Uint8[width * height * 4];
     sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
     
     Particle* iter = container->getMapBegin();
@@ -33,15 +33,19 @@ void ParticleRenderer::render() {
     window->draw(sf::Sprite(texture));
     window->display();
     
-    delete[] pixels;
+    frame_count++;
     
-    float currentTime = clock.restart().asSeconds();
-    float fps = 1.f / currentTime;
-    lastTime = currentTime;
-    
-    std::cout << "FPS: " << fps << std::endl;
+    if(clock.getElapsedTime().asSeconds() > 1) {
+        std::cout << "FPS: " << frame_count << std::endl;
+        clock.restart();
+        frame_count = 0;
+    }
 }
 
 bool ParticleRenderer::isRunning() {
     return window->isOpen();
+}
+
+ParticleRenderer::~ParticleRenderer() {
+    delete[] pixels;
 }
