@@ -8,6 +8,7 @@ int main() {
     particle_container container(WIDTH, HEIGHT);
     ParticleRenderer renderer(&container, WIDTH, HEIGHT);
     while(renderer.isRunning()) {
+        container.updateAll();
         renderer.render();
     }
     return 0;

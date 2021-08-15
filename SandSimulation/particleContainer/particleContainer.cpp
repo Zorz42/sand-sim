@@ -14,10 +14,10 @@ particle_container::particle_container(int x_size, int y_size) {
     initMap();
 }
 
-void particle_container::updateAll(particle_container* container) {
+void particle_container::updateAll() {
     for(int i = 1; i < arraySizeX - 1; i++){
         for(int j = 1; j < arraySizeY - 1; j++){
-            getParticle(i, j)->update(container, i, j);
+            getParticle(i, j)->update(this, i, j);
         }
     }
 }
