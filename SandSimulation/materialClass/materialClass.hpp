@@ -4,32 +4,41 @@
 #include <SFML/Graphics.hpp>
 
 struct Material {
-    sf::Color color;//this will probably get changed from vector
-    short constant_force;
+    virtual void update() = 0;
+    virtual sf::Color getColor() = 0;
+    virtual short getConstantForce() = 0;
+    float speed_x = 0;
+    float speed_y = 0;
+    unsigned short timer = 0;
+    virtual ~Material();
 };
 
-class sand:Material {
+class sand: public Material {
 public:
-    sand() {
-        constant_force = 10;
-        color = {237, 205, 88};
+    sf::Color getColor() {
+        return {237, 205, 88};
     }
+
+    short getConstantForce() {
+        return 10;
+    }
+
     void update();
+
+    ~sand();
 };
 
-class air:Material{
+class air: public Material{
 public:
-    air(){
-        constant_force = 10;
-        color = {0, 0, 0, 0};
+    sf::Color getColor() {
+        return {0, 0, 0};
     }
+
+    short getConstantForce() {
+        return 10;
+    }
+
     void update();
-};
 
-struct particle {
-    float speed_x;
-    float speed_y;
-    int timer;
-    Material* material;
-
+    ~air();
 };
