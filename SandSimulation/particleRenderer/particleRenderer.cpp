@@ -1,7 +1,7 @@
 #include <iostream>
 #include "particleRenderer.hpp"
 
-#define RADIUS 5
+#define RADIUS 10
 
 ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height)
 : container(container), width(window_width), height(window_height) {
