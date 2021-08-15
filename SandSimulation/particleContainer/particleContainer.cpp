@@ -15,11 +15,21 @@ particle_container::particle_container(int x_size, int y_size) {
 }
 
 void particle_container::updateAll() {
-    for(int i = 0; i < arraySizeX * arraySizeY; i++){
-        particleMap[i]->update();
+    for(int i = 1; i < arraySizeX - 1; i++){
+        for(int j = 1; j < arraySizeY - 1; j++){
+            getParticle(i, j)->update(i, j);
+        }
     }
 }
 
 Material* particle_container::getParticle(unsigned short x, unsigned short y) {
     return particleMap[y * arraySizeX + x];
+}
+
+void sand::update(particle_container* container, int x, int y) {
+    //if(container->getParticle()->getType)
+}
+
+void air::update(particle_container* container, int x, int y) {
+    return;
 }
