@@ -7,15 +7,15 @@ enum class MaterialType {AIR, SAND, NUM_MATERIALS};
 
 void initMaterials();
 
-class particle_container;
+class ParticleContainer;
 
 struct Material {
-    Material(sf::Color color, short constant_force, void (*update)(particle_container* container, int x, int y, bool even)=nullptr) :
+    Material(sf::Color color, short constant_force, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr) :
     color(color), constant_force(constant_force), update(update) {}
     Material() = default;
     sf::Color color;
     short constant_force;
-    void (*update)(particle_container* container, int x, int y, bool even);
+    void (*update)(ParticleContainer* container, int x, int y, bool even);
 };
 
 class Particle {
@@ -28,46 +28,13 @@ public:
     const Material& getUniqueMaterial();
 };
 
-/*class sand: public Material {
+class ParticleContainer {
+    int size_x, size_y;
 public:
-    sf::Color getColor() {
-        return {237, 205, 88};
-    }
-
-    short getConstantForce() {
-        return 0;
-    }
-
-    void update(particle_container* container, int x, int y, bool even);
-
-    materials getType(){
-        return materials::SAND;
-    }
-};
-
-class air: public Material{
-public:
-    sf::Color getColor() {
-        return {90, 90, 90};
-    }
-
-    short getConstantForce() {
-        return 0;
-    }
-
-    void update(particle_container* container, int x, int y, bool even);
-
-    materials getType(){
-        return materials::AIR;
-    }
-};*/
-
-class particle_container{
-    Particle* particleMap = nullptr;
-    int arraySizeX, arraySizeY;
-public:
+    Particle* map = nullptr;
     void initMap();
     void updateAll();
-    particle_container(int x_size, int y_size);
+    MaterialType getType(short x, short y);
+    ParticleContainer(int size_x, int size_y);
     Particle& getParticle(unsigned short x, unsigned short y);
 };

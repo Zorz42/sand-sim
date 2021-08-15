@@ -6,7 +6,7 @@ Material materials[(int)MaterialType::NUM_MATERIALS];
 void initMaterials() {
     materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0);
     
-    materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 0, [](particle_container* container, int x, int y, bool even) {
+    materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 0, [](ParticleContainer* container, int x, int y, bool even) {
         if(container->getParticle(x, y).updated == even && container->getParticle(x, y + 1).type == MaterialType::AIR) {
             Particle temporary_particle = container->getParticle(x, y);
             container->getParticle(x, y) = container->getParticle(x, y + 1);
@@ -17,41 +17,28 @@ void initMaterials() {
     });
 }
 
-particle_container::particle_container(int x_size, int y_size) {
-    particleMap = new Particle[x_size * y_size];
-    arraySizeX = x_size;
-    arraySizeY = y_size;
+ParticleContainer::ParticleContainer(int size_x, int size_y) : size_x(size_x), size_y(size_y) {
+    map = new Particle[size_x * size_y];
 }
 
-void particle_container::updateAll() {
+void ParticleContainer::updateAll() {
     static bool even = false;
     even = !even;
-    for(int x = 1; x < arraySizeX - 1; x++){
-        for(int y = 1; y < arraySizeY - 1; y++){
-            Particle& particle = getParticle(x, y);
-            if(particle.getUniqueMaterial().update)
-                particle.getUniqueMaterial().update(this, x, y, even);
-        }
+    Particle* iter = map;
+    for(int i = 0; i < size_x * size_y; i++) {
+        auto update = iter->getUniqueMaterial().update;
+        if(update)
+            update(this, i % size_x, i / size_x, even);
+        iter++;
     }
 }
 
-Particle& particle_container::getParticle(unsigned short x, unsigned short y) {
-    return particleMap[y * arraySizeX + x];
+Particle& ParticleContainer::getParticle(unsigned short x, unsigned short y) {
+    static Particle out_of_bounds;
+    if(x < 0 || x >= size_x || y < 0 || y >= size_y)
+        return out_of_bounds;
+    return map[y * size_x + x];
 }
-
-/*void sand::update(particle_container* container, int x, int y, bool even) {
-    if(container->getParticle(x, y)->updated == even && container->getParticle(x, y + 1)->getType() == materials::AIR){
-        Material* temporary_ponter = container->getParticle(x, y);
-        container->getParticle(x, y) = container->getParticle(x, y + 1);
-        container->getParticle(x, y + 1) = temporary_ponter;
-        container->getParticle(x, y + 1)->updated = !even;
-    }
-    container->getParticle(x, y)->updated = !even;
-}
-
-void air::update(particle_container* container, int x, int y, bool even) {
-    return;
-}*/
 
 const Material& Particle::getUniqueMaterial() {
     return materials[(int)type];

@@ -4,11 +4,11 @@
 
 class ParticleRenderer {
     sf::RenderWindow* window;
-    particle_container* container;
+    ParticleContainer* container;
     sf::Clock clock;
     unsigned short width, height;
 public:
-    ParticleRenderer(particle_container* container, unsigned short window_width, unsigned short window_height);
+    ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
     bool isRunning();
     void render();
 };
