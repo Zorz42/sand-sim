@@ -6,7 +6,7 @@ Material materials[(int)MaterialType::NUM_MATERIALS];
 void initMaterials() {
     materials[(int)MaterialType::AIR]   = Material({90, 90, 90}, 0);
 
-    materials[(int)MaterialType::SAND]  = Material({237, 205, 88}, 1.5, [](ParticleContainer* container, int x, int y, bool even) {
+    materials[(int)MaterialType::SAND]  = Material({237, 205, 88}, 0.2, [](ParticleContainer* container, int x, int y, bool even) {
         container->getParticle(x, y).speed_y *= 0.95;
         container->getParticle(x, y).speed_x *= 0.95;
         container->getParticle(x, y).speed_y += container->getParticle(x, y).getUniqueMaterial().constant_force;
@@ -35,7 +35,7 @@ void initMaterials() {
         while(i < container->getParticle(x, y).speed_y);
     });
 
-    materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 1.5, [](ParticleContainer* container, int x, int y, bool even){
+    materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 0.2, [](ParticleContainer* container, int x, int y, bool even){
         container->getParticle(x, y).speed_y *= 0.95;
         container->getParticle(x, y).speed_x *= 0.95;
         container->getParticle(x, y).speed_y += container->getParticle(x, y).getUniqueMaterial().constant_force;
@@ -49,21 +49,32 @@ void initMaterials() {
                 if(i + 1 > container->getParticle(x, y + 1).speed_y)
                     container->getParticle(x, y + 1).updated = !even;
                 y++;
-            } else if((rand() & 1) == 1) {
-                if(!waterSwapLeftDown(x, y, container, even, i))
-                    if(!waterSwapRightDown(x, y, container, even, i)){
-                        container->getParticle(x, y).speed_y = 0;
-                        break;
-                    }
-            } else if(!waterSwapRightDown(x, y, container, even, i))
-                if(!waterSwapLeftDown(x, y, container, even, i)) {
+            }
+
+            if(!waterSwapLeftDown(x, y, container, even, i)){
+                if(!waterSwapRightDown(x, y, container, even, i)){
                     container->getParticle(x, y).speed_y = 0;
-                    break;
-                }
+                }else
+                    container->getParticle(x, y).speed_x = std::max((float)1, container->getParticle(x, y).speed_x + 1);;
+            }else
+                container->getParticle(x, y).speed_x = std::min((float)-1, container->getParticle(x, y).speed_x - 1);
 
             i++;
+        }while(i < container->getParticle(x, y).speed_y);
+
+        i = 0;
+        while(i < container->getParticle(x, y).speed_x){
+            if(!waterSwapRight(x, y, container, even, i))
+                container->getParticle(x, y).speed_x = -1;
+            i++;
         }
-        while(i < container->getParticle(x, y).speed_y);
+        i = 0;
+        while(i < -1 * container->getParticle(x, y).speed_x){
+            if(!waterSwapLeft(x, y, container, even, i))
+                container->getParticle(x, y).speed_x = 1;
+            i++;
+        }
+
     });
 }
 
@@ -85,6 +96,16 @@ void ParticleContainer::updateAll() {
         if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
             *iter = Particle(MaterialType::SAND);
         if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
+            *iter = Particle(MaterialType::WATER);
+
+        if(frameCount < 500 && ((i % width) - width / 3) * ((i % width) - width / 3) + ((i / width) - height / 2) * ((i / width) - height / 2) < 1000 && (rand() & 511) == 0)
+            *iter = Particle(MaterialType::SAND);
+        if(frameCount < 500 && ((i % width) - width / 3) * ((i % width) - width / 3) + ((i / width) - height / 2) * ((i / width) - height / 2) < 1000 && (rand() & 511) == 0)
+            *iter = Particle(MaterialType::WATER);
+
+        if(frameCount < 500 && ((i % width) - width / 3 * 2) * ((i % width) - width / 3 * 2) + ((i / width) - height / 3) * ((i / width) - height / 3) < 1000 && (rand() & 511) == 0)
+            *iter = Particle(MaterialType::SAND);
+        if(frameCount < 500 && ((i % width) - width / 3 * 2) * ((i % width) - width / 3 * 2) + ((i / width) - height / 3) * ((i / width) - height / 3) < 1000 && (rand() & 511) == 0)
             *iter = Particle(MaterialType::WATER);
     }
 }
@@ -164,10 +185,10 @@ bool waterSwapRightDown(int& x, int& y, ParticleContainer* container, bool even,
 }
 
 bool waterSwapLeft(int x, int y, ParticleContainer* container, bool even, int i){
-    if(container->getParticle(x, y).updated == even && container->getParticle(x - 1, y + 1).type == MaterialType::AIR) {
-        swapParticles(container->getParticle(x, y), container->getParticle(x - 1, y + 1));
+    if(container->getParticle(x, y).updated == even && container->getParticle(x - 1, y).type == MaterialType::AIR) {
+        swapParticles(container->getParticle(x, y), container->getParticle(x - 1, y));
         if(i + 1 > container->getParticle(x, y).speed_y)
-            container->getParticle(x - 1, y + 1).updated = !even;
+            container->getParticle(x - 1, y).updated = !even;
         x--;
         return true;
     }
