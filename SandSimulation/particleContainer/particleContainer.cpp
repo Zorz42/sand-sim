@@ -6,9 +6,9 @@ Material materials[(int)MaterialType::NUM_MATERIALS];
 void initMaterials() {
     materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0);
 
-    materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 1, [](ParticleContainer* container, int x, int y, bool even) {
-        container->getParticle(x, y).speed_y *= 0.9;
-        container->getParticle(x, y).speed_x *= 0.9;
+    materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 1.5, [](ParticleContainer* container, int x, int y, bool even) {
+        container->getParticle(x, y).speed_y *= 0.95;
+        container->getParticle(x, y).speed_x *= 0.95;
         container->getParticle(x, y).speed_y += container->getParticle(x, y).getUniqueMaterial().constant_force;
         int i = 0;
         do{
@@ -19,26 +19,19 @@ void initMaterials() {
                 if(i + 1 > container->getParticle(x, y + 1).speed_y)
                     container->getParticle(x, y + 1).updated = !even;
                 y++;
-            }else if(container->getParticle(x, y).updated == even && container->getParticle(x + 1, y + 1).type == MaterialType::AIR) {
-                Particle temporary_particle = container->getParticle(x, y);
-                container->getParticle(x, y) = container->getParticle(x + 1, y + 1);
-                container->getParticle(x + 1, y + 1) = temporary_particle;
-                if(i + 1 > container->getParticle(x, y).speed_y)
-                    container->getParticle(x + 1, y + 1).updated = !even;
-                y++;
-                x++;
-            }else if(container->getParticle(x, y).updated == even && container->getParticle(x - 1, y + 1).type == MaterialType::AIR) {
-                Particle temporary_particle = container->getParticle(x, y);
-                container->getParticle(x, y) = container->getParticle(x - 1, y + 1);
-                container->getParticle(x - 1, y + 1) = temporary_particle;
-                if(i + 1 > container->getParticle(x, y).speed_y)
-                    container->getParticle(x - 1, y + 1).updated = !even;
-                y++;
-                x--;
-            }else{
-                container->getParticle(x, y).speed_y = 0;
-                break;
-            }
+            }else if((rand() & 1) == 1)
+                if(!swapLeftDown(x, y, container, even, i))
+                    if(!swapRightDown(x, y, container, even, i)){
+                        container->getParticle(x, y).speed_y = 0;
+                        break;
+                    }
+            else
+                if(!swapRightDown(x, y, container, even, i))
+                    if(!swapLeftDown(x, y, container, even, i)){
+                        container->getParticle(x, y).speed_y = 0;
+                        break;
+                    }
+
             i++;
         }
         while(i < container->getParticle(x, y).speed_y);
@@ -51,6 +44,8 @@ ParticleContainer::ParticleContainer(int size_x, int size_y) : size_x(size_x), s
 
 void ParticleContainer::updateAll() {
     static bool even = false;
+    static int frameCount = 0;
+    frameCount++;
     even = !even;
     Particle* iter = map;
     for(int i = 0; i < size_x * size_y; i++) {
@@ -58,7 +53,7 @@ void ParticleContainer::updateAll() {
         if(update)
             update(this, i % size_x, i / size_x, even);
         iter++;
-        if(((i % size_x) - 620) * ((i % size_x) - 500) + ((i / size_x) - 400) * ((i / size_x) - 400) < 200)
+        if(frameCount < 500 && ((i % size_x) - 620) * ((i % size_x) - 500) + ((i / size_x) - 400) * ((i / size_x) - 400) < 200)
             *iter = Particle(MaterialType::SAND);
     }
 }
@@ -73,3 +68,36 @@ Particle& ParticleContainer::getParticle(unsigned short x, unsigned short y) {
 const Material& Particle::getUniqueMaterial() {
     return materials[(int)type];
 }
+
+
+bool swapLeftDown(int x, int y, ParticleContainer* container, bool even, int i){
+    if(container->getParticle(x, y).updated == even && container->getParticle(x - 1, y + 1).type == MaterialType::AIR) {
+        Particle temporary_particle = container->getParticle(x, y);
+        container->getParticle(x, y) = container->getParticle(x - 1, y + 1);
+        container->getParticle(x - 1, y + 1) = temporary_particle;
+        if(i + 1 > container->getParticle(x, y).speed_y)
+            container->getParticle(x - 1, y + 1).updated = !even;
+        y++;
+        x--;
+        return true;
+    }
+    else
+        return false;
+}
+
+bool swapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i){
+    if(container->getParticle(x, y).updated == even && container->getParticle(x + 1, y + 1).type == MaterialType::AIR) {
+        Particle temporary_particle = container->getParticle(x, y);
+        container->getParticle(x, y) = container->getParticle(x + 1, y + 1);
+        container->getParticle(x + 1, y + 1) = temporary_particle;
+        if(i + 1 > container->getParticle(x, y).speed_y)
+            container->getParticle(x + 1, y + 1).updated = !even;
+        y++;
+        x++;
+        return true;
+    }
+    else
+        return false;
+}
+
+

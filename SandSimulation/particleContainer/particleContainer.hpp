@@ -40,3 +40,7 @@ public:
     ParticleContainer(int size_x, int size_y);
     Particle& getParticle(unsigned short x, unsigned short y);
 };
+
+bool swapLeftDown(int x, int y, ParticleContainer* container, bool even, int i);
+
+bool swapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
