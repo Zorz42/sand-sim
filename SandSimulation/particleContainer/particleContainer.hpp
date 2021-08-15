@@ -8,13 +8,14 @@ enum class materials {AIR, SAND};
 class particle_container;
 
 struct Material {
-    virtual void update(particle_container* container, int x, int y) = 0;
+    virtual void update(particle_container* container, int x, int y, bool even) = 0;
     virtual sf::Color getColor() = 0;
     virtual short getConstantForce() = 0;
     virtual materials getType() = 0;
     float speed_x = 0;
     float speed_y = 0;
     unsigned short timer = 0;
+    bool updated = false;
     virtual ~Material() {}
 };
 
@@ -28,7 +29,7 @@ public:
         return 0;
     }
 
-    void update(particle_container* container, int x, int y);
+    void update(particle_container* container, int x, int y, bool even);
 
     materials getType(){
         return materials::SAND;
@@ -45,7 +46,7 @@ public:
         return 0;
     }
 
-    void update(particle_container* container, int x, int y);
+    void update(particle_container* container, int x, int y, bool even);
 
     materials getType(){
         return materials::AIR;
