@@ -20,6 +20,8 @@ struct Material {
 
 class Particle {
 public:
+    Particle(MaterialType type) : type(type) {}
+    Particle() = default;
     MaterialType type = MaterialType::AIR;
     float speed_x = 0;
     float speed_y = 0;
