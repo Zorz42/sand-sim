@@ -100,20 +100,6 @@ void ParticleContainer::updateAll() {
         if(update)
             update(this, i % width, i / width, even);
         iter++;
-        /*if(frameCount < 500 && (i % width - width / 2) * (i % width - width / 2) + (i / width - height / 4) * (i / width - height / 4) < 1000 && rand() % 512 == 0)
-            *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - width / 2) * ((i % width) - width / 2) + ((i / width) - height / 4) * ((i / width) - height / 4) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::WATER);
-
-        if(frameCount < 500 && ((i % width) - width / 3) * ((i % width) - width / 3) + ((i / width) - height / 2) * ((i / width) - height / 2) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - width / 3) * ((i % width) - width / 3) + ((i / width) - height / 2) * ((i / width) - height / 2) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::WATER);
-
-        if(frameCount < 500 && ((i % width) - width / 3 * 2) * ((i % width) - width / 3 * 2) + ((i / width) - height / 3) * ((i / width) - height / 3) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::SAND);
-        if(frameCount < 500 && ((i % width) - width / 3 * 2) * ((i % width) - width / 3 * 2) + ((i / width) - height / 3) * ((i / width) - height / 3) < 1000 && (rand() & 511) == 0)
-            *iter = Particle(MaterialType::WATER);*/
     }
 }
 
