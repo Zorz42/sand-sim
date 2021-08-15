@@ -1,7 +1,4 @@
 **/.DS_Store
-**.png~
 **/UserInterfaceState.xcuserstate
 cmake-build-debug/
 .idea/workspace.xml
-**/Info.plist
-**/SandSimulation.entitlements

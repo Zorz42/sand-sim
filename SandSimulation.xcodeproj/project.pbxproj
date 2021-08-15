@@ -15,13 +15,13 @@
 		366665A426C81C720009A9DC /* sfml-window.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654726C81B470009A9DC /* sfml-window.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		366665A526C81C720009A9DC /* SFML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654226C81B470009A9DC /* SFML.framework */; };
 		366665A626C81C720009A9DC /* SFML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654226C81B470009A9DC /* SFML.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		366665B226C81E1C0009A9DC /* updateFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665AF26C81E1C0009A9DC /* updateFunctions.cpp */; };
-		366665B326C81E1C0009A9DC /* materialClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665B026C81E1C0009A9DC /* materialClass.cpp */; };
 		366665B926C81EF70009A9DC /* freetype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3666653F26C81B470009A9DC /* freetype.framework */; };
 		366665BA26C81EF70009A9DC /* freetype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666653F26C81B470009A9DC /* freetype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		366665C526C81F150009A9DC /* ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; };
 		366665C626C81F150009A9DC /* ogg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		366665CA26C821E50009A9DC /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665C826C821E50009A9DC /* renderer.cpp */; };
+		366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665CC26C8F39C0009A9DC /* materialClass.cpp */; };
+		366665D226C8F39D0009A9DC /* updateFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665D026C8F39D0009A9DC /* updateFunctions.cpp */; };
 		368249E126C81766002B43FB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 368249E026C81766002B43FB /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -71,13 +71,13 @@
 		3666657F26C81C280009A9DC /* FLAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAC.framework; path = "../Terralistic/Dependencies/SFML-2.5.1-macos-clang/extlibs/FLAC.framework"; sourceTree = "<group>"; };
 		3666658026C81C280009A9DC /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = "../Terralistic/Dependencies/SFML-2.5.1-macos-clang/extlibs/ogg.framework"; sourceTree = "<group>"; };
 		3666658126C81C280009A9DC /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = "../Terralistic/Dependencies/SFML-2.5.1-macos-clang/extlibs/vorbis.framework"; sourceTree = "<group>"; };
-		366665AE26C81E1C0009A9DC /* materialClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = materialClass.hpp; sourceTree = "<group>"; };
-		366665AF26C81E1C0009A9DC /* updateFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = updateFunctions.cpp; sourceTree = "<group>"; };
-		366665B026C81E1C0009A9DC /* materialClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = materialClass.cpp; sourceTree = "<group>"; };
-		366665B126C81E1C0009A9DC /* updateFunctions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = updateFunctions.hpp; sourceTree = "<group>"; };
 		366665B426C81EDB0009A9DC /* SandSimulation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SandSimulation.xcodeproj; sourceTree = "<group>"; };
 		366665C826C821E50009A9DC /* renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = renderer.cpp; sourceTree = "<group>"; };
 		366665C926C821E50009A9DC /* renderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = renderer.hpp; sourceTree = "<group>"; };
+		366665CC26C8F39C0009A9DC /* materialClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = materialClass.cpp; sourceTree = "<group>"; };
+		366665CD26C8F39C0009A9DC /* materialClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = materialClass.hpp; sourceTree = "<group>"; };
+		366665CF26C8F39C0009A9DC /* updateFunctions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = updateFunctions.hpp; sourceTree = "<group>"; };
+		366665D026C8F39D0009A9DC /* updateFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = updateFunctions.cpp; sourceTree = "<group>"; };
 		368249BF26C81473002B43FB /* SandSimulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SandSimulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		368249DC26C814A4002B43FB /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		368249E026C81766002B43FB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -114,6 +114,24 @@
 			path = renderer;
 			sourceTree = "<group>";
 		};
+		366665CB26C8F39C0009A9DC /* materialClass */ = {
+			isa = PBXGroup;
+			children = (
+				366665CC26C8F39C0009A9DC /* materialClass.cpp */,
+				366665CD26C8F39C0009A9DC /* materialClass.hpp */,
+			);
+			path = materialClass;
+			sourceTree = "<group>";
+		};
+		366665CE26C8F39C0009A9DC /* updateFunctions */ = {
+			isa = PBXGroup;
+			children = (
+				366665CF26C8F39C0009A9DC /* updateFunctions.hpp */,
+				366665D026C8F39D0009A9DC /* updateFunctions.cpp */,
+			);
+			path = updateFunctions;
+			sourceTree = "<group>";
+		};
 		368249B626C81473002B43FB = {
 			isa = PBXGroup;
 			children = (
@@ -134,11 +152,9 @@
 		368249C126C81473002B43FB /* SandSimulation */ = {
 			isa = PBXGroup;
 			children = (
+				366665CB26C8F39C0009A9DC /* materialClass */,
+				366665CE26C8F39C0009A9DC /* updateFunctions */,
 				366665C726C821D40009A9DC /* renderer */,
-				366665B026C81E1C0009A9DC /* materialClass.cpp */,
-				366665AE26C81E1C0009A9DC /* materialClass.hpp */,
-				366665AF26C81E1C0009A9DC /* updateFunctions.cpp */,
-				366665B126C81E1C0009A9DC /* updateFunctions.hpp */,
 				368249E026C81766002B43FB /* main.cpp */,
 			);
 			path = SandSimulation;
@@ -252,10 +268,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				366665B226C81E1C0009A9DC /* updateFunctions.cpp in Sources */,
+				366665D226C8F39D0009A9DC /* updateFunctions.cpp in Sources */,
 				366665CA26C821E50009A9DC /* renderer.cpp in Sources */,
 				368249E126C81766002B43FB /* main.cpp in Sources */,
-				366665B326C81E1C0009A9DC /* materialClass.cpp in Sources */,
+				366665D126C8F39D0009A9DC /* materialClass.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
