@@ -9,6 +9,7 @@ class ParticleRenderer {
     unsigned short width, height;
     sf::Uint8* pixels;
     sf::Texture texture;
+    bool button_pressed = false;
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
     bool isRunning();

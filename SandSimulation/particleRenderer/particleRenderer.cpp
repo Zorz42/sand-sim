@@ -15,9 +15,20 @@ ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short 
 
 void ParticleRenderer::render() {
     sf::Event event;
-    while (window->pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+    while(window->pollEvent(event)) {
+        if(event.type == sf::Event::Closed)
             window->close();
+        else if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Button::Left)
+            button_pressed = true;
+        else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Left)
+            button_pressed = false;
+    }
+    
+    if(button_pressed) {
+        sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
+        unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
+        container->getParticle(mouse_x, mouse_y).type = MaterialType::SAND;
+        
     }
     
     sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
