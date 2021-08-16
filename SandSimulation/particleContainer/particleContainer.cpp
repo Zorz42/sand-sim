@@ -80,13 +80,13 @@ void initMaterials() {
 
             if(!moved){
                 i = 0;
-                while(i < self->speed_x) {
+                while(i < 3 * self->speed_x) {
                     if(!waterSwapLeft(x, y, container, even, i))
                         self->speed_x = -1;
                     i++;
                 }
                 i = 0;
-                while(i < -1 * self->speed_x) {
+                while(i < -3 * self->speed_x) {
                     if(!waterSwapRight(x, y, container, even, i))
                         self->speed_x = 1;
                     i++;
