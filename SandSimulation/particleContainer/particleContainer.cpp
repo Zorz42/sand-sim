@@ -46,43 +46,55 @@ void initMaterials() {
         self->speed_x *= 0.995;
         self->speed_y += self->getUniqueMaterial().constant_force;
 
+        bool moved = false;
         int i = 0;
-        while(i < self->speed_y && self->updated == even) {
-            Particle& particle_below = container->getParticle(x, y + 1);
-            if(particle_below.type == MaterialType::AIR) {
-                swapParticles(*self, particle_below);
-                if(i + 1 > particle_below.speed_y)
-                    particle_below.updated = !even;
-                y++;
-                self = &container->getParticle(x, y);
+        if(self->updated == even){
+            while(i < self->speed_y && self->updated == even) {
+                Particle& particle_below = container->getParticle(x, y + 1);
+                if(particle_below.type == MaterialType::AIR) {
+                    swapParticles(*self, particle_below);
+                    moved = true;
+                    if(i + 1 > particle_below.speed_y)
+                        particle_below.updated = !even;
+                    y++;
+                    self = &container->getParticle(x, y);
 
-            }else if(!waterSwapLeftDown(x, y, container, even, i)){
-                if(!waterSwapRightDown(x, y, container, even, i)) {
-                    self->speed_y = 0;
-                } else
-                    self->speed_x = std::max((float)1, self->speed_x + 1);
-            } else
-                self->speed_x = std::min((float)-1, self->speed_x - 1);
+                }else if(!waterSwapLeftDown(x, y, container, even, i)){
+                    if(!waterSwapRightDown(x, y, container, even, i)) {
+                        self->speed_y = 0;
+                    } else{
+                        self->speed_x = std::max((float)1, self->speed_x + 1);
+                        moved = true;
+                    }
+                } else{
+                    self->speed_x = std::min((float)-1, self->speed_x - 1);
+                    moved = true;
+                }
 
-            i++;
+
+                i++;
+            }
+
+            if(self->speed_y != 0)
+                self->speed_x += self->getUniqueMaterial().constant_force / 3;
+
+            if(!moved){
+                i = 0;
+                while(i < self->speed_x) {
+                    if(!waterSwapLeft(x, y, container, even, i))
+                        self->speed_x = -1;
+                    i++;
+                }
+                i = 0;
+                while(i < -1 * self->speed_x) {
+                    if(!waterSwapRight(x, y, container, even, i))
+                        self->speed_x = 1;
+                    i++;
+                }
+            }
         }
 
-        if(self->speed_y != 0)
-            self->speed_x += self->getUniqueMaterial().constant_force / 3;
 
-        
-        i = 0;
-        while(i < self->speed_x) {
-            if(!waterSwapRight(x, y, container, even, i))
-                self->speed_x = -1;
-            i++;
-        }
-        i = 0;
-        while(i < -1 * self->speed_x) {
-            if(!waterSwapLeft(x, y, container, even, i))
-                self->speed_x = 1;
-            i++;
-        }
 
     });
 
