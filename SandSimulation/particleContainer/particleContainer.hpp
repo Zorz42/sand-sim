@@ -23,14 +23,21 @@ struct Material {
 };
 
 class Particle {
+    MaterialType type = MaterialType::AIR;
+    bool changed_type = true;
 public:
     Particle(MaterialType type) : type(type) {}
     Particle() = default;
-    MaterialType type = MaterialType::AIR;
+    MaterialType getType();
+    void setType(MaterialType material_type);
     float speed_x = 0, speed_y = 0;
     unsigned short timer = 0;
     bool updated = false;
     const Material& getUniqueMaterial();
+    void markUpdated();
+    bool hasChangedType();
+    
+    void operator=(Particle& x);
 };
 
 class ParticleContainer {

@@ -13,7 +13,7 @@ ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short 
     
     pixels = new sf::Uint8[width * height * 4];
     texture.create(width, height);
-    window->setFramerateLimit(60);
+    //window->setFramerateLimit(60);
 }
 
 void ParticleRenderer::render() {
@@ -25,42 +25,42 @@ void ParticleRenderer::render() {
             button_pressed = true;
         else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Left)
             button_pressed = false;
-    else if(event.type == sf::Event::KeyPressed) {
-        switch (event.key.code) {
-            case sf::Keyboard::Key::Num1:
-                selected_material = MaterialType::SAND;
-                break;
-            case sf::Keyboard::Key::Num2:
-                selected_material = MaterialType::WATER;
-                break;
-            case sf::Keyboard::Key::Num3:
-                selected_material = MaterialType::WOOD;
-                break;
+        else if(event.type == sf::Event::KeyPressed) {
+            switch (event.key.code) {
+                case sf::Keyboard::Key::Num1:
+                    selected_material = MaterialType::SAND;
+                    break;
+                case sf::Keyboard::Key::Num2:
+                    selected_material = MaterialType::WATER;
+                    break;
+                case sf::Keyboard::Key::Num3:
+                    selected_material = MaterialType::WOOD;
+                    break;
 
-            default:;
+                default:;
+            }
         }
     }
 
-}
-
-sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
-unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
-if(button_pressed) {
-    for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
-        for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
-            if(container->getParticle(x, y).type == MaterialType::AIR && rand() % getMaterialByType(selected_material).randomSpawn == 0 && std::pow(x - mouse_x, 2) + std::pow(y - mouse_y, 2) < RADIUS * RADIUS)
-                container->getParticle(x, y).type = selected_material;
-}
-
-sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
-
-Particle* iter = container->getMapBegin();
-for(int i = 0; i < container->getMapSize(); i++) {
-    sf::Color color = iter->getUniqueMaterial().color;
-    *pixel_iter = color.r | color.g << 8 | color.b << 16 | color.a << 24;
-    iter++;
-        pixel_iter++;
+    sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
+    unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
+    if(button_pressed) {
+        for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
+            for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
+                if(container->getParticle(x, y).getType() == MaterialType::AIR && rand() % getMaterialByType(selected_material).randomSpawn == 0 && std::pow(x - mouse_x, 2) + std::pow(y - mouse_y, 2) < RADIUS * RADIUS)
+                    container->getParticle(x, y).setType(selected_material);
     }
+
+    sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
+
+    Particle* iter = container->getMapBegin();
+    for(int i = 0; i < container->getMapSize(); i++)
+        if(iter->hasChangedType()) {
+            sf::Color color = iter->getUniqueMaterial().color;
+            *pixel_iter = color.r | color.g << 8 | color.b << 16 | color.a << 24;
+            iter++;
+                pixel_iter++;
+        }
     
     texture.update(pixels);
     
