@@ -1,8 +1,8 @@
 #include "particleRenderer.hpp"
 #include "particleContainer.hpp"
 
-#define WIDTH 640
-#define HEIGHT 400
+#define WIDTH 800
+#define HEIGHT 500
 
 int main() {
     initMaterials();
