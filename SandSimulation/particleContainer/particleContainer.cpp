@@ -9,15 +9,28 @@ void ParticleContainer::updateAll() {
     static int frameCount = 0;
     frameCount++;
     even = !even;
-    Particle* iter = getMapBegin() + getMapSize() - 1;
-    for(int y = height - 1; y >= 0; y--) {
-        for(int x = width - 1; x >= 0; x--) {
-            auto update = iter->getUniqueMaterial().update;
-            if(update)
-                update(this, x, y, even);
-            iter--;
+    if(even){
+        Particle* iter = getMapBegin() + getMapSize() - 1;
+        for(int y = height - 1; y >= 0; y--) {
+            for(int x = width - 1; x >= 0; x--) {
+                auto update = iter->getUniqueMaterial().update;
+                if(update)
+                    update(this, x, y, even);
+                iter--;
+            }
+        }
+    }else{
+        Particle* iter = getMapBegin();
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                auto update = iter->getUniqueMaterial().update;
+                if(update)
+                    update(this, x, y, even);
+                iter++;
+            }
         }
     }
+
 }
 
 Particle& ParticleContainer::getParticle(unsigned short x, unsigned short y) {

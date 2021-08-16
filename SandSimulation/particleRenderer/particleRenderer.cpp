@@ -25,27 +25,27 @@ void ParticleRenderer::render() {
             button_pressed = true;
         else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Left)
             button_pressed = false;
-    else if(event.type == sf::Event::KeyPressed) {
-        switch (event.key.code) {
-            case sf::Keyboard::Key::Num1:
-                selected_material = MaterialType::SAND;
-                break;
-            case sf::Keyboard::Key::Num2:
-                selected_material = MaterialType::WATER;
-                break;
-            case sf::Keyboard::Key::Num3:
-                selected_material = MaterialType::WOOD;
-                break;
-            case sf::Keyboard::Key::Num4:
-                selected_material = MaterialType::FIRE;
-                break;
-            case sf::Keyboard::Key::Num5:
-                selected_material = MaterialType::STONE;
-                break;
-
+        else if(event.type == sf::Event::KeyPressed) {
+            switch (event.key.code) {
+                case sf::Keyboard::Key::Num1:
+                    selected_material = MaterialType::SAND;
+                    break;
+                case sf::Keyboard::Key::Num2:
+                    selected_material = MaterialType::WATER;
+                    break;
+                case sf::Keyboard::Key::Num3:
+                    selected_material = MaterialType::WOOD;
+                    break;
+                case sf::Keyboard::Key::Num4:
+                    selected_material = MaterialType::FIRE;
+                    break;
+                case sf::Keyboard::Key::Num5:
+                    selected_material = MaterialType::STONE;
+                    break;
                 default:;
             }
         }
+        //else if(event.type == sf)
     }
 
     sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
