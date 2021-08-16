@@ -45,6 +45,20 @@ void initMaterials() {
         self->speed_y *= 0.995;
         self->speed_x *= 0.995;
         self->speed_y += self->getUniqueMaterial().constant_force;
+        if(self->timer == 0)
+            self->timer = 3600;
+
+        if(container->getParticle(x, y - 1).getType() == MaterialType::AIR)
+            self->timer--;
+        else
+            self->timer++;
+
+        if(self->timer == 1){
+            self->speed_y = 0;
+            self->speed_x = 1;
+            self->setType(MaterialType::AIR);
+            self->timer = 0;
+        }
 
         bool moved = false;
         int i = 0;
@@ -80,13 +94,13 @@ void initMaterials() {
 
             if(!moved){
                 i = 0;
-                while(i < 3 * self->speed_x) {
+                while(i < self->speed_x) {
                     if(!waterSwapLeft(x, y, container, even, i))
                         self->speed_x = -1;
                     i++;
                 }
                 i = 0;
-                while(i < -3 * self->speed_x) {
+                while(i < -1 * self->speed_x) {
                     if(!waterSwapRight(x, y, container, even, i))
                         self->speed_x = 1;
                     i++;
@@ -98,9 +112,25 @@ void initMaterials() {
 
     });
 
-    materials[(int)MaterialType::WOOD] = Material({105, 73, 6}, 0, 1/*, [](ParticleContainer* container, int x, int y, bool even){
+    materials[(int)MaterialType::WOOD] = Material({105, 73, 6}, 0, 1/*, [](ParticleContainer* container, int x, int y, bool even)}*/);
 
-    }*/);
+    materials[(int)MaterialType::FIRE] = Material({222, 91, 16}, 0, 20, [](ParticleContainer* container, int x, int y, bool even){
+        Particle* self = &container->getParticle(x, y);
+        if(self->timer == 0)
+            self->timer = 600;
+        if(self->timer == 1)
+            self->setType(MaterialType::AIR);
+        self->timer--;
+
+        if(container->getParticle(x, y - 1).getType() == MaterialType::WOOD && rand() % 200 == 0)
+            container->getParticle(x, y - 1).setType(MaterialType::FIRE);
+        if(container->getParticle(x, y + 1).getType() == MaterialType::WOOD && rand() % 200 == 0)
+            container->getParticle(x, y + 1).setType(MaterialType::FIRE);
+        if(container->getParticle(x - 1, y).getType() == MaterialType::WOOD && rand() % 200 == 0)
+            container->getParticle(x - 1, y).setType(MaterialType::FIRE);
+        if(container->getParticle(x + 1, y).getType() == MaterialType::WOOD && rand() % 200 == 0)
+            container->getParticle(x + 1, y).setType(MaterialType::FIRE);
+    });
 }
 
 ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), height(size_y) {

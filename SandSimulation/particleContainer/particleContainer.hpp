@@ -3,7 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-enum class MaterialType {AIR, SAND, WATER, WOOD, NUM_MATERIALS};
+enum class MaterialType {AIR, SAND, WATER, WOOD, FIRE, NUM_MATERIALS};
 
 struct Material;
 
