@@ -48,7 +48,7 @@ unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
 if(button_pressed) {
     for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
         for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
-            if(rand() % getMaterialByType(selected_material).randomSpawn == 0 && std::pow(x - mouse_x, 2) + std::pow(y - mouse_y, 2) < RADIUS * RADIUS)
+            if(container->getParticle(x, y).type == MaterialType::AIR && rand() % getMaterialByType(selected_material).randomSpawn == 0 && std::pow(x - mouse_x, 2) + std::pow(y - mouse_y, 2) < RADIUS * RADIUS)
                 container->getParticle(x, y).type = selected_material;
 }
 
