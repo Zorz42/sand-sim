@@ -207,6 +207,7 @@ void initMaterials() {
     materials[(int)MaterialType::WOOD] = Material({150, 111, 51}, 0, 1);
     materials[(int)MaterialType::FIRE] = Material({222, 91, 16}, 0, 20, &fireUpdate);
     materials[(int)MaterialType::STONE] = Material({133, 133, 133}, 0, 1);
+    materials[(int)MaterialType::SMOKE] = Material({45, 45, 45}, 0, 40, &smokeUpdate);
 }
 
 void swapParticles(Particle& particle1, Particle& particle2) {
