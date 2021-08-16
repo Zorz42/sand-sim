@@ -9,7 +9,7 @@ class ParticleRenderer {
     unsigned short width, height;
     sf::Uint8* pixels;
     sf::Texture texture;
-    bool button_pressed = false;
+    bool left_button_pressed = false, right_button_pressed = false;
     MaterialType selected_material = MaterialType::SAND;
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
