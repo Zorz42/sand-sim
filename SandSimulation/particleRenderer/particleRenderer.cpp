@@ -39,6 +39,9 @@ void ParticleRenderer::render() {
             case sf::Keyboard::Key::Num4:
                 selected_material = MaterialType::FIRE;
                 break;
+            case sf::Keyboard::Key::Num5:
+                selected_material = MaterialType::STONE;
+                break;
 
                 default:;
             }

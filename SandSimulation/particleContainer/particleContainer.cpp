@@ -131,6 +131,8 @@ void initMaterials() {
         if(container->getParticle(x + 1, y).getType() == MaterialType::WOOD && rand() % 200 == 0)
             container->getParticle(x + 1, y).setType(MaterialType::FIRE);
     });
+
+    materials[(int)MaterialType::STONE] = Material({133, 133, 133}, 0, 1);
 }
 
 ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), height(size_y) {
