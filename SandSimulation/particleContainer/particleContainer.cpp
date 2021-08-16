@@ -112,12 +112,14 @@ void ParticleContainer::updateAll() {
     static int frameCount = 0;
     frameCount++;
     even = !even;
-    Particle* iter = getMapBegin();
-    for(int i = 0; i < getMapSize(); i++) {
-        auto update = iter->getUniqueMaterial().update;
-        if(update)
-            update(this, i % width, i / width, even);
-        iter++;
+    Particle* iter = getMapBegin() + getMapSize() - 1;
+    for(int y = height - 1; y >= 0; y--) {
+        for(int x = width - 1; x >= 0; x--) {
+            auto update = iter->getUniqueMaterial().update;
+            if(update)
+                update(this, x, y, even);
+            iter--;
+        }
     }
 }
 
