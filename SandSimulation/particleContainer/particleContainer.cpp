@@ -45,10 +45,9 @@ void initMaterials() {
         self->speed_y *= 0.995;
         self->speed_x *= 0.995;
         self->speed_y += self->getUniqueMaterial().constant_force;
-        self->speed_x += self->getUniqueMaterial().constant_force / 3;
 
         int i = 0;
-        do {
+        while(i < self->speed_y) {
             Particle& particle_below = container->getParticle(x, y + 1);
             if(self->updated == even && particle_below.type == MaterialType::AIR) {
                 swapParticles(*self, particle_below);
@@ -67,8 +66,12 @@ void initMaterials() {
                 self->speed_x = std::min((float)-1, self->speed_x - 1);
 
             i++;
-        } while(i < self->speed_y);
+        }
 
+        if(self->speed_y != 0)
+            self->speed_x += self->getUniqueMaterial().constant_force / 3;
+
+        
         i = 0;
         while(i < self->speed_x) {
             if(!waterSwapRight(x, y, container, even, i))
