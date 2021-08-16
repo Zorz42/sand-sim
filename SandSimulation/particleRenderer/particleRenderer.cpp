@@ -13,7 +13,7 @@ ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short 
     
     pixels = new sf::Uint8[width * height * 4];
     texture.create(width, height);
-    //window->setFramerateLimit(60);
+    window->setFramerateLimit(60);
 }
 
 void ParticleRenderer::render() {
