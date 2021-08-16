@@ -22,9 +22,13 @@ void ParticleRenderer::render() {
         if(event.type == sf::Event::Closed)
             window->close();
         else if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Button::Left)
-            button_pressed = true;
+            left_button_pressed = true;
         else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Left)
-            button_pressed = false;
+            left_button_pressed = false;
+        else if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Button::Right)
+            right_button_pressed = true;
+        else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Right)
+            right_button_pressed = false;
         else if(event.type == sf::Event::KeyPressed) {
             switch (event.key.code) {
                 case sf::Keyboard::Key::Num1:
@@ -45,17 +49,19 @@ void ParticleRenderer::render() {
                 default:;
             }
         }
-        //else if(event.type == sf)
     }
 
     sf::Vector2<int> mouse_position = sf::Mouse::getPosition(*window);
     unsigned short mouse_x = mouse_position.x / 2, mouse_y = mouse_position.y / 2;
-    if(button_pressed) {
+    if(left_button_pressed) {
         for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
             for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
                 if(container->getParticle(x, y).getType() == MaterialType::AIR && rand() % getMaterialByType(selected_material).randomSpawn == 0 && std::pow(x - mouse_x, 2) + std::pow(y - mouse_y, 2) < RADIUS * RADIUS)
                     container->getParticle(x, y).setType(selected_material);
-    }
+    }else if(right_button_pressed)
+        for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
+            for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
+                    container->getParticle(x, y).setType(MaterialType::AIR);
 
     sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
 
@@ -75,7 +81,7 @@ void ParticleRenderer::render() {
     sf::CircleShape mouse_circle;
     mouse_circle.setPosition(mouse_x - RADIUS, mouse_y - RADIUS);
     mouse_circle.setRadius(RADIUS);
-    mouse_circle.setFillColor({50, 50, 50, sf::Uint8(button_pressed ? 150 : 50)});
+    mouse_circle.setFillColor({50, 50, 50, sf::Uint8(left_button_pressed ? 150 : 50)});
     mouse_circle.setOutlineThickness(1);
     mouse_circle.setOutlineColor({60, 60, 60});
     window->draw(mouse_circle);
