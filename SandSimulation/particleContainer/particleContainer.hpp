@@ -13,13 +13,12 @@ const Material& getMaterialByType(MaterialType type);
 class ParticleContainer;
 
 struct Material {
-    Material(sf::Color color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr) :
-    color(color), constant_force(constant_force), randomSpawn(randomSpawn), update(update) {}
+    Material(sf::Color color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr);
     Material() = default;
     sf::Color color;
     float constant_force;
     int randomSpawn;
-    void (*update)(ParticleContainer* container, int x, int y, bool even);
+    void (*update)(ParticleContainer* container, int x, int y, bool even) = nullptr;
 };
 
 class Particle {
@@ -51,10 +50,3 @@ public:
     void updateAll();
     Particle& getParticle(unsigned short x, unsigned short y);
 };
-
-bool sandSwapLeftDown(int x, int y, ParticleContainer* container, bool even, int i);
-bool sandSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
-bool waterSwapLeftDown(int x, int y, ParticleContainer* container, bool even, int i);
-bool waterSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
-bool waterSwapLeft(int x, int y, ParticleContainer* container, bool even, int i);
-bool waterSwapRight(int& x, int& y, ParticleContainer* container, bool even, int i);
