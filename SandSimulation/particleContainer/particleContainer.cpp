@@ -6,9 +6,9 @@ void swapParticles(Particle& particle1, Particle& particle2);
 Material materials[(int)MaterialType::NUM_MATERIALS];
 
 void initMaterials() {
-    materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0);
+    materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0, 1);
 
-    materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 0.05, [](ParticleContainer* container, int x, int y, bool even) {
+    materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 0.05, 80, [](ParticleContainer* container, int x, int y, bool even) {
         Particle* self = &container->getParticle(x, y);
         self->speed_y *= 0.995;
         self->speed_x *= 0.995;
@@ -40,7 +40,7 @@ void initMaterials() {
         }
     });
 
-    materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 0.05, [](ParticleContainer* container, int x, int y, bool even) {
+    materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 0.05, 80, [](ParticleContainer* container, int x, int y, bool even) {
         Particle* self = &container->getParticle(x, y);
         self->speed_y *= 0.995;
         self->speed_x *= 0.995;
@@ -87,7 +87,7 @@ void initMaterials() {
 
     });
 
-    materials[(int)MaterialType::WOOD] = Material({105, 73, 6}, 0/*, [](ParticleContainer* container, int x, int y, bool even){
+    materials[(int)MaterialType::WOOD] = Material({105, 73, 6}, 0, 1/*, [](ParticleContainer* container, int x, int y, bool even){
 
     }*/);
 }

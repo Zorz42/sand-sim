@@ -13,11 +13,12 @@ const Material& getMaterialByType(MaterialType type);
 class ParticleContainer;
 
 struct Material {
-    Material(sf::Color color, float constant_force, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr) :
-    color(color), constant_force(constant_force), update(update) {}
+    Material(sf::Color color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr) :
+    color(color), constant_force(constant_force), randomSpawn(randomSpawn), update(update) {}
     Material() = default;
     sf::Color color;
     float constant_force;
+    int randomSpawn;
     void (*update)(ParticleContainer* container, int x, int y, bool even);
 };
 
