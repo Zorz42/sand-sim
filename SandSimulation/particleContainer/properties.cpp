@@ -5,10 +5,7 @@ bool sandSwap(ParticleContainer* container, int& x, int& y, int target_x, int ta
 bool waterSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 void lightFire(int x, int y, ParticleContainer* container);
 void fireWaterContact(int x, int y, ParticleContainer* container);
-bool smokeSwapLeftUp(int& x, int& y, ParticleContainer* container, bool even, int i);
-bool smokeSwapRightUp(int& x, int& y, ParticleContainer* container, bool even, int i);
-bool smokeSwapLeft(int& x, int& y, ParticleContainer* container, bool even, int i);
-bool smokeSwapRight(int& x, int& y, ParticleContainer* container, bool even, int i);
+bool smokeSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 
 Material materials[(int)MaterialType::NUM_MATERIALS];
 
@@ -165,8 +162,8 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
                 y--;
                 self = &container->getParticle(x, y);
 
-            }else if(!smokeSwapLeftUp(x, y, container, even, i)){
-                if(!smokeSwapRightUp(x, y, container, even, i)) {
+            }else if(!smokeSwap(container, x, y, x - 1, y - 1, even, i)){
+                if(!smokeSwap(container, x, y, x + 1, y - 1, even, i)) {
                     self->speed_y = 0;
                 } else{
                     self->speed_x = std::max((float)1, self->speed_x + 1);
@@ -184,13 +181,13 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
         if(!moved){
             i = 0;
             while(i < self->speed_x) {
-                if(!smokeSwapLeft(x, y, container, even, i))
+                if(!smokeSwap(container, x, y, x - 1, y, even, i))
                     self->speed_x = -1;
                 i++;
             }
             i = 0;
             while(i < -1 * self->speed_x) {
-                if(!smokeSwapRight(x, y, container, even, i))
+                if(!smokeSwap(container, x, y, x + 1, y, even, i))
                     self->speed_x = 1;
                 i++;
             }
@@ -233,7 +230,7 @@ bool sandSwap(ParticleContainer* container, int& x, int& y, int target_x, int ta
 bool waterSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i) {
     Particle& target_particle = container->getParticle(target_x, target_y);
     Particle& self = container->getParticle(x, y);
-    if(target_particle.getType() == MaterialType::AIR) {
+    if(target_particle.getType() == MaterialType::AIR || target_particle.getType() == MaterialType::SMOKE) {
         swapParticles(self, target_particle);
         if(i + 1 > self.speed_x)
             target_particle.updated = !even;
@@ -263,50 +260,16 @@ void fireWaterContact(int x, int y, ParticleContainer* container) {
         }
 }
 
-bool smokeSwapLeftUp(int& x, int& y, ParticleContainer* container, bool even, int i){
-    if(container->getParticle(x - 1, y - 1).getType() == MaterialType::AIR) {
-        swapParticles(container->getParticle(x, y), container->getParticle(x - 1, y - 1));
-        if(i + 1 > container->getParticle(x, y).speed_y)
-            container->getParticle(x - 1, y - 1).updated = !even;
-        y--;
-        x--;
-        return true;
-    }
-    else
-        return false;
-}
 
-bool smokeSwapRightUp(int& x, int& y, ParticleContainer* container, bool even, int i){
-    if(container->getParticle(x + 1, y - 1).getType() == MaterialType::AIR) {
-        swapParticles(container->getParticle(x, y), container->getParticle(x + 1, y - 1));
-        if(i + 1 > container->getParticle(x, y).speed_y)
-            container->getParticle(x + 1, y - 1).updated = !even;
-        y--;
-        x++;
-        return true;
-    }
-    else
-        return false;
-}
-
-bool smokeSwapLeft(int& x, int& y, ParticleContainer* container, bool even, int i){
-    if(container->getParticle(x - 1, y).getType() == MaterialType::AIR) {
-        swapParticles(container->getParticle(x, y), container->getParticle(x - 1, y));
-        if(i + 1 > container->getParticle(x, y).speed_x)
-            container->getParticle(x - 1, y).updated = !even;
-        x--;
-        return true;
-    }
-    else
-        return false;
-}
-
-bool smokeSwapRight(int& x, int& y, ParticleContainer* container, bool even, int i){
-    if(container->getParticle(x + 1, y).getType() == MaterialType::AIR) {
-        swapParticles(container->getParticle(x, y), container->getParticle(x + 1, y));
-        if(i + 1 > container->getParticle(x, y).speed_x)
-            container->getParticle(x + 1, y).updated = !even;
-        x++;
+bool smokeSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i) {
+    Particle& target_particle = container->getParticle(target_x, target_y);
+    Particle& self = container->getParticle(x, y);
+    if(target_particle.getType() == MaterialType::AIR) {
+        swapParticles(self, target_particle);
+        if(i + 1 > self.speed_x)
+            target_particle.updated = !even;
+        x = target_x;
+        y = target_y;
         return true;
     }
     else
