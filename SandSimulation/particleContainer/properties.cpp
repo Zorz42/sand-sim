@@ -1,8 +1,7 @@
 #include "particleContainer.hpp"
 
 void swapParticles(Particle& particle1, Particle& particle2);
-bool sandSwapLeftDown(int& x, int& y, ParticleContainer* container, bool even, int i);
-bool sandSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
+bool sandSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 bool waterSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 void lightFire(int x, int y, ParticleContainer* container);
 void fireWaterContact(int x, int y, ParticleContainer* container);
@@ -37,13 +36,13 @@ void sandUpdate(ParticleContainer* container, int x, int y, bool even) {
                 y++;
                 self = &container->getParticle(x, y);
             } else if(rand() % 2 == 1) {
-                if(!sandSwapLeftDown(x, y, container, even, i))
-                    if(!sandSwapRightDown(x, y, container, even, i)) {
+                if(!sandSwap(container, x, y, x - 1, y + 1, even, i))
+                    if(!sandSwap(container, x, y, x + 1, y + 1, even, i)) {
                         self->speed_y = 0;
                         break;
                     }
-            } else if(!sandSwapRightDown(x, y, container, even, i))
-                if(!sandSwapLeftDown(x, y, container, even, i)) {
+            } else if(!sandSwap(container, x, y, x + 1, y + 1, even, i))
+                if(!sandSwap(container, x, y, x - 1, y + 1, even, i)) {
                     self->speed_y = 0;
                     break;
             }
@@ -216,26 +215,15 @@ void swapParticles(Particle& particle1, Particle& particle2) {
     particle2 = temporary_particle;
 }
 
-bool sandSwapLeftDown(int& x, int& y, ParticleContainer* container, bool even, int i){
-    if(container->getParticle(x, y).updated == even && (container->getParticle(x - 1, y + 1).getType() == MaterialType::AIR || container->getParticle(x - 1, y + 1).getType() == MaterialType::WATER)) {
-        swapParticles(container->getParticle(x, y), container->getParticle(x - 1, y + 1));
-        if(i + 1 > container->getParticle(x, y).speed_y)
-            container->getParticle(x - 1, y + 1).updated = !even;
-        y++;
-        x--;
-        return true;
-    }
-    else
-        return false;
-}
-
-bool sandSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i){
-    if(container->getParticle(x, y).updated == even && (container->getParticle(x + 1, y + 1).getType() == MaterialType::AIR || container->getParticle(x + 1, y + 1).getType() == MaterialType::WATER)) {
-        swapParticles(container->getParticle(x, y), container->getParticle(x + 1, y + 1));
-        if(i + 1 > container->getParticle(x, y).speed_y)
-            container->getParticle(x + 1, y + 1).updated = !even;
-        y++;
-        x++;
+bool sandSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i) {
+    Particle& target_particle = container->getParticle(target_x, target_y);
+    Particle& self = container->getParticle(x, y);
+    if(self.updated == even && (target_particle.getType() == MaterialType::AIR || target_particle.getType() == MaterialType::WATER)) {
+        swapParticles(self, target_particle);
+        if(i + 1 > self.speed_y)
+            target_particle.updated = !even;
+        y = target_y;
+        x = target_x;
         return true;
     }
     else
@@ -274,9 +262,6 @@ void fireWaterContact(int x, int y, ParticleContainer* container) {
             self->setType(MaterialType::SMOKE);
         }
 }
-
-
-
 
 bool smokeSwapLeftUp(int& x, int& y, ParticleContainer* container, bool even, int i){
     if(container->getParticle(x - 1, y - 1).getType() == MaterialType::AIR) {
