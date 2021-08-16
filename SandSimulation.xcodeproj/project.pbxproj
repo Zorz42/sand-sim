@@ -21,6 +21,7 @@
 		366665C626C81F150009A9DC /* ogg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		366665CA26C821E50009A9DC /* particleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665C826C821E50009A9DC /* particleRenderer.cpp */; };
 		366665D626C8F8250009A9DC /* particleContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665D526C8F8250009A9DC /* particleContainer.cpp */; };
+		366665DC26CA465D0009A9DC /* sand-sim.icns in Resources */ = {isa = PBXBuildFile; fileRef = 366665DB26CA465D0009A9DC /* sand-sim.icns */; };
 		368249E126C81766002B43FB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 368249E026C81766002B43FB /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,8 @@
 		366665C926C821E50009A9DC /* particleRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = particleRenderer.hpp; sourceTree = "<group>"; };
 		366665D426C8F8250009A9DC /* particleContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = particleContainer.hpp; sourceTree = "<group>"; };
 		366665D526C8F8250009A9DC /* particleContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleContainer.cpp; sourceTree = "<group>"; };
+		366665DB26CA465D0009A9DC /* sand-sim.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "sand-sim.icns"; sourceTree = "<group>"; };
+		366665DD26CA466E0009A9DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		368249BF26C81473002B43FB /* SandSimulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SandSimulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		368249DC26C814A4002B43FB /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		368249E026C81766002B43FB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -140,6 +143,8 @@
 		368249C126C81473002B43FB /* SandSimulation */ = {
 			isa = PBXGroup;
 			children = (
+				366665DD26CA466E0009A9DC /* Info.plist */,
+				366665DB26CA465D0009A9DC /* sand-sim.icns */,
 				366665C726C821D40009A9DC /* particleRenderer */,
 				366665D326C8F8250009A9DC /* particleContainer */,
 				368249E026C81766002B43FB /* main.cpp */,
@@ -245,6 +250,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				366665DC26CA465D0009A9DC /* sand-sim.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +384,6 @@
 		368249D426C81474002B43FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SandSimulation/SandSimulation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -403,7 +408,6 @@
 		368249D526C81474002B43FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SandSimulation/SandSimulation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
