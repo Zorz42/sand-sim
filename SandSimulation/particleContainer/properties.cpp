@@ -16,6 +16,7 @@ const Material& getMaterialByType(MaterialType type) {
 
 Material::Material(sf::Color color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)) : color(color), constant_force(constant_force), randomSpawn(randomSpawn), update(update) {}
 
+
 void sandUpdate(ParticleContainer* container, int x, int y, bool even) {
     Particle* self = &container->getParticle(x, y);
     self->speed_y *= 0.995;
@@ -47,6 +48,7 @@ void sandUpdate(ParticleContainer* container, int x, int y, bool even) {
         i++;
     }
 }
+
 
 void waterUpdate(ParticleContainer* container, int x, int y, bool even) {
     Particle* self = &container->getParticle(x, y);
@@ -116,6 +118,7 @@ void waterUpdate(ParticleContainer* container, int x, int y, bool even) {
         }
     }
 }
+
 
 void fireUpdate(ParticleContainer* container, int x, int y, bool even) {
     Particle* self = &container->getParticle(x, y);
