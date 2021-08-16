@@ -7,6 +7,8 @@ bool waterSwapLeftDown(int x, int y, ParticleContainer* container, bool even, in
 bool waterSwapRightDown(int& x, int& y, ParticleContainer* container, bool even, int i);
 bool waterSwapLeft(int x, int y, ParticleContainer* container, bool even, int i);
 bool waterSwapRight(int& x, int& y, ParticleContainer* container, bool even, int i);
+void lightFire(int x, int y, ParticleContainer* container);
+void fireWaterContact(int x, int y, ParticleContainer* container);
 
 Material materials[(int)MaterialType::NUM_MATERIALS];
 
@@ -128,21 +130,15 @@ void fireUpdate(ParticleContainer* container, int x, int y, bool even) {
         self->setType(MaterialType::AIR);
     self->timer--;
 
-    if(container->getParticle(x, y - 1).getType() == MaterialType::WOOD && rand() % 200 == 0)
-        container->getParticle(x, y - 1).setType(MaterialType::FIRE);
-    if(container->getParticle(x, y + 1).getType() == MaterialType::WOOD && rand() % 200 == 0)
-        container->getParticle(x, y + 1).setType(MaterialType::FIRE);
-    if(container->getParticle(x - 1, y).getType() == MaterialType::WOOD && rand() % 200 == 0)
-        container->getParticle(x - 1, y).setType(MaterialType::FIRE);
-    if(container->getParticle(x + 1, y).getType() == MaterialType::WOOD && rand() % 200 == 0)
-        container->getParticle(x + 1, y).setType(MaterialType::FIRE);
+    lightFire(x, y, container);
+    fireWaterContact(x, y, container);
 }
 
 void initMaterials() {
     materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0, 1);
     materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 0.08, 80, &sandUpdate);
     materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 0.05, 80, &waterUpdate);
-    materials[(int)MaterialType::WOOD] = Material({105, 73, 6}, 0, 1);
+    materials[(int)MaterialType::WOOD] = Material({150, 111, 51}, 0, 1);
     materials[(int)MaterialType::FIRE] = Material({222, 91, 16}, 0, 20, &fireUpdate);
     materials[(int)MaterialType::STONE] = Material({133, 133, 133}, 0, 1);
 }
@@ -229,3 +225,34 @@ bool waterSwapRight(int& x, int& y, ParticleContainer* container, bool even, int
     else
         return false;
 }
+
+void lightFire(int x, int y, ParticleContainer* container){
+    if(container->getParticle(x, y - 1).getType() == MaterialType::WOOD && rand() % 200 == 0)
+        container->getParticle(x, y - 1).setType(MaterialType::FIRE);
+    if(container->getParticle(x, y + 1).getType() == MaterialType::WOOD && rand() % 200 == 0)
+        container->getParticle(x, y + 1).setType(MaterialType::FIRE);
+    if(container->getParticle(x - 1, y).getType() == MaterialType::WOOD && rand() % 200 == 0)
+        container->getParticle(x - 1, y).setType(MaterialType::FIRE);
+    if(container->getParticle(x + 1, y).getType() == MaterialType::WOOD && rand() % 200 == 0)
+        container->getParticle(x + 1, y).setType(MaterialType::FIRE);
+}
+
+void fireWaterContact(int x, int y, ParticleContainer* container){
+    if(container->getParticle(x, y - 1).getType() == MaterialType::WATER){
+        container->getParticle(x, y - 1).setType(MaterialType::AIR);
+        container->getParticle(x, y).setType(MaterialType::AIR);
+    }
+    if(container->getParticle(x, y + 1).getType() == MaterialType::WATER){
+        container->getParticle(x, y + 1).setType(MaterialType::AIR);
+        container->getParticle(x, y).setType(MaterialType::AIR);
+    }
+    if(container->getParticle(x - 1, y).getType() == MaterialType::WATER){
+        container->getParticle(x - 1, y).setType(MaterialType::AIR);
+        container->getParticle(x, y).setType(MaterialType::AIR);
+    }
+    if(container->getParticle(x + 1, y).getType() == MaterialType::WATER){
+        container->getParticle(x + 1, y).setType(MaterialType::AIR);
+        container->getParticle(x, y).setType(MaterialType::AIR);
+    }
+}
+
