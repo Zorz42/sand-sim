@@ -10,7 +10,7 @@ ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short 
     window->setVerticalSyncEnabled(true);
     sf::FloatRect visibleArea(0, 0, (unsigned int)width, (unsigned int)height);
     window->setView(sf::View(visibleArea));
-    window->setFramerateLimit(80);
+    window->setFramerateLimit(60);
     
     pixels = new sf::Uint8[width * height * 4];
     texture.create(width, height);
