@@ -19,7 +19,7 @@ struct Material {
 };
 
 namespace Materials {
-    inline Material air, sand, water, wood, fire, stone, smoke;
+    inline Material air, sand, water, wood, fire, stone, smoke, gunpowder;
 };
 
 class Particle {

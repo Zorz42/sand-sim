@@ -147,6 +147,9 @@ void ParticleRenderer::render() {
                 case sf::Keyboard::Key::Num5:
                     selected_material = &Materials::stone;
                     break;
+                case sf::Keyboard::Key::Num6:
+                    selected_material = &Materials::gunpowder;
+                    break;
                 default:;
             }
         }

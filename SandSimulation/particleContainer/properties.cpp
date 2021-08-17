@@ -90,7 +90,7 @@ void waterUpdate(ParticleContainer* container, int x, int y, bool even) {
                     self->speed_x = std::max((float)-1, self->speed_x - 1);
                     container->getParticle(x - 1, y + 1).updated = even;
                     self = &container->getParticle(x, y);
-                } else if((speedYCopy > 0 && container->getParticle(x + 1, y + 1).getMaterial() == &Materials::air)2 || container->getParticle(x + 1, y + 1).getMaterial() == &Materials::smoke) {
+                } else if((speedYCopy > 0 && container->getParticle(x + 1, y + 1).getMaterial() == &Materials::air) || container->getParticle(x + 1, y + 1).getMaterial() == &Materials::smoke) {
                     swapParticles(*self, container->getParticle(x + 1, y + 1));
                     y++;
                     x++;
@@ -226,6 +226,7 @@ void initMaterials() {
     Materials::fire = Material({222, 91, 16}, 0, 20, &fireUpdate);
     Materials::stone = Material({133, 133, 133}, 0, 0);
     Materials::smoke = Material({45, 45, 45}, 0.08, 40, &smokeUpdate);
+    Materials::gunpowder = Material({36, 36, 36}, 0.08, 40, &sandUpdate);
 }
 
 void swapParticles(Particle& particle1, Particle& particle2) {
@@ -253,6 +254,8 @@ void lightFire(int x, int y, ParticleContainer* container) {
     Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
     for(Particle* particle : particles)
         if(particle->getMaterial() == &Materials::wood && rand() % 200 == 0)
+            particle->setMaterial(&Materials::fire);
+        else if(particle->getMaterial() == &Materials::gunpowder && rand() % 5 == 0)
             particle->setMaterial(&Materials::fire);
 }
 
