@@ -32,7 +32,7 @@ void ParticleRenderer::updateTexture() {
     Particle* iter = container->getMapBegin();
     for(int i = 0; i < container->getMapSize(); i++)
     if(iter->hasChangedType()) {
-        sf::Color color = iter->getUniqueMaterial().color;
+        sf::Color color = iter->getMaterial()->color;
         *pixel_iter = color.r | color.g << 8 | color.b << 16 | color.a << 24;
         iter++;
         pixel_iter++;
@@ -51,18 +51,18 @@ void ParticleRenderer::renderCircle() {
     window->draw(mouse_circle);
 }
 
-void ParticleRenderer::placeCircle(short target_x, short target_y, MaterialType material_type, int line_length) {
+void ParticleRenderer::placeCircle(short target_x, short target_y, Material* material, int line_length) {
     for(int x = target_x - RADIUS; x < target_x + RADIUS; x++)
         for(int y = target_y - RADIUS; y < target_y + RADIUS; y++)
             if(
-               (container->getParticle(x, y).getType() == MaterialType::AIR || material_type == MaterialType::AIR)
-               && rand() % (getMaterialByType(material_type).randomSpawn * line_length + 1) == 0 &&
+               (container->getParticle(x, y).getMaterial() == &Materials::air || material == &Materials::air)
+               && rand() % (material->randomSpawn * line_length + 1) == 0 &&
                std::pow(x - target_x, 2) + std::pow(y - target_y, 2) < RADIUS * RADIUS
                )
-                container->getParticle(x, y).setType(material_type);
+                container->getParticle(x, y).setMaterial(material);
 }
 
-void ParticleRenderer::placeCirclesFromTo(short x1, short y1, short x2, short y2, MaterialType material_type) {
+void ParticleRenderer::placeCirclesFromTo(short x1, short y1, short x2, short y2, Material* material) {
     int length = std::sqrt(std::pow(abs(x1 - x2), 2) + std::pow(abs(y1 - y2), 2)) + 1;
     
     int dx = x2 - x1;
@@ -74,7 +74,7 @@ void ParticleRenderer::placeCirclesFromTo(short x1, short y1, short x2, short y2
     int iy = (dy > 0) - (dy < 0);
     dy = abs(dy) * 2;
 
-    placeCircle(x1, y1, material_type, length);
+    placeCircle(x1, y1, material, length);
 
     if(dx >= dy) {
         int error = dy - dx / 2;
@@ -88,7 +88,7 @@ void ParticleRenderer::placeCirclesFromTo(short x1, short y1, short x2, short y2
             error += dy;
             x1 += ix;
 
-            placeCircle(x1, y1, material_type, length);
+            placeCircle(x1, y1, material, length);
         }
     } else {
         int error = dx - dy / 2;
@@ -102,7 +102,7 @@ void ParticleRenderer::placeCirclesFromTo(short x1, short y1, short x2, short y2
             error += dx;
             y1 += iy;
 
-            placeCircle(x1, y1, material_type, length);
+            placeCircle(x1, y1, material, length);
         }
     }
 }
@@ -111,7 +111,7 @@ void ParticleRenderer::renderSelectedMaterial() {
     sf::RectangleShape selected_material_rect;
     selected_material_rect.setPosition(5, 5);
     selected_material_rect.setSize(sf::Vector2f(20, 20));
-    selected_material_rect.setFillColor(getMaterialByType(selected_material).color);
+    selected_material_rect.setFillColor(selected_material->color);
     selected_material_rect.setOutlineColor({50, 50, 50});
     selected_material_rect.setOutlineThickness(1);
     window->draw(selected_material_rect);
@@ -133,19 +133,19 @@ void ParticleRenderer::render() {
         else if(event.type == sf::Event::KeyPressed) {
             switch (event.key.code) {
                 case sf::Keyboard::Key::Num1:
-                    selected_material = MaterialType::SAND;
+                    selected_material = &Materials::sand;
                     break;
                 case sf::Keyboard::Key::Num2:
-                    selected_material = MaterialType::WATER;
+                    selected_material = &Materials::water;
                     break;
                 case sf::Keyboard::Key::Num3:
-                    selected_material = MaterialType::WOOD;
+                    selected_material = &Materials::wood;
                     break;
                 case sf::Keyboard::Key::Num4:
-                    selected_material = MaterialType::FIRE;
+                    selected_material = &Materials::fire;
                     break;
                 case sf::Keyboard::Key::Num5:
-                    selected_material = MaterialType::STONE;
+                    selected_material = &Materials::stone;
                     break;
                 default:;
             }
@@ -156,7 +156,7 @@ void ParticleRenderer::render() {
     if(left_button_pressed)
         placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), selected_material);
     else if(right_button_pressed)
-        placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), MaterialType::AIR);
+        placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), &Materials::air);
     prev_mouse_x = getMouseX();
     prev_mouse_y = getMouseY();
     

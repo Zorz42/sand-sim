@@ -1,18 +1,18 @@
 #include "particleContainer.hpp"
 
-MaterialType Particle::getType() {
-    return type;
+Material* Particle::getMaterial() {
+    return material;
 }
 
-void Particle::setType(MaterialType material_type) {
-    if(type != material_type) {
+void Particle::setMaterial(Material* material_to_be) {
+    if(material != material_to_be) {
         changed_type = true;
-        type = material_type;
+        material = material_to_be;
     }
 }
 
 void Particle::operator=(Particle& x) {
-    setType(x.getType());
+    setMaterial(x.getMaterial());
     speed_x = x.speed_x;
     speed_y = x.speed_y;
     timer = x.timer;
@@ -25,8 +25,4 @@ void Particle::markUpdated() {
 
 bool Particle::hasChangedType() {
     return changed_type;
-}
-
-const Material& Particle::getUniqueMaterial() {
-    return getMaterialByType(type);
 }

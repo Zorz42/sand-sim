@@ -10,7 +10,7 @@ class ParticleRenderer {
     sf::Uint8* pixels;
     sf::Texture texture;
     bool left_button_pressed = false, right_button_pressed = false;
-    MaterialType selected_material = MaterialType::SAND;
+    Material* selected_material = &Materials::sand;
     sf::Text fps_text;
     
     short getMouseX();
@@ -18,8 +18,8 @@ class ParticleRenderer {
     
     void updateTexture();
     void renderCircle();
-    void placeCircle(short target_x, short target_y, MaterialType material_type, int line_length);
-    void placeCirclesFromTo(short x1, short y1, short x2, short y2, MaterialType material_type);
+    void placeCircle(short target_x, short target_y, Material* material, int line_length);
+    void placeCirclesFromTo(short x1, short y1, short x2, short y2, Material* material);
     void renderSelectedMaterial();
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);

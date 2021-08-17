@@ -3,12 +3,9 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-enum class MaterialType {AIR, SAND, WATER, WOOD, FIRE, STONE, SMOKE, NUM_MATERIALS};
-
 struct Material;
 
 void initMaterials();
-const Material& getMaterialByType(MaterialType type);
 
 class ParticleContainer;
 
@@ -21,18 +18,21 @@ struct Material {
     void (*update)(ParticleContainer* container, int x, int y, bool even) = nullptr;
 };
 
+namespace Materials {
+    inline Material air, sand, water, wood, fire, stone, smoke;
+};
+
 class Particle {
-    MaterialType type = MaterialType::AIR;
+    Material* material = &Materials::air;
     bool changed_type = true;
 public:
-    Particle(MaterialType type) : type(type) {}
+    Particle(Material* material) : material(material) {}
     Particle() = default;
-    MaterialType getType();
-    void setType(MaterialType material_type);
+    Material* getMaterial();
+    void setMaterial(Material* material_to_be);
     float speed_x = 0, speed_y = 0;
     unsigned short timer = 0;
     bool updated = false;
-    const Material& getUniqueMaterial();
     void markUpdated();
     bool hasChangedType();
     
