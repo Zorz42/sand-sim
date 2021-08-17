@@ -74,13 +74,13 @@ void waterUpdate(ParticleContainer* container, int x, int y, bool even) {
         do{
             prevX = x;
             prevY = y;
-            if(speedYCopy > 0 && container->getParticle(x, y + 1).getMaterial() == &Materials::air || container->getParticle(x, y + 1).getMaterial() == &Materials::smoke) {
+            if((speedYCopy > 0 && container->getParticle(x, y + 1).getMaterial() == &Materials::air) || container->getParticle(x, y + 1).getMaterial() == &Materials::smoke) {
                 swapParticles(*self, container->getParticle(x, y + 1));
                 y++;
                 speedYCopy -= 1;
                 self = &container->getParticle(x, y);
             } else if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke) {
-                if(speedYCopy > 0 && container->getParticle(x - 1, y + 1).getMaterial() == &Materials::air || container->getParticle(x - 1, y + 1).getMaterial() == &Materials::smoke) {
+                if((speedYCopy > 0 && container->getParticle(x - 1, y + 1).getMaterial() == &Materials::air) || container->getParticle(x - 1, y + 1).getMaterial() == &Materials::smoke) {
                     swapParticles(*self, container->getParticle(x - 1, y + 1));
                     y++;
                     x--;
@@ -88,7 +88,7 @@ void waterUpdate(ParticleContainer* container, int x, int y, bool even) {
                     speedXCopy += 1;
                     self->speed_x = std::max((float)-1, self->speed_x - 1);
                     self = &container->getParticle(x, y);
-                } else if(speedYCopy > 0 && container->getParticle(x + 1, y + 1).getMaterial() == &Materials::air || container->getParticle(x + 1, y + 1).getMaterial() == &Materials::smoke) {
+                } else if((speedYCopy > 0 && container->getParticle(x + 1, y + 1).getMaterial() == &Materials::air)2 || container->getParticle(x + 1, y + 1).getMaterial() == &Materials::smoke) {
                     swapParticles(*self, container->getParticle(x + 1, y + 1));
                     y++;
                     x++;
