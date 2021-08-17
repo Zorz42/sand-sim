@@ -8,10 +8,10 @@ void lightFire(int x, int y, ParticleContainer* container);
 void fireWaterContact(int x, int y, ParticleContainer* container);
 bool smokeSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 
-Material materials[(int)MaterialType::NUM_MATERIALS];
+Material* materials[(int)MaterialType::NUM_MATERIALS];
 
 const Material& getMaterialByType(MaterialType type) {
-    return materials[(int)type];
+    return *materials[(int)type];
 }
 
 Material::Material(sf::Color color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)) : color(color), constant_force(constant_force), randomSpawn(randomSpawn), update(update) {}
@@ -145,7 +145,7 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
     else
         self->timer++;
 
-    if(self->timer == 1){
+    if(self->timer == 1) {
         self->speed_y = 0;
         self->speed_x = 1;
         self->setType(MaterialType::AIR);
@@ -154,7 +154,7 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
 
     bool moved = false;
     int i = 0;
-    if(self->updated == even){
+    if(self->updated == even) {
         while(i < self->speed_y && self->updated == even) {
             Particle& particle_above = container->getParticle(x, y - 1);
             if(particle_above.getType() == MaterialType::AIR) {
@@ -165,48 +165,41 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
                 y--;
                 self = &container->getParticle(x, y);
 
-            }else if(!smokeSwap(container, x, y, x - 1, y - 1, even, i)){
+            } else if(!smokeSwap(container, x, y, x - 1, y - 1, even, i)) {
                 if(!smokeSwap(container, x, y, x + 1, y - 1, even, i)) {
                     self->speed_y = 0;
-                } else{
+                } else {
                     self->speed_x = std::max((float)1, self->speed_x + 1);
                     moved = true;
                 }
-            } else{
+            } else {
                 self->speed_x = std::min((float)-1, self->speed_x - 1);
                 moved = true;
             }
 
-
             i++;
         }
 
-        if(!moved){
-            i = 0;
-            while(i < self->speed_x) {
+        if(!moved) {
+            for(i = 0; i < self->speed_x; i++)
                 if(!smokeSwap(container, x, y, x - 1, y, even, i))
                     self->speed_x = -1;
-                i++;
-            }
-            i = 0;
-            while(i < -1 * self->speed_x) {
+            for(i = 0; i < -1 * self->speed_x; i++)
                 if(!smokeSwap(container, x, y, x + 1, y, even, i))
                     self->speed_x = 1;
-                i++;
-            }
         }
     }
 }
 
 
 void initMaterials() {
-    materials[(int)MaterialType::AIR] = Material({90, 90, 90}, 0, 1);
-    materials[(int)MaterialType::SAND] = Material({237, 205, 88}, 0.08, 80, &sandUpdate);
-    materials[(int)MaterialType::WATER] = Material({52, 145, 173}, 0.05, 80, &waterUpdate);
-    materials[(int)MaterialType::WOOD] = Material({150, 111, 51}, 0, 1);
-    materials[(int)MaterialType::FIRE] = Material({222, 91, 16}, 0, 20, &fireUpdate);
-    materials[(int)MaterialType::STONE] = Material({133, 133, 133}, 0, 1);
-    materials[(int)MaterialType::SMOKE] = Material({45, 45, 45}, 0.08, 40, &smokeUpdate);
+    materials[(int)MaterialType::AIR] = new Material({90, 90, 90}, 0, 1);
+    materials[(int)MaterialType::SAND] = new Material({237, 205, 88}, 0.08, 80, &sandUpdate);
+    materials[(int)MaterialType::WATER] = new Material({52, 145, 173}, 0.05, 80, &waterUpdate);
+    materials[(int)MaterialType::WOOD] = new Material({150, 111, 51}, 0, 1);
+    materials[(int)MaterialType::FIRE] = new Material({222, 91, 16}, 0, 20, &fireUpdate);
+    materials[(int)MaterialType::STONE] = new Material({133, 133, 133}, 0, 1);
+    materials[(int)MaterialType::SMOKE] = new Material({45, 45, 45}, 0.08, 40, &smokeUpdate);
 }
 
 void swapParticles(Particle& particle1, Particle& particle2) {
