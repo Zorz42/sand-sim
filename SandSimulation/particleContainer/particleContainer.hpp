@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 struct Material;
 
@@ -10,16 +11,16 @@ void initMaterials();
 class ParticleContainer;
 
 struct Material {
-    Material(sf::Color color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr);
+    Material(std::vector<sf::Color> color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr);
     Material() = default;
-    sf::Color color;
+    std::vector<sf::Color> color;
     float constant_force;
     int randomSpawn;
     void (*update)(ParticleContainer* container, int x, int y, bool even) = nullptr;
 };
 
 namespace Materials {
-    inline Material air, sand, water, wood, fire, stone, smoke, gunpowder;
+    inline Material air, sand, water, wood, fire, stone, smoke, gunpowder, acid, americaWantsIt, lava;
 };
 
 class Particle {
@@ -35,7 +36,7 @@ public:
     bool updated = false;
     void markUpdated();
     bool hasChangedType();
-    
+    int textureColor = rand();
     void operator=(Particle& x);
 };
 

@@ -32,7 +32,7 @@ void ParticleRenderer::updateTexture() {
     Particle* iter = container->getMapBegin();
     for(int i = 0; i < container->getMapSize(); i++)
     if(iter->hasChangedType()) {
-        sf::Color color = iter->getMaterial()->color;
+        sf::Color color = iter->getMaterial()->color[iter->textureColor % iter->getMaterial()->color.size()];
         *pixel_iter = color.r | color.g << 8 | color.b << 16 | color.a << 24;
         iter++;
         pixel_iter++;
@@ -111,7 +111,7 @@ void ParticleRenderer::renderSelectedMaterial() {
     sf::RectangleShape selected_material_rect;
     selected_material_rect.setPosition(5, 5);
     selected_material_rect.setSize(sf::Vector2f(20, 20));
-    selected_material_rect.setFillColor(selected_material->color);
+    selected_material_rect.setFillColor(selected_material->color[0]);
     selected_material_rect.setOutlineColor({50, 50, 50});
     selected_material_rect.setOutlineThickness(1);
     window->draw(selected_material_rect);
@@ -149,6 +149,15 @@ void ParticleRenderer::render() {
                     break;
                 case sf::Keyboard::Key::Num6:
                     selected_material = &Materials::gunpowder;
+                    break;
+                case sf::Keyboard::Key::Num7:
+                    selected_material = &Materials::acid;
+                    break;
+                case sf::Keyboard::Key::Num8:
+                    selected_material = &Materials::americaWantsIt;
+                    break;
+                case sf::Keyboard::Key::Num9:
+                    selected_material = &Materials::lava;
                     break;
                 default:;
             }
