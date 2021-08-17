@@ -29,7 +29,7 @@ public:
     Particle() = default;
     MaterialType getType();
     void setType(MaterialType material_type);
-    float speed_x = 0, speed_y = 0;
+    float speed_x = -1, speed_y = 0;
     unsigned short timer = 0;
     bool updated = false;
     const Material& getUniqueMaterial();
