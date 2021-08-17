@@ -4,7 +4,6 @@ void swapParticles(Particle& particle1, Particle& particle2);
 bool sandSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 void lightFire(int x, int y, ParticleContainer* container);
 void fireWaterContact(int x, int y, ParticleContainer* container);
-bool smokeSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 
 Material::Material(sf::Color color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)) : color(color), constant_force(constant_force), randomSpawn(randomSpawn), update(update) {}
 
@@ -315,20 +314,3 @@ void fireWaterContact(int x, int y, ParticleContainer* container) {
             self->setMaterial(&Materials::smoke);
         }
 }
-
-
-bool smokeSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i) {
-    Particle& target_particle = container->getParticle(target_x, target_y);
-    Particle& self = container->getParticle(x, y);
-    if(target_particle.getMaterial() == &Materials::air) {
-        swapParticles(self, target_particle);
-        if(i + 1 > self.speed_x)
-            target_particle.updated = !even;
-        x = target_x;
-        y = target_y;
-        return true;
-    }
-    else
-        return false;
-}
-
