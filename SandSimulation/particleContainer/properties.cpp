@@ -246,7 +246,7 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
 void initMaterials() {
     materials[(int)MaterialType::AIR] = new Material({90, 90, 90}, 0, 0);
     materials[(int)MaterialType::SAND] = new Material({237, 205, 88}, 0.08, 80, &sandUpdate);
-    materials[(int)MaterialType::WATER] = new Material({52, 145, 173}, 0.05, 80, &waterUpdate);
+    materials[(int)MaterialType::WATER] = new Material({52, 145, 173}, 0.08, 80, &waterUpdate);
     materials[(int)MaterialType::WOOD] = new Material({150, 111, 51}, 0, 0);
     materials[(int)MaterialType::FIRE] = new Material({222, 91, 16}, 0, 20, &fireUpdate);
     materials[(int)MaterialType::STONE] = new Material({133, 133, 133}, 0, 0);
