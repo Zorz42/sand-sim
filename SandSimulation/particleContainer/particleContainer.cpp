@@ -8,8 +8,8 @@ void ParticleContainer::updateAll() {
     static int frameCount = 0;
     frameCount++;
     bool even = frameCount % 2;
-    Particle* iter = getMapBegin() + (even ? getMapSize() - 1 : 0);
-    for(int y = even ? height - 1 : 0; y != (even ? -1 : height); y += even ? -1 : 1) {
+    Particle* iter = getMapBegin() + getMapSize() - (even ? 1 : width);
+    for(int y = height - 1; y >= 0; y--) {
         for(int x = even ? width - 1 : 0; x != (even ? -1 : width); x += even ? -1 : 1) {
             auto update = iter->getMaterial()->update;
             if(update)
@@ -19,6 +19,8 @@ void ParticleContainer::updateAll() {
             else
                 iter++;
         }
+        if(!even)
+            iter -= width * 2;
     }
 }
 
