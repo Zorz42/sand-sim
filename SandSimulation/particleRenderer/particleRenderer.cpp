@@ -19,11 +19,11 @@ ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short 
     fps_text.setPosition(0, 0);
 }
 
-unsigned short ParticleRenderer::getMouseX() {
+short ParticleRenderer::getMouseX() {
     return sf::Mouse::getPosition(*window).x / 2;
 }
 
-unsigned short ParticleRenderer::getMouseY() {
+short ParticleRenderer::getMouseY() {
     return sf::Mouse::getPosition(*window).y / 2;
 }
 
@@ -51,16 +51,60 @@ void ParticleRenderer::renderCircle() {
     window->draw(mouse_circle);
 }
 
-void ParticleRenderer::placeCircle(MaterialType material_type) {
-    unsigned short mouse_x = getMouseX(), mouse_y = getMouseY();
-    for(int x = mouse_x - RADIUS; x < mouse_x + RADIUS; x++)
-        for(int y = mouse_y - RADIUS; y < mouse_y + RADIUS; y++)
+void ParticleRenderer::placeCircle(short target_x, short target_y, MaterialType material_type, int line_length) {
+    for(int x = target_x - RADIUS; x < target_x + RADIUS; x++)
+        for(int y = target_y - RADIUS; y < target_y + RADIUS; y++)
             if(
                (container->getParticle(x, y).getType() == MaterialType::AIR || material_type == MaterialType::AIR)
-               && rand() % getMaterialByType(material_type).randomSpawn == 0 &&
-               std::pow(x - mouse_x, 2) + std::pow(y - mouse_y, 2) < RADIUS * RADIUS
+               && rand() % (getMaterialByType(material_type).randomSpawn * line_length) == 0 &&
+               std::pow(x - target_x, 2) + std::pow(y - target_y, 2) < RADIUS * RADIUS
                )
                 container->getParticle(x, y).setType(material_type);
+}
+
+void ParticleRenderer::placeCirclesFromTo(short x1, short y1, short x2, short y2, MaterialType material_type) {
+    int length = std::sqrt(std::pow(abs(x1 - x2), 2) + std::pow(abs(y1 - y2), 2)) + 1;
+    
+    int dx = x2 - x1;
+    int ix = (dx > 0) - (dx < 0);
+
+    dx = abs(dx) * 2;
+
+    int dy = y2 - y1;
+    int iy = (dy > 0) - (dy < 0);
+    dy = abs(dy) * 2;
+
+    placeCircle(x1, y1, material_type, length);
+
+    if(dx >= dy) {
+        int error = dy - dx / 2;
+
+        while(x1 != x2) {
+            if(error >= 0 && (error || ix > 0)) {
+                error -= dx;
+                y1 += iy;
+            }
+
+            error += dy;
+            x1 += ix;
+
+            placeCircle(x1, y1, material_type, length);
+        }
+    } else {
+        int error = dx - dy / 2;
+
+        while(y1 != y2) {
+            if(error >= 0 && (error || iy > 0)) {
+                error -= dy;
+                x1 += ix;
+            }
+
+            error += dx;
+            y1 += iy;
+
+            placeCircle(x1, y1, material_type, length);
+        }
+    }
 }
 
 void ParticleRenderer::renderSelectedMaterial() {
@@ -107,11 +151,14 @@ void ParticleRenderer::render() {
             }
         }
     }
-
+    
+    static short prev_mouse_x = 0, prev_mouse_y = 0;
     if(left_button_pressed)
-        placeCircle(selected_material);
+        placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), selected_material);
     else if(right_button_pressed)
-        placeCircle(MaterialType::AIR);
+        placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), MaterialType::AIR);
+    prev_mouse_x = getMouseX();
+    prev_mouse_y = getMouseY();
     
     updateTexture();
     window->draw(sf::Sprite(texture));

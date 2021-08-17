@@ -13,12 +13,13 @@ class ParticleRenderer {
     MaterialType selected_material = MaterialType::SAND;
     sf::Text fps_text;
     
-    unsigned short getMouseX();
-    unsigned short getMouseY();
+    short getMouseX();
+    short getMouseY();
     
     void updateTexture();
     void renderCircle();
-    void placeCircle(MaterialType material_type);
+    void placeCircle(short target_x, short target_y, MaterialType material_type, int line_length);
+    void placeCirclesFromTo(short x1, short y1, short x2, short y2, MaterialType material_type);
     void renderSelectedMaterial();
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
