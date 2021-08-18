@@ -25,7 +25,7 @@ void ParticleContainer::updateAll() {
 }
 
 Particle& ParticleContainer::getParticle(unsigned short x, unsigned short y) {
-    static Particle out_of_bounds(&Materials::stone);
+    static Particle out_of_bounds(Materials::stone);
     if(x < 0 || x >= width || y < 0 || y >= height)
         return out_of_bounds;
     return map[y * width + x];

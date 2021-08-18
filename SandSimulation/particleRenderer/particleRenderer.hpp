@@ -10,7 +10,7 @@ class ParticleRenderer {
     sf::Uint8* pixels;
     sf::Texture texture;
     bool left_button_pressed = false, right_button_pressed = false;
-    Material* selected_material = &Materials::sand;
+    Material* selected_material = Materials::sand;
     sf::Text fps_text;
     
     short getMouseX();
