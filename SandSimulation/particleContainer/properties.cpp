@@ -353,6 +353,8 @@ void Smoke::update(ParticleContainer* container, int x, int y, bool even){
 
         self->updated = even;
     }
+    if(container->getParticle(x, y - 1).getMaterial() == Materials::air && rand() % 10 == 0)
+        container->getParticle(x, y - 1).setMaterial(Materials::smoke);4
 }
 
 void Acid::update(ParticleContainer* container, int x, int y, bool even) {
