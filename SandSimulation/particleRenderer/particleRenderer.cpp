@@ -55,6 +55,7 @@ void ParticleRenderer::placeCircle(short target_x, short target_y, Material* mat
     for(int x = target_x - RADIUS; x < target_x + RADIUS; x++)
         for(int y = target_y - RADIUS; y < target_y + RADIUS; y++)
             if(
+               x >= 0 && x < width && y >= 0 && y < height &&
                (container->getParticle(x, y).getMaterial() == &Materials::air || material == &Materials::air)
                && rand() % (material->randomSpawn * line_length + 1) == 0 &&
                std::pow(x - target_x, 2) + std::pow(y - target_y, 2) < RADIUS * RADIUS
