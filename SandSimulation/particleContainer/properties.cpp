@@ -190,9 +190,9 @@ void lavaUpdate(ParticleContainer* container, int x, int y, bool even) {
 
             )
                 self->speed_x = (rand() % 2 * 2 - 1) * 5;
-            else if(container->getParticle(x + 1, y).getMaterial() == Materials::air || container->getParticle(x - 1, y).getMaterial() == Materials::smoke || container->getParticle(x - 1, y).getMaterial() == Materials::fire)
+            else if((container->getParticle(x + 1, y).getMaterial() == Materials::air || container->getParticle(x - 1, y).getMaterial() == Materials::smoke || container->getParticle(x - 1, y).getMaterial() == Materials::fire))
                 self->speed_x = 5;
-            else if(container->getParticle(x - 1, y).getMaterial() == Materials::air || container->getParticle(x - 1, y).getMaterial() == Materials::smoke || container->getParticle(x - 1, y).getMaterial() == Materials::fire)
+            else if((container->getParticle(x - 1, y).getMaterial() == Materials::air || container->getParticle(x - 1, y).getMaterial() == Materials::smoke || container->getParticle(x - 1, y).getMaterial() == Materials::fire))
                 self->speed_x = -1;
             else
                 self->speed_x = 0;
@@ -248,10 +248,10 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
     if(self->timer == 0)
         self->timer = 600;
 
-    if(y == 1)
-        self->timer = 3;
+    if(y == 0 && self->timer > 60)
+        self->timer = 60;
 
-    if(container->getParticle(x, y + 1).getMaterial() == Materials::air || y == 1)
+    if(container->getParticle(x, y + 1).getMaterial() == Materials::air || y == 0)
         self->timer--;
     else
         self->timer++;
