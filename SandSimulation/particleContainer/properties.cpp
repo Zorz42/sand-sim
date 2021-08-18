@@ -75,7 +75,7 @@ void waterUpdate(ParticleContainer* container, int x, int y, bool even) {
 
         if(container->getParticle(x, y + 1).getMaterial() != &Materials::air) {
             if(container->getParticle(x + 1, y).getMaterial() == &Materials::air && container->getParticle(x - 1, y).getMaterial() == &Materials::air)
-                self->speed_x = (rand() % 2 + 1) * 5;
+                self->speed_x = (rand() % 2 * 2 - 1) * 5;
             else if(container->getParticle(x + 1, y).getMaterial() == &Materials::air)
                 self->speed_x = 5;
             else if(container->getParticle(x - 1, y).getMaterial() == &Materials::air)
@@ -104,6 +104,111 @@ void waterUpdate(ParticleContainer* container, int x, int y, bool even) {
 
         self->updated = even;
     }
+}
+
+void americaWantsItUpdate(ParticleContainer* container, int x, int y, bool even) {
+
+    Particle* self = &container->getParticle(x, y);
+    self->speed_y *= 0.995;
+    self->speed_x *= 0.995;
+    self->speed_y += self->getMaterial()->constant_force;
+
+
+    if(self->updated != even) {
+        for(int i = 0; i < self->speed_y; i++) {
+            if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke) {
+                self->speed_y = 0;
+            } else {
+                swapParticles(*self, container->getParticle(x, y + 1));
+                y++;
+                self = &container->getParticle(x, y);
+            }
+        }
+
+        if(container->getParticle(x, y + 1).getMaterial() != &Materials::air) {
+            if(container->getParticle(x + 1, y).getMaterial() == &Materials::air && container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+                self->speed_x = (rand() % 2 * 2 - 1) * 5;
+            else if(container->getParticle(x + 1, y).getMaterial() == &Materials::air)
+                self->speed_x = 5;
+            else if(container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+                self->speed_x = -1;
+            else
+                self->speed_x = 0;
+
+            if(self->speed_x > 0) {
+                for(int i = 0; i < self->speed_x; i++) {
+                    if(container->getParticle(x + 1, y).getMaterial() != &Materials::air)
+                        break;
+                    swapParticles(*self, container->getParticle(x + 1, y));
+                    x++;
+                    self = &container->getParticle(x, y);
+                }
+            } else {
+                for(int i = 5; i >= self->speed_x; i--) {
+                    if(container->getParticle(x - 1, y).getMaterial() != &Materials::air)
+                        break;
+                    swapParticles(*self, container->getParticle(x - 1, y));
+                    x--;
+                    self = &container->getParticle(x, y);
+                }
+            }
+        }
+
+        self->updated = even;
+    }
+}
+
+void lavaUpdate(ParticleContainer* container, int x, int y, bool even) {
+    Particle* self = &container->getParticle(x, y);
+    self->speed_y *= 0.995;
+    self->speed_x *= 0.995;
+    self->speed_y += self->getMaterial()->constant_force;
+
+
+    if(self->updated != even) {
+        for(int i = 0; i < self->speed_y; i++) {
+            if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke) {
+                self->speed_y = 0;
+            } else {
+                swapParticles(*self, container->getParticle(x, y + 1));
+                y++;
+                self = &container->getParticle(x, y);
+            }
+        }
+
+        if(container->getParticle(x, y + 1).getMaterial() != &Materials::air) {
+            if(container->getParticle(x + 1, y).getMaterial() == &Materials::air && container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+                self->speed_x = (rand() % 2 * 2 - 1) * 5;
+            else if(container->getParticle(x + 1, y).getMaterial() == &Materials::air)
+                self->speed_x = 5;
+            else if(container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+                self->speed_x = -1;
+            else
+                self->speed_x = 0;
+
+            if(self->speed_x > 0) {
+                for(int i = 0; i < self->speed_x; i++) {
+                    if(container->getParticle(x + 1, y).getMaterial() != &Materials::air)
+                        break;
+                    swapParticles(*self, container->getParticle(x + 1, y));
+                    x++;
+                    self = &container->getParticle(x, y);
+                }
+            } else {
+                for(int i = 5; i >= self->speed_x; i--) {
+                    if(container->getParticle(x - 1, y).getMaterial() != &Materials::air)
+                        break;
+                    swapParticles(*self, container->getParticle(x - 1, y));
+                    x--;
+                    self = &container->getParticle(x, y);
+                }
+            }
+        }
+
+        self->updated = even;
+    }
+    lavaWaterContact(x, y, container);
+    lightFire(x, y, container);
 }
 
 void fireUpdate(ParticleContainer* container, int x, int y, bool even) {
@@ -161,55 +266,46 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
     }
 
 
-    if(self->updated != even){
-        float speedXCopy = self->speed_x, speedYCopy = self->speed_y;
-        int prevX, prevY;
-        do{
-            prevX = x;
-            prevY = y;
-            if(speedYCopy > 0 && container->getParticle(x, y - 1).getMaterial() == &Materials::air) {
+    if(self->updated != even) {
+        for(int i = 0; i < self->speed_y; i++) {
+            if(container->getParticle(x, y - 1).getMaterial() != &Materials::air) {
+                self->speed_y = 0;
+            } else {
                 swapParticles(*self, container->getParticle(x, y - 1));
                 y--;
-                speedYCopy -= 1;
                 self = &container->getParticle(x, y);
-            } else if(container->getParticle(x, y - 1).getMaterial() != &Materials::air) {
-                if(speedYCopy > 0 && container->getParticle(x - 1, y - 1).getMaterial() == &Materials::air) {
-                    swapParticles(*self, container->getParticle(x - 1, y - 1));
-                    y--;
-                    x--;
-                    speedYCopy -= 1;
-                    speedXCopy += 1;
-                    self->speed_x = std::max((float)-1, self->speed_x - 1);
-                    self = &container->getParticle(x, y);
-                } else if(speedYCopy > 0 && container->getParticle(x + 1, y - 1).getMaterial() == &Materials::air) {
-                    swapParticles(*self, container->getParticle(x + 1, y - 1));
-                    y--;
-                    x++;
-                    speedYCopy -= 1;
-                    speedXCopy -= 1;
-                    self->speed_x = std::max((float)1, self->speed_x + 1);
-                    self = &container->getParticle(x, y);
-                } else if(speedXCopy >= 1 && container->getParticle(x + 1, y).getMaterial() == &Materials::air) {
+            }
+        }
+
+        if(container->getParticle(x, y - 1).getMaterial() != &Materials::air) {
+            if(container->getParticle(x + 1, y).getMaterial() == &Materials::air)
+                self->speed_x = (rand() % 2 + 1) * 5;
+            else if(container->getParticle(x + 1, y).getMaterial() == &Materials::air)
+                self->speed_x = 5;
+            else if(container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+                self->speed_x = -1;
+            else
+                self->speed_x = 0;
+
+            if(self->speed_x > 0) {
+                for(int i = 0; i < self->speed_x; i++) {
+                    if(container->getParticle(x + 1, y).getMaterial() != &Materials::air)
+                        break;
                     swapParticles(*self, container->getParticle(x + 1, y));
                     x++;
-                    speedXCopy -= 1;
-                    self->speed_y = 0;
                     self = &container->getParticle(x, y);
-                } else if(speedXCopy <= -1 && container->getParticle(x - 1, y).getMaterial() == &Materials::air) {
+                }
+            } else {
+                for(int i = 5; i >= self->speed_x; i--) {
+                    if(container->getParticle(x - 1, y).getMaterial() != &Materials::air)
+                        break;
                     swapParticles(*self, container->getParticle(x - 1, y));
                     x--;
-                    speedXCopy += 1;
-                    self->speed_y = 0;
                     self = &container->getParticle(x, y);
-                }  else{if(speedXCopy >= 1)
-                    self->speed_x = -1;
-                    else if(speedXCopy <= -1)
-                        self->speed_x = 1;
-                    if(speedYCopy > 0)
-                        self->speed_y = 0;
                 }
             }
-        } while(prevY != y || prevX != x);
+        }
+
         self->updated = even;
     }
 }
@@ -242,58 +338,46 @@ void acidUpdate(ParticleContainer* container, int x, int y, bool even) {
     }
 
 
-    if(self->updated != even){
-        float speedXCopy = self->speed_x, speedYCopy = self->speed_y;
-        int prevX, prevY;
-        do{
-            prevX = x;
-            prevY = y;
-            if((speedYCopy > 0 && container->getParticle(x, y + 1).getMaterial() == &Materials::air) || container->getParticle(x, y + 1).getMaterial() == &Materials::smoke) {
+    if(self->updated != even) {
+        for(int i = 0; i < self->speed_y; i++) {
+            if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke) {
+                self->speed_y = 0;
+            } else {
                 swapParticles(*self, container->getParticle(x, y + 1));
                 y++;
-                speedYCopy -= 1;
-                container->getParticle(x, y + 1).updated = even;
                 self = &container->getParticle(x, y);
-            } else if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke) {
-                if((speedYCopy > 0 && container->getParticle(x - 1, y + 1).getMaterial() == &Materials::air) || container->getParticle(x - 1, y + 1).getMaterial() == &Materials::smoke) {
-                    swapParticles(*self, container->getParticle(x - 1, y + 1));
-                    y++;
-                    x--;
-                    speedYCopy -= 1;
-                    speedXCopy += 1;
-                    self->speed_x = std::max((float)-1, self->speed_x - 1);
-                    container->getParticle(x - 1, y + 1).updated = even;
-                    self = &container->getParticle(x, y);
-                } else if((speedYCopy > 0 && container->getParticle(x + 1, y + 1).getMaterial() == &Materials::air) || container->getParticle(x + 1, y + 1).getMaterial() == &Materials::smoke) {
-                    swapParticles(*self, container->getParticle(x + 1, y + 1));
-                    y++;
-                    x++;
-                    speedYCopy -= 1;
-                    speedXCopy -= 1;
-                    self->speed_x = std::max((float)1, self->speed_x + 1);
-                    container->getParticle(x + 1, y + 1).updated = even;
-                    self = &container->getParticle(x, y);
-                } else if(speedXCopy >= 1 && container->getParticle(x + 1, y).getMaterial() == &Materials::air) {
+            }
+        }
+
+        if(container->getParticle(x, y + 1).getMaterial() != &Materials::air) {
+            if(container->getParticle(x + 1, y).getMaterial() == &Materials::air && container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+                self->speed_x = (rand() % 2 + 1) * 5;
+            else if(container->getParticle(x + 1, y).getMaterial() == &Materials::air)
+                self->speed_x = 5;
+            else if(container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+                self->speed_x = -1;
+            else
+                self->speed_x = 0;
+
+            if(self->speed_x > 0) {
+                for(int i = 0; i < self->speed_x; i++) {
+                    if(container->getParticle(x + 1, y).getMaterial() != &Materials::air)
+                        break;
                     swapParticles(*self, container->getParticle(x + 1, y));
                     x++;
-                    speedXCopy -= 1;
-                    self->speed_y = 0;
                     self = &container->getParticle(x, y);
-                } else if(speedXCopy <= -1 && container->getParticle(x - 1, y).getMaterial() == &Materials::air) {
+                }
+            } else {
+                for(int i = 5; i >= self->speed_x; i--) {
+                    if(container->getParticle(x - 1, y).getMaterial() != &Materials::air)
+                        break;
                     swapParticles(*self, container->getParticle(x - 1, y));
                     x--;
-                    speedXCopy += 1;
-                    self->speed_y = 0;
                     self = &container->getParticle(x, y);
-                }  else{if(speedXCopy >= 1)
-                    self->speed_x = -1;
-                    else if(speedXCopy <= -1)
-                        self->speed_x = 1;
-                    if(speedYCopy > 0)
-                        self->speed_y = 0;
                 }
             }
-        } while(prevY != y || prevX != x);
+        }
+
         self->updated = even;
     }
     acidCorrode(x, y, container);
@@ -311,7 +395,7 @@ void initMaterials() {
     Materials::smoke = Material({{45, 45, 45}, {75, 75, 75}, {105, 105, 105}, {135, 135, 135}, {165, 165, 165}, {195, 195, 195}, {225, 225, 225}}, 0.08, 40, &smokeUpdate);
     Materials::gunpowder = Material({{36, 36, 36}}, 0.08, 40, &sandUpdate);
     Materials::acid = Material({{31, 255, 61}}, 0.08, 40, &acidUpdate);
-    Materials::americaWantsIt = Material({{10, 10, 10}}, 0.08, 40, &acidUpdate);
+    Materials::americaWantsIt = Material({{10, 10, 10}}, 0.08, 40, &americaWantsItUpdate);
     Materials::lava = Material({{222, 91, 16}, {252, 115, 3}, {214, 36, 0}, {255, 215, 15}, {255, 171, 15}}, 0.08, 40, &lavaUpdate);
 }
 
@@ -352,7 +436,7 @@ void lightFire(int x, int y, ParticleContainer* container) {
 
 
 void acidCorrode(int x, int y, ParticleContainer* container) {
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
+    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y), &container->getParticle(x, y - 1)};
     for(Particle* particle : particles)
         if(particle->getMaterial() == &Materials::wood && rand() % 20 == 0){
             container->getParticle(x, y).setMaterial(&Materials::air);

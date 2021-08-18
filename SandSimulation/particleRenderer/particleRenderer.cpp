@@ -7,7 +7,7 @@
 ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height)
 : container(container), width(window_width), height(window_height) {
     window = new sf::RenderWindow(sf::VideoMode(width * 2, height * 2), "Sand Simulation", sf::Style::Titlebar | sf::Style::Close);
-    window->setVerticalSyncEnabled(true);
+    //window->setVerticalSyncEnabled(true);
     sf::FloatRect visibleArea(0, 0, (unsigned int)width, (unsigned int)height);
     window->setView(sf::View(visibleArea));
     window->setFramerateLimit(60);
