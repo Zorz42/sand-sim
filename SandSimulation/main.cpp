@@ -5,7 +5,6 @@
 #define HEIGHT 500
 
 int main() {
-    initMaterials();
     ParticleContainer container(WIDTH, HEIGHT);
     ParticleRenderer renderer(&container, WIDTH, HEIGHT);
 

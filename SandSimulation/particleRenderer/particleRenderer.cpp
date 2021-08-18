@@ -32,7 +32,7 @@ void ParticleRenderer::updateTexture() {
     Particle* iter = container->getMapBegin();
     for(int i = 0; i < container->getMapSize(); i++)
     if(iter->hasChangedType()) {
-        sf::Color color = iter->getMaterial()->color[iter->textureColor % iter->getMaterial()->color.size()];
+        sf::Color color = iter->getMaterial()->color[iter->texture_color % iter->getMaterial()->color.size()];
         *pixel_iter = color.r | color.g << 8 | color.b << 16 | color.a << 24;
         iter++;
         pixel_iter++;
@@ -57,7 +57,7 @@ void ParticleRenderer::placeCircle(short target_x, short target_y, Material* mat
             if(
                x >= 0 && x < width && y >= 0 && y < height &&
                (container->getParticle(x, y).getMaterial() == Materials::air || material == Materials::air)
-               && rand() % (material->randomSpawn * line_length + 1) == 0 &&
+               && rand() % (material->random_spawn * line_length + 1) == 0 &&
                std::pow(x - target_x, 2) + std::pow(y - target_y, 2) < RADIUS * RADIUS
                )
                 container->getParticle(x, y).setMaterial(material);
@@ -155,7 +155,7 @@ void ParticleRenderer::render() {
                     selected_material = Materials::acid;
                     break;
                 case sf::Keyboard::Key::Num8:
-                    selected_material = Materials::americaWantsIt;
+                    selected_material = Materials::oil;
                     break;
                 default:;
             }
