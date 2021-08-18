@@ -56,7 +56,7 @@ void ParticleRenderer::placeCircle(short target_x, short target_y, Material* mat
         for(int y = target_y - RADIUS; y < target_y + RADIUS; y++)
             if(
                x >= 0 && x < width && y >= 0 && y < height &&
-               (container->getParticle(x, y).getMaterial() == &Materials::air || material == &Materials::air)
+               (container->getParticle(x, y).getMaterial() == Materials::air || material == Materials::air)
                && rand() % (material->randomSpawn * line_length + 1) == 0 &&
                std::pow(x - target_x, 2) + std::pow(y - target_y, 2) < RADIUS * RADIUS
                )
@@ -134,28 +134,28 @@ void ParticleRenderer::render() {
         else if(event.type == sf::Event::KeyPressed) {
             switch (event.key.code) {
                 case sf::Keyboard::Key::Num1:
-                    selected_material = &Materials::sand;
+                    selected_material = Materials::sand;
                     break;
                 case sf::Keyboard::Key::Num2:
-                    selected_material = &Materials::water;
+                    selected_material = Materials::water;
                     break;
                 case sf::Keyboard::Key::Num3:
-                    selected_material = &Materials::wood;
+                    selected_material = Materials::wood;
                     break;
                 case sf::Keyboard::Key::Num4:
-                    selected_material = &Materials::lava;
+                    selected_material = Materials::lava;
                     break;
                 case sf::Keyboard::Key::Num5:
-                    selected_material = &Materials::stone;
+                    selected_material = Materials::stone;
                     break;
                 case sf::Keyboard::Key::Num6:
-                    selected_material = &Materials::gunpowder;
+                    selected_material = Materials::gunpowder;
                     break;
                 case sf::Keyboard::Key::Num7:
-                    selected_material = &Materials::acid;
+                    selected_material = Materials::acid;
                     break;
                 case sf::Keyboard::Key::Num8:
-                    selected_material = &Materials::americaWantsIt;
+                    selected_material = Materials::americaWantsIt;
                     break;
                 default:;
             }
@@ -166,7 +166,7 @@ void ParticleRenderer::render() {
     if(left_button_pressed)
         placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), selected_material);
     else if(right_button_pressed)
-        placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), &Materials::air);
+        placeCirclesFromTo(prev_mouse_x, prev_mouse_y, getMouseX(), getMouseY(), Materials::air);
     prev_mouse_x = getMouseX();
     prev_mouse_y = getMouseY();
     

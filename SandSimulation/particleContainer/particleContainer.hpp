@@ -12,19 +12,18 @@ class ParticleContainer;
 
 struct Material {
     Material(std::vector<sf::Color> color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)=nullptr);
-    Material() = default;
-    std::vector<sf::Color> color;
-    float constant_force;
-    int randomSpawn;
+    const std::vector<sf::Color> color;
+    const float constant_force;
+    const int randomSpawn;
     void (*update)(ParticleContainer* container, int x, int y, bool even) = nullptr;
 };
 
 namespace Materials {
-    inline Material air, sand, water, wood, fire, stone, smoke, gunpowder, acid, americaWantsIt, lava;
+    inline Material *air, *sand, *water, *wood, *fire, *stone, *smoke, *gunpowder, *acid, *americaWantsIt, *lava;
 };
 
 class Particle {
-    Material* material = &Materials::air;
+    Material* material = Materials::air;
     bool changed_type = true;
 public:
     Particle(Material* material) : material(material) {}
