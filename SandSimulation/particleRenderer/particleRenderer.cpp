@@ -142,7 +142,7 @@ void ParticleRenderer::render() {
                     selected_material = &Materials::wood;
                     break;
                 case sf::Keyboard::Key::Num4:
-                    selected_material = &Materials::fire;
+                    selected_material = &Materials::lava;
                     break;
                 case sf::Keyboard::Key::Num5:
                     selected_material = &Materials::stone;
@@ -155,9 +155,6 @@ void ParticleRenderer::render() {
                     break;
                 case sf::Keyboard::Key::Num8:
                     selected_material = &Materials::americaWantsIt;
-                    break;
-                case sf::Keyboard::Key::Num9:
-                    selected_material = &Materials::lava;
                     break;
                 default:;
             }
