@@ -4,8 +4,8 @@ project(sand_sim)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(sand_sim
-        SandSimulation/main.cpp SandSimulation/particleContainer/particleContainer.cpp SandSimulation/particleRenderer/particleRenderer.cpp SandSimulation/particleContainer/particle.cpp SandSimulation/particleContainer/properties.cpp)
+        SandSimulation/main.cpp SandSimulation/particles/particles.cpp SandSimulation/particleEngine/particleEngine.cpp SandSimulation/particleRenderer/particleRenderer.cpp)
 
-target_include_directories(sand_sim PUBLIC SandSimulation/materialClass SandSimulation/particleContainer SandSimulation/particleRenderer)
+target_include_directories(sand_sim PUBLIC SandSimulation/materialClass SandSimulation/particleEngine SandSimulation/particleRenderer SandSimulation/particles)
 
 target_link_libraries(sand_sim sfml-system sfml-graphics sfml-window)
