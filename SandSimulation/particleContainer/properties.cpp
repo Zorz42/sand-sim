@@ -297,7 +297,7 @@ void Smoke::update(ParticleContainer* container, int x, int y, bool even){
     static int colorChange = 0;
     if(even)
         colorChange++;
-    if(colorChange % 64 == 0 && self->texture_color < 6)
+    if(colorChange % 64 == 0)
         self->texture_color++;
 
     lightFire(x, y, container);
