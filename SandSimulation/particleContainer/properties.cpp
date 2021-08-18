@@ -397,7 +397,7 @@ void initMaterials() {
     Materials::wood = Material({{155, 116, 54}, {154, 115, 53}, {156, 117, 55}, {150, 111, 51}}, 0, 0);
     Materials::fire = Material({{222, 70, 12}, {222, 120, 16}, {222, 125, 16}, {222, 127, 16}, {222, 130, 16}, {222, 182, 16}}, 0, 20, &fireUpdate);
     Materials::stone = Material({{133, 133, 133}, {135, 135, 135}, {131, 131, 131}}, 0, 0);
-    Materials::smoke = Material({{45, 45, 45}, {75, 75, 75}, {105, 105, 105}, {135, 135, 135}, {165, 165, 165}, {195, 195, 195}, {225, 225, 225}}, 0.08, 40, &smokeUpdate);
+    Materials::smoke = Material({{65, 65, 59}, {60, 60, 54}, {70, 70, 64}}, 0.08, 40, &smokeUpdate);
     Materials::gunpowder = Material({{36, 36, 36}}, 0.08, 40, &sandUpdate);
     Materials::acid = Material({{31, 255, 61}, {32, 255, 62}, {31, 255, 61}}, 0.08, 40, &acidUpdate);
     Materials::americaWantsIt = Material({{10, 10, 10}, {12, 12, 12}, {9, 9, 9}}, 0.08, 40, &americaWantsItUpdate);
