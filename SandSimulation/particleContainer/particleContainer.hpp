@@ -4,10 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-struct Material;
-
-void initMaterials();
-
 class ParticleContainer;
 
 struct Material {
@@ -16,41 +12,6 @@ struct Material {
     const float constant_force;
     const int random_spawn;
     virtual void update(ParticleContainer* container, int x, int y, bool even) {}
-};
-
-namespace Materials {
-    
-inline Material *air, *sand, *water, *wood, *fire, *stone, *smoke, *gunpowder, *acid, *oil, *lava;
-
-};
-
-class Particle {
-    Material* material = Materials::air;
-    bool changed_type = true;
-public:
-    Particle(Material* material) : material(material) {}
-    Particle() = default;
-    int texture_color = rand();
-    float speed_x = 0, speed_y = 0;
-    unsigned short timer = 0;
-    bool updated = false;
-    Material* getMaterial();
-    void setMaterial(Material* material_to_be);
-    void markUpdated();
-    bool hasChangedType();
-    void operator=(Particle& x);
-};
-
-class ParticleContainer {
-    int width, height;
-    Particle* map = nullptr;
-public:
-    ParticleContainer(int size_x, int size_y);
-    Particle* getMapBegin() { return map; }
-    unsigned int getMapSize();
-    void initMap();
-    void updateAll();
-    Particle& getParticle(unsigned short x, unsigned short y);
 };
 
 struct Air : Material {
@@ -103,4 +64,40 @@ struct Oil : Material {
 struct Lava : Material {
     Lava() : Material({{252, 91, 16}, {252, 95, 16}, {252, 97, 16}, {252, 102, 16}, {252, 142, 16}}, 0.08, 40) {}
     void update(ParticleContainer* container, int x, int y, bool even) override;
+};
+
+
+namespace Materials {
+    
+inline Material *air = new Air(), *sand = new Sand(), *water = new Water(), *wood = new Wood(), *fire = new Fire(), *stone = new Stone(), *smoke = new Smoke(), *gunpowder = new Gunpowder(), *acid = new Acid(), *oil = new Oil(), *lava = new Lava();
+
+};
+
+class Particle {
+    Material* material = Materials::air;
+    bool changed_type = true;
+public:
+    Particle(Material* material) : material(material) {}
+    Particle() = default;
+    int texture_color = rand();
+    float speed_x = 0, speed_y = 0;
+    unsigned short timer = 0;
+    bool updated = false;
+    Material* getMaterial();
+    void setMaterial(Material* material_to_be);
+    void markUpdated();
+    bool hasChangedType();
+    void operator=(Particle& x);
+};
+
+class ParticleContainer {
+    int width, height;
+    Particle* map = nullptr;
+public:
+    ParticleContainer(int size_x, int size_y);
+    Particle* getMapBegin() { return map; }
+    unsigned int getMapSize();
+    void initMap();
+    void updateAll();
+    Particle& getParticle(unsigned short x, unsigned short y);
 };

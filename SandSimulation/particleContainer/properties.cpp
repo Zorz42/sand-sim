@@ -425,22 +425,6 @@ void Acid::update(ParticleContainer* container, int x, int y, bool even) {
     acidCorrode(x, y, container);
 }
 
-
-
-void initMaterials() {
-    Materials::air = new Air();
-    Materials::sand = new Sand();
-    Materials::water = new Water();
-    Materials::wood = new Wood();
-    Materials::fire = new Fire();
-    Materials::stone = new Stone();
-    Materials::smoke = new Smoke();
-    Materials::gunpowder = new Gunpowder();
-    Materials::acid = new Acid();
-    Materials::oil = new Oil();
-    Materials::lava = new Lava();
-}
-
 void swapParticles(Particle& particle1, Particle& particle2) {
     Particle temporary_particle = particle1;
     particle1 = particle2;
