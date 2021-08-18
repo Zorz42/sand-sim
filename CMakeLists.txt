@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(sand_sim)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 add_executable(sand_sim
         SandSimulation/main.cpp SandSimulation/particleContainer/particleContainer.cpp SandSimulation/particleRenderer/particleRenderer.cpp SandSimulation/particleContainer/particle.cpp SandSimulation/particleContainer/properties.cpp)

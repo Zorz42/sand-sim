@@ -6,6 +6,7 @@ void lightFire(int x, int y, ParticleContainer* container);
 void acidCorrode(int x, int y, ParticleContainer* container);
 void fireWaterContact(int x, int y, ParticleContainer* container);
 void lavaWaterContact(int x, int y, ParticleContainer* container);
+void lightLava(int x, int y, ParticleContainer* container);
 
 Material::Material(std::vector<sf::Color> color, float constant_force, int randomSpawn, void (*update)(ParticleContainer* container, int x, int y, bool even)) : color(color), constant_force(constant_force), randomSpawn(randomSpawn), update(update) {}
 
@@ -167,7 +168,7 @@ void lavaUpdate(ParticleContainer* container, int x, int y, bool even) {
 
     if(self->updated != even) {
         for(int i = 0; i < self->speed_y; i++) {
-            if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke) {
+            if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke && container->getParticle(x, y + 1).getMaterial() != &Materials::fire) {
                 self->speed_y = 0;
             } else {
                 swapParticles(*self, container->getParticle(x, y + 1));
@@ -176,12 +177,16 @@ void lavaUpdate(ParticleContainer* container, int x, int y, bool even) {
             }
         }
 
-        if(container->getParticle(x, y + 1).getMaterial() != &Materials::air) {
-            if(container->getParticle(x + 1, y).getMaterial() == &Materials::air && container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+        if(container->getParticle(x, y + 1).getMaterial() != &Materials::air && container->getParticle(x, y + 1).getMaterial() != &Materials::smoke  && container->getParticle(x, y + 1).getMaterial() != &Materials::fire) {
+            if(container->getParticle(x + 1, y).getMaterial() == &Materials::air && container->getParticle(x - 1, y).getMaterial() == &Materials::air &&
+               container->getParticle(x + 1, y).getMaterial() == &Materials::smoke && container->getParticle(x - 1, y).getMaterial() == &Materials::smoke &&
+               container->getParticle(x + 1, y).getMaterial() == &Materials::fire && container->getParticle(x - 1, y).getMaterial() == &Materials::fire
+
+            )
                 self->speed_x = (rand() % 2 * 2 - 1) * 5;
-            else if(container->getParticle(x + 1, y).getMaterial() == &Materials::air)
+            else if(container->getParticle(x + 1, y).getMaterial() == &Materials::air || container->getParticle(x - 1, y).getMaterial() == &Materials::smoke || container->getParticle(x - 1, y).getMaterial() == &Materials::fire)
                 self->speed_x = 5;
-            else if(container->getParticle(x - 1, y).getMaterial() == &Materials::air)
+            else if(container->getParticle(x - 1, y).getMaterial() == &Materials::air || container->getParticle(x - 1, y).getMaterial() == &Materials::smoke || container->getParticle(x - 1, y).getMaterial() == &Materials::fire)
                 self->speed_x = -1;
             else
                 self->speed_x = 0;
@@ -208,7 +213,7 @@ void lavaUpdate(ParticleContainer* container, int x, int y, bool even) {
         self->updated = even;
     }
     lavaWaterContact(x, y, container);
-    lightFire(x, y, container);
+    lightLava(x, y, container);
 }
 
 void fireUpdate(ParticleContainer* container, int x, int y, bool even) {
@@ -473,11 +478,26 @@ void lavaWaterContact(int x, int y, ParticleContainer* container) {
 
     for(Particle* particle : particles)
         if(particle->getMaterial() == &Materials::water){
-            particle->setMaterial(&Materials::smoke);
+            container->getParticle(x, y - 2).setMaterial(&Materials::smoke);
+            particle->setMaterial(&Materials::stone);
             self->setMaterial(&Materials::stone);
             particle->textureColor = 0;
         }else if(particle->getMaterial() == &Materials::acid){
             self->setMaterial(&Materials::stone);
             particle->setMaterial(&Materials::air);
+        }
+}
+
+void lightLava(int x, int y, ParticleContainer* container) {
+    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
+    for(Particle* particle : particles)
+        if(particle->getMaterial() == &Materials::wood && rand() % 50 == 0)
+            particle->setMaterial(&Materials::fire);
+        else if(particle->getMaterial() == &Materials::gunpowder){
+            particle->setMaterial(&Materials::fire);
+            particle->timer = 20 - rand() % 5;
+        } else if(particle->getMaterial() == &Materials::americaWantsIt && rand() % 2 == 0){
+            particle->setMaterial(&Materials::fire);
+            particle->timer = 60 - rand() % 10;
         }
 }
