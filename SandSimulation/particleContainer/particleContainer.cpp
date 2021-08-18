@@ -11,9 +11,7 @@ void ParticleContainer::updateAll() {
     Particle* iter = getMapBegin() + getMapSize() - (even ? 1 : width);
     for(int y = height - 1; y >= 0; y--) {
         for(int x = even ? width - 1 : 0; x != (even ? -1 : width); x += even ? -1 : 1) {
-            auto update = iter->getMaterial()->update;
-            if(update)
-                update(this, x, y, even);
+            iter->getMaterial()->update(this, x, y, even);
             if(even)
                 iter--;
             else
