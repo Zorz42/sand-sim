@@ -247,7 +247,10 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
     if(self->timer == 0)
         self->timer = 600;
 
-    if(container->getParticle(x, y + 1).getMaterial() == &Materials::air)
+    if(y == 1)
+        self->timer = 3;
+
+    if(container->getParticle(x, y + 1).getMaterial() == &Materials::air || y == 1)
         self->timer--;
     else
         self->timer++;
@@ -262,7 +265,7 @@ void smokeUpdate(ParticleContainer* container, int x, int y, bool even){
     static int colorChange = 0;
     if(even)
         colorChange++;
-    if(colorChange % 64 == 0 && self->textureColor < 6)
+    if(colorChange % 64 == 0)
         self->textureColor++;
 
     lightFire(x, y, container);
