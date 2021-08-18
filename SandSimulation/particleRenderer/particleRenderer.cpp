@@ -30,9 +30,8 @@ short ParticleRenderer::getMouseY() {
 void ParticleRenderer::updateTexture() {
     sf::Uint32* pixel_iter = (sf::Uint32*)pixels;
     Particle* iter = container->getMapBegin();
-    for(int i = 0; i < container->getMapSize(); i++)
-    if(iter->hasChangedType()) {
-        sf::Color color = iter->getMaterial()->color[iter->texture_color % iter->getMaterial()->color.size()];
+    for(int i = 0; i < container->getMapSize(); i++) {
+        sf::Color color = iter->material->color[iter->texture_color % iter->material->color.size()];
         *pixel_iter = color.r | color.g << 8 | color.b << 16 | color.a << 24;
         iter++;
         pixel_iter++;
@@ -56,11 +55,11 @@ void ParticleRenderer::placeCircle(short target_x, short target_y, Material* mat
         for(int y = target_y - RADIUS; y < target_y + RADIUS; y++)
             if(
                x >= 0 && x < width && y >= 0 && y < height &&
-               (container->getParticle(x, y).getMaterial() == Materials::air || material == Materials::air)
+               (container->getParticle(x, y).material == Materials::air || material == Materials::air)
                && rand() % (material->random_spawn * line_length + 1) == 0 &&
                std::pow(x - target_x, 2) + std::pow(y - target_y, 2) < RADIUS * RADIUS
                )
-                container->getParticle(x, y).setMaterial(material);
+                container->getParticle(x, y).material = material;
 }
 
 void ParticleRenderer::placeCirclesFromTo(short x1, short y1, short x2, short y2, Material* material) {

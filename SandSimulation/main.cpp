@@ -1,5 +1,5 @@
 #include "particleRenderer.hpp"
-#include "particleContainer.hpp"
+#include "particleEngine.hpp"
 
 #define WIDTH 800
 #define HEIGHT 500
