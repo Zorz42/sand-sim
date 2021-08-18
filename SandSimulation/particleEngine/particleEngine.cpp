@@ -1,4 +1,7 @@
-#include "particleContainer.hpp"
+#include "particleEngine.hpp"
+
+Material::Material(std::vector<sf::Color> color, float constant_force, int random_spawn)
+: color(color), constant_force(constant_force), random_spawn(random_spawn) {}
 
 ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), height(size_y) {
     map = new Particle[size_x * size_y];
@@ -11,7 +14,7 @@ void ParticleContainer::updateAll() {
     Particle* iter = getMapBegin() + getMapSize() - (even ? 1 : width);
     for(int y = height - 1; y >= 0; y--) {
         for(int x = even ? width - 1 : 0; x != (even ? -1 : width); x += even ? -1 : 1) {
-            iter->getMaterial()->update(this, x, y, even);
+            iter->material->update(this, x, y, even);
             if(even)
                 iter--;
             else

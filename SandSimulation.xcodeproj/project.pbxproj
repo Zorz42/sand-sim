@@ -20,10 +20,9 @@
 		366665C526C81F150009A9DC /* ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; };
 		366665C626C81F150009A9DC /* ogg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3666654026C81B470009A9DC /* ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		366665CA26C821E50009A9DC /* particleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665C826C821E50009A9DC /* particleRenderer.cpp */; };
-		366665D626C8F8250009A9DC /* particleContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665D526C8F8250009A9DC /* particleContainer.cpp */; };
+		366665D626C8F8250009A9DC /* particleEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665D526C8F8250009A9DC /* particleEngine.cpp */; };
 		366665DC26CA465D0009A9DC /* sand-sim.icns in Resources */ = {isa = PBXBuildFile; fileRef = 366665DB26CA465D0009A9DC /* sand-sim.icns */; };
-		366665E026CAA7550009A9DC /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665DF26CAA7550009A9DC /* particle.cpp */; };
-		366665E226CAA7A00009A9DC /* properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665E126CAA7A00009A9DC /* properties.cpp */; };
+		366665ED26CD020E0009A9DC /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 366665EC26CD020E0009A9DC /* particles.cpp */; };
 		368249E126C81766002B43FB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 368249E026C81766002B43FB /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -76,12 +75,12 @@
 		366665B426C81EDB0009A9DC /* SandSimulation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SandSimulation.xcodeproj; sourceTree = "<group>"; };
 		366665C826C821E50009A9DC /* particleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particleRenderer.cpp; sourceTree = "<group>"; };
 		366665C926C821E50009A9DC /* particleRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = particleRenderer.hpp; sourceTree = "<group>"; };
-		366665D426C8F8250009A9DC /* particleContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = particleContainer.hpp; sourceTree = "<group>"; };
-		366665D526C8F8250009A9DC /* particleContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleContainer.cpp; sourceTree = "<group>"; };
+		366665D426C8F8250009A9DC /* particleEngine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = particleEngine.hpp; sourceTree = "<group>"; };
+		366665D526C8F8250009A9DC /* particleEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleEngine.cpp; sourceTree = "<group>"; };
 		366665DB26CA465D0009A9DC /* sand-sim.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "sand-sim.icns"; sourceTree = "<group>"; };
 		366665DD26CA466E0009A9DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		366665DF26CAA7550009A9DC /* particle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
-		366665E126CAA7A00009A9DC /* properties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = properties.cpp; sourceTree = "<group>"; };
+		366665EB26CD01960009A9DC /* particles.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = particles.hpp; sourceTree = "<group>"; };
+		366665EC26CD020E0009A9DC /* particles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particles.cpp; sourceTree = "<group>"; };
 		368249BF26C81473002B43FB /* SandSimulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SandSimulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		368249DC26C814A4002B43FB /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		368249E026C81766002B43FB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -118,15 +117,22 @@
 			path = particleRenderer;
 			sourceTree = "<group>";
 		};
-		366665D326C8F8250009A9DC /* particleContainer */ = {
+		366665D326C8F8250009A9DC /* particleEngine */ = {
 			isa = PBXGroup;
 			children = (
-				366665D426C8F8250009A9DC /* particleContainer.hpp */,
-				366665D526C8F8250009A9DC /* particleContainer.cpp */,
-				366665DF26CAA7550009A9DC /* particle.cpp */,
-				366665E126CAA7A00009A9DC /* properties.cpp */,
+				366665D426C8F8250009A9DC /* particleEngine.hpp */,
+				366665D526C8F8250009A9DC /* particleEngine.cpp */,
 			);
-			path = particleContainer;
+			path = particleEngine;
+			sourceTree = "<group>";
+		};
+		366665EA26CD017C0009A9DC /* particles */ = {
+			isa = PBXGroup;
+			children = (
+				366665EB26CD01960009A9DC /* particles.hpp */,
+				366665EC26CD020E0009A9DC /* particles.cpp */,
+			);
+			path = particles;
 			sourceTree = "<group>";
 		};
 		368249B626C81473002B43FB = {
@@ -151,8 +157,9 @@
 			children = (
 				366665DD26CA466E0009A9DC /* Info.plist */,
 				366665DB26CA465D0009A9DC /* sand-sim.icns */,
+				366665D326C8F8250009A9DC /* particleEngine */,
+				366665EA26CD017C0009A9DC /* particles */,
 				366665C726C821D40009A9DC /* particleRenderer */,
-				366665D326C8F8250009A9DC /* particleContainer */,
 				368249E026C81766002B43FB /* main.cpp */,
 			);
 			path = SandSimulation;
@@ -267,11 +274,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				366665E226CAA7A00009A9DC /* properties.cpp in Sources */,
 				366665CA26C821E50009A9DC /* particleRenderer.cpp in Sources */,
-				366665E026CAA7550009A9DC /* particle.cpp in Sources */,
-				366665D626C8F8250009A9DC /* particleContainer.cpp in Sources */,
+				366665D626C8F8250009A9DC /* particleEngine.cpp in Sources */,
 				368249E126C81766002B43FB /* main.cpp in Sources */,
+				366665ED26CD020E0009A9DC /* particles.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

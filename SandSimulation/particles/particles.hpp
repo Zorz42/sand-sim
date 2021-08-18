@@ -1,22 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <SFML/Graphics.hpp>
-#include <vector>
-
-class ParticleContainer;
-
-struct Material {
-    Material(std::vector<sf::Color> color, float constant_force, int random_spawn);
-    const std::vector<sf::Color> color;
-    const float constant_force;
-    const int random_spawn;
-    virtual void update(ParticleContainer* container, int x, int y, bool even) {}
-};
-
-struct Air : Material {
-    Air() : Material({{90, 90, 90}}, 0, 0) {}
-};
+#include "particleEngine.hpp"
 
 struct Sand : Material {
     Sand() : Material({{245, 210, 92}, {237, 205, 88}, {239, 207, 90}, {235, 203, 86}, {230, 200, 84}}, 0.08, 80) {}
@@ -35,10 +19,6 @@ struct Wood : Material {
 struct Fire : Material {
     Fire() : Material({{222, 70, 12}, {222, 120, 16}, {222, 125, 16}, {222, 127, 16}, {222, 130, 16}, {222, 182, 16}}, 0, 20) {}
     void update(ParticleContainer* container, int x, int y, bool even) override;
-};
-
-struct Stone : Material {
-    Stone() : Material({{133, 133, 133}, {135, 135, 135}, {131, 131, 131}}, 0, 0) {}
 };
 
 struct Smoke : Material {
@@ -68,36 +48,7 @@ struct Lava : Material {
 
 
 namespace Materials {
-    
-inline Material *air = new Air(), *sand = new Sand(), *water = new Water(), *wood = new Wood(), *fire = new Fire(), *stone = new Stone(), *smoke = new Smoke(), *gunpowder = new Gunpowder(), *acid = new Acid(), *oil = new Oil(), *lava = new Lava();
 
-};
+inline Material *sand = new Sand(), *water = new Water(), *wood = new Wood(), *fire = new Fire(), *smoke = new Smoke(), *gunpowder = new Gunpowder(), *acid = new Acid(), *oil = new Oil(), *lava = new Lava();
 
-class Particle {
-    Material* material = Materials::air;
-    bool changed_type = true;
-public:
-    Particle(Material* material) : material(material) {}
-    Particle() = default;
-    int texture_color = rand();
-    float speed_x = 0, speed_y = 0;
-    unsigned short timer = 0;
-    bool updated = false;
-    Material* getMaterial();
-    void setMaterial(Material* material_to_be);
-    void markUpdated();
-    bool hasChangedType();
-    void operator=(Particle& x);
-};
-
-class ParticleContainer {
-    int width, height;
-    Particle* map = nullptr;
-public:
-    ParticleContainer(int size_x, int size_y);
-    Particle* getMapBegin() { return map; }
-    unsigned int getMapSize();
-    void initMap();
-    void updateAll();
-    Particle& getParticle(unsigned short x, unsigned short y);
-};
+}
