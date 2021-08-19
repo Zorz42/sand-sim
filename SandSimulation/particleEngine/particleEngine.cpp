@@ -41,7 +41,7 @@ void Particle::update(ParticleContainer* container, int x, int y, bool even) {
 }
 
 Air::Air() {
-    color = {{90, 90, 90}};
+    color = {{91, 91, 91}};
     constant_force = 0;
     type = MaterialType::SOLID;
 }

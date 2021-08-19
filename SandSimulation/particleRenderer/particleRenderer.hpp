@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "particles.hpp"
+#include "shaders.hpp"
+
 
 class ParticleRenderer {
     sf::RenderWindow* window;
@@ -9,6 +11,7 @@ class ParticleRenderer {
     unsigned short width, height;
     sf::Uint8* pixels;
     sf::Texture texture;
+    sf::RenderTexture bloom_mask_texture;
     bool left_button_pressed = false, right_button_pressed = false;
     Material* selected_material = Materials::sand;
     sf::Text fps_text;
@@ -26,4 +29,5 @@ public:
     bool isRunning();
     void render();
     ~ParticleRenderer();
+    void applyShader(const sf::Shader& shader, sf::RenderTexture& output);
 };

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "particleRenderer.hpp"
 #include <cmath>
-#include "shaders.hpp"
 
 #define RADIUS 10
 
@@ -171,9 +170,34 @@ void ParticleRenderer::render() {
     prev_mouse_y = getMouseY();
     
     updateTexture();
-    bloom_shader.setUniform("u_scene_texture", texture);
-    bloom_shader.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
-    window->draw(sf::Sprite(texture), &bloom_shader);
+    bloom_mask_texture.create(texture.getSize().x * 2, texture.getSize().y * 2);
+
+    bloom_mask.setUniform("u_scene_texture", texture);
+    bloom_mask.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
+
+    applyShader(bloom_mask, bloom_mask_texture);
+    bloom_mask_texture.display();
+
+    int blur_intensity = 64, quality = 2;
+    blur.setUniform("source", bloom_mask_texture.getTexture());
+
+    while(blur_intensity >= 1.f) {
+        blur.setUniform("offset", sf::Vector2f(blur_intensity / bloom_mask_texture.getSize().x, 0));
+        applyShader(blur, bloom_mask_texture);
+
+        blur.setUniform("offset", sf::Vector2f(0, blur_intensity / bloom_mask_texture.getSize().y));
+        applyShader(blur, bloom_mask_texture);
+
+        if(blur_intensity < quality && blur_intensity != 1)
+            blur_intensity = 1;
+        else
+            blur_intensity /= quality;
+    }
+
+    bloom_mask_texture.display();
+    sf::Sprite bloom_sprite(bloom_mask_texture.getTexture());
+    bloom_sprite.setScale(0.5, 0.5);
+    window->draw(bloom_sprite);
     
     renderCircle();
     renderSelectedMaterial();
@@ -187,3 +211,22 @@ bool ParticleRenderer::isRunning() {
 ParticleRenderer::~ParticleRenderer() {
     delete[] pixels;
 }
+
+
+void ParticleRenderer::applyShader(const sf::Shader &shader, sf::RenderTexture &output) {
+    //output.generateMipmap(); // without that it doesnt work on smaller textures
+    sf::Vector2f outputSize = static_cast<sf::Vector2f>(output.getSize());
+
+    sf::VertexArray vertices(sf::TrianglesStrip, 4);
+    vertices[0] = sf::Vertex(sf::Vector2f(0, 0),                       sf::Vector2f(0, 1));
+    vertices[1] = sf::Vertex(sf::Vector2f(outputSize.x, 0),            sf::Vector2f(1, 1));
+    vertices[2] = sf::Vertex(sf::Vector2f(0, outputSize.y),            sf::Vector2f(0, 0));
+    vertices[3] = sf::Vertex(sf::Vector2f(outputSize.x, outputSize.y), sf::Vector2f(1, 0));
+
+    sf::RenderStates states;
+    states.shader    = &shader;
+    states.blendMode = sf::BlendNone;
+
+    output.draw(vertices, states);
+}
+
