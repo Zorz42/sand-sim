@@ -174,8 +174,8 @@ void ParticleRenderer::render() {
     updateTexture();
 
 
-    bloom_mask.setUniform("u_scene_texture", texture);
-    bloom_mask.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
+    bloom_mask.setUniform("source", texture);
+    bloom_mask.setUniform("resolution", sf::Glsl::Vec2{window->getSize()});
 
     applyShader(bloom_mask, bloom_mask_texture);
     bloom_mask_texture.display();
