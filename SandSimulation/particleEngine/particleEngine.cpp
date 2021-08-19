@@ -1,8 +1,5 @@
 #include "particleEngine.hpp"
 
-Material::Material(std::vector<sf::Color> color, float constant_force, int random_spawn)
-: color(color), constant_force(constant_force), random_spawn(random_spawn) {}
-
 ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), height(size_y) {
     map = new Particle[size_x * size_y];
 }
