@@ -1,6 +1,7 @@
 #include <iostream>
 #include "particleRenderer.hpp"
 #include <cmath>
+#include "iostream"
 
 #define RADIUS 10
 
@@ -170,7 +171,8 @@ void ParticleRenderer::render() {
     prev_mouse_y = getMouseY();
     
     updateTexture();
-    bloom_mask_texture.create(texture.getSize().x * 2, texture.getSize().y * 2);
+
+    bloom_mask_texture.create(texture.getSize().x, texture.getSize().y);
 
     bloom_mask.setUniform("u_scene_texture", texture);
     bloom_mask.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
@@ -178,7 +180,8 @@ void ParticleRenderer::render() {
     applyShader(bloom_mask, bloom_mask_texture);
     bloom_mask_texture.display();
 
-    int blur_intensity = 8, quality = 2;
+    float blur_intensity = 8;
+    int quality = 2;
     blur.setUniform("source", bloom_mask_texture.getTexture());
 
     while(blur_intensity >= 1.f) {
@@ -194,10 +197,11 @@ void ParticleRenderer::render() {
             blur_intensity /= quality;
     }
 
+    combine.setUniform("u_scene_texture", texture);
+    combine.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
+
     bloom_mask_texture.display();
-    sf::Sprite bloom_sprite(bloom_mask_texture.getTexture());
-    bloom_sprite.setScale(0.5, 0.5);
-    window->draw(bloom_sprite);
+    window->draw(sf::Sprite(bloom_mask_texture.getTexture()), &combine);
     
     renderCircle();
     renderSelectedMaterial();

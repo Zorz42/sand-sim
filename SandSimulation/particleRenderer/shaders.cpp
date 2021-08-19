@@ -10,13 +10,24 @@ std::string bloom_mask_str =
         "uniform vec2 u_resolution;\n"
         "void main() {\n"
         "vec2 st = gl_FragCoord.st/u_resolution;\n"
-        //"if(mod(floor(texture2D(u_scene_texture, vec2(st)).r * 255), 2) == 0){;\n"
-        "gl_FragColor = texture2D(u_scene_texture, vec2(st));\n"
-        //"}\n"
-        //"else{\n"
-        //"gl_FragColor = vec4(0,0,0.0,0);\n"
-        //"}\n"
+        "if(mod(floor(texture2D(u_scene_texture, vec2(st.x * 2, 1 - st.y * 2)).r * 255), 2) == 0){;\n"
+        "gl_FragColor = texture2D(u_scene_texture, vec2(st.x * 2, 1 - st.y * 2));\n"
+        "}\n"
+        "else{\n"
+        "gl_FragColor = vec4(0,0,0.0,0);\n"
+        "}\n"
         "}";
+
+std::string combine_str =
+        "uniform sampler2D u_scene_texture;\n"
+        "uniform vec2 u_resolution;\n"
+        "void main(){\n"
+        "vec2 st = gl_FragCoord.st/u_resolution;\n"
+        "gl_FragColor.a *= 1\n;"
+        "gl_FragColor += texture2D(u_scene_texture, vec2(st.x, 1 - st.y)) * (1 - gl_FragColor.a);\n"
+        "}";
+
+
 
 
 std::string blur_str =
@@ -55,6 +66,7 @@ std::string blur_str =
 void loadShader(){
     bloom_mask.loadFromMemory(bloom_mask_str, sf::Shader::Fragment);
     blur.loadFromMemory(blur_str, sf::Shader::Fragment);
+    combine.loadFromMemory(combine_str, sf::Shader::Fragment);
 }
 
 
