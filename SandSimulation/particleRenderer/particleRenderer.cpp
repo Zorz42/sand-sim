@@ -18,6 +18,7 @@ ParticleRenderer::ParticleRenderer(ParticleContainer* container, unsigned short 
     
     fps_text.setFillColor({0, 0, 0});
     fps_text.setPosition(0, 0);
+    bloom_mask_texture.create(texture.getSize().x, texture.getSize().y);
 }
 
 short ParticleRenderer::getMouseX() {
@@ -172,7 +173,6 @@ void ParticleRenderer::render() {
     
     updateTexture();
 
-    bloom_mask_texture.create(texture.getSize().x, texture.getSize().y);
 
     bloom_mask.setUniform("u_scene_texture", texture);
     bloom_mask.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
@@ -184,7 +184,7 @@ void ParticleRenderer::render() {
     int quality = 2;
     blur.setUniform("source", bloom_mask_texture.getTexture());
 
-    /*while(blur_intensity >= 1.f) {
+    while(blur_intensity >= 1.f) {
         blur.setUniform("offset", sf::Vector2f(blur_intensity / bloom_mask_texture.getSize().x, 0));
         applyShader(blur, bloom_mask_texture);
 
@@ -195,15 +195,11 @@ void ParticleRenderer::render() {
             blur_intensity = 1;
         else
             blur_intensity /= quality;
-    }*/
-
-    combine.setUniform("u_scene_texture", texture);
-    combine.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
-
-    applyShader(combine, bloom_mask_texture);
-
+    }
+    //window->clear({0, 0, 0});
     bloom_mask_texture.display();
-    window->draw(sf::Sprite(bloom_mask_texture.getTexture()), &combine);
+    window->draw(sf::Sprite(texture));
+    window->draw(sf::Sprite(bloom_mask_texture.getTexture()));
     
     renderCircle();
     renderSelectedMaterial();
