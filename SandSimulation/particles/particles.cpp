@@ -1,12 +1,5 @@
 #include "particles.hpp"
 
-void lightFire(int x, int y, ParticleContainer* container);
-void acidCorrode(int x, int y, ParticleContainer* container);
-void fireWaterContact(int x, int y, ParticleContainer* container);
-void lavaWaterContact(int x, int y, ParticleContainer* container);
-void lightLava(int x, int y, ParticleContainer* container);
-
-
 Sand::Sand() {
     color = {{245, 210, 92}, {237, 205, 88}, {239, 207, 90}, {235, 203, 86}, {231, 200, 84}};
     random_spawn = 80;
@@ -206,8 +199,30 @@ void Lava::update(ParticleContainer* container, int x, int y, bool even) {
 
         self->updated = even;
     }
-    lavaWaterContact(x, y, container);
-    lightLava(x, y, container);
+    
+    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
+
+    for(Particle* particle : particles)
+        if(particle->material == Materials::water) {
+            container->getParticle(x, y - 2).material = Materials::smoke;
+            particle->material = Materials::stone;
+            self->material = Materials::stone;
+            particle->texture_color = 0;
+        } else if(particle->material == Materials::acid) {
+            self->material = Materials::stone;
+            particle->material = Materials::air;
+        }
+    
+    for(Particle* particle : particles)
+        if(particle->material == Materials::wood && rand() % 50 == 0)
+            particle->material = Materials::fire;
+        else if(particle->material == Materials::gunpowder){
+            particle->material = Materials::fire;
+            particle->timer = 20 - rand() % 5;
+        } else if(particle->material == Materials::oil && rand() % 2 == 0){
+            particle->material = Materials::fire;
+            particle->timer = 60 - rand() % 10;
+        }
 }
 
 Fire::Fire() {
@@ -230,8 +245,31 @@ void Fire::update(ParticleContainer* container, int x, int y, bool even) {
     if(colorChange % 32 == 0)
         self->texture_color++;
 
-    lightFire(x, y, container);
-    fireWaterContact(x, y, container);
+    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
+    for(Particle* particle : particles)
+        if(particle->material == Materials::wood && rand() % 200 == 0)
+            particle->material = Materials::fire;
+        else if(particle->material == Materials::gunpowder && rand() % 2 == 0){
+            particle->material = Materials::fire;
+            particle->timer = 20 - rand() % 5;
+        } else if(particle->material == Materials::oil && rand() % 8 == 0){
+            particle->material = Materials::fire;
+            particle->timer = 60 - rand() % 10;
+        }
+
+    for(Particle* particle : particles)
+        if(particle->material == Materials::water) {
+            particle->material = Materials::smoke;
+            self->material = Materials::smoke;
+            self->texture_color = 0;
+            particle->texture_color = 0;
+        }else if(particle->material == Materials::acid){
+            self->material = Materials::smoke;
+            self->timer = 60;
+            self->texture_color = 0;
+            particle->material = Materials::air;
+        }
+
     if(container->getParticle(x, y - 1).material == Materials::air && rand() % 10 == 0)
         container->getParticle(x, y - 1).material = Materials::smoke;
 }
@@ -400,26 +438,7 @@ void Acid::update(ParticleContainer* container, int x, int y, bool even) {
 
         self->updated = even;
     }
-    acidCorrode(x, y, container);
-}
-
-
-void lightFire(int x, int y, ParticleContainer* container) {
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
-    for(Particle* particle : particles)
-        if(particle->material == Materials::wood && rand() % 200 == 0)
-            particle->material = Materials::fire;
-        else if(particle->material == Materials::gunpowder && rand() % 2 == 0){
-            particle->material = Materials::fire;
-            particle->timer = 20 - rand() % 5;
-        } else if(particle->material == Materials::oil && rand() % 8 == 0){
-            particle->material = Materials::fire;
-            particle->timer = 60 - rand() % 10;
-        }
-}
-
-
-void acidCorrode(int x, int y, ParticleContainer* container) {
+    
     Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y), &container->getParticle(x, y - 1)};
     for(Particle* particle : particles)
         if((particle->material == Materials::wood || particle->material == Materials::sand) && rand() % 20 == 0){
@@ -430,53 +449,4 @@ void acidCorrode(int x, int y, ParticleContainer* container) {
                 particle->material = Materials::acid;
         }else if(particle->material == Materials::water && rand() % 4 == 0)
             particle->material = Materials::acid;
-
-}
-
-void fireWaterContact(int x, int y, ParticleContainer* container) {
-    Particle* self = &container->getParticle(x, y);
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
-
-    for(Particle* particle : particles)
-        if(particle->material == Materials::water) {
-            particle->material = Materials::smoke;
-            self->material = Materials::smoke;
-            self->texture_color = 0;
-            particle->texture_color = 0;
-        }else if(particle->material == Materials::acid){
-            self->material = Materials::smoke;
-            self->timer = 60;
-            self->texture_color = 0;
-            particle->material = Materials::air;
-        }
-}
-
-void lavaWaterContact(int x, int y, ParticleContainer* container) {
-    Particle* self = &container->getParticle(x, y);
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
-
-    for(Particle* particle : particles)
-        if(particle->material == Materials::water) {
-            container->getParticle(x, y - 2).material = Materials::smoke;
-            particle->material = Materials::stone;
-            self->material = Materials::stone;
-            particle->texture_color = 0;
-        }else if(particle->material == Materials::acid){
-            self->material = Materials::stone;
-            particle->material = Materials::air;
-        }
-}
-
-void lightLava(int x, int y, ParticleContainer* container) {
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
-    for(Particle* particle : particles)
-        if(particle->material == Materials::wood && rand() % 50 == 0)
-            particle->material = Materials::fire;
-        else if(particle->material == Materials::gunpowder){
-            particle->material = Materials::fire;
-            particle->timer = 20 - rand() % 5;
-        } else if(particle->material == Materials::oil && rand() % 2 == 0){
-            particle->material = Materials::fire;
-            particle->timer = 60 - rand() % 10;
-        }
 }
