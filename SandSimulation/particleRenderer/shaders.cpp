@@ -18,10 +18,23 @@ std::string bloom_mask_str =
         "}\n"
         "}";
 
+std::string alpha_correction_str =
+        "#ifdef GL_ES\n"
+        "precision mediump float;\n"
+        "#endif\n"
+        "uniform sampler2D source;\n"
+        "void main() {\n"
+        "    vec2 textureCoordinates = gl_TexCoord[0].xy;\n"
+        "    vec4 color = texture2D(source, textureCoordinates);\n"
+        "    color.a = sqrt(1.0 - (color.a - 1.0) * (color.a - 1.0));\n"
+        "    gl_FragColor = color;\n"
+        "}";
+
 std::string blur_str =
         "uniform sampler2D source;\n"
         "uniform vec2 offset;\n"
         "void main() {\n"
+        "    if(gl_FragCoord.x > 400){\n"
         "    vec2 textureCoordinates = gl_TexCoord[0].xy;\n"
         "    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);\n"
         "    color += texture2D(source, textureCoordinates - 10.0 * offset) * 0.0012;\n"
@@ -46,6 +59,7 @@ std::string blur_str =
         "    color += texture2D(source, textureCoordinates - 9.0 * offset) * 0.0015;\n"
         "    color += texture2D(source, textureCoordinates - 10.0 * offset) * 0.0012;\n"
         "    gl_FragColor = color;\n"
+        "}\n"
         "}";
 
 
@@ -54,6 +68,7 @@ std::string blur_str =
 void loadShader(){
     bloom_mask.loadFromMemory(bloom_mask_str, sf::Shader::Fragment);
     blur.loadFromMemory(blur_str, sf::Shader::Fragment);
+    alpha_correction.loadFromMemory(alpha_correction_str, sf::Shader::Fragment);
 }
 
 

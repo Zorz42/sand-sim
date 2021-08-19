@@ -180,8 +180,8 @@ void ParticleRenderer::render() {
     applyShader(bloom_mask, bloom_mask_texture);
     bloom_mask_texture.display();
 
-    float blur_intensity = 8;
-    int quality = 2;
+    float blur_intensity = 4;
+    float quality = 1.3;
     blur.setUniform("source", bloom_mask_texture.getTexture());
 
     while(blur_intensity >= 1.f) {
@@ -196,10 +196,11 @@ void ParticleRenderer::render() {
         else
             blur_intensity /= quality;
     }
-    //window->clear({0, 0, 0});
+
+    //applyShader(alpha_correction, bloom_mask_texture);
     bloom_mask_texture.display();
     window->draw(sf::Sprite(texture));
-    window->draw(sf::Sprite(bloom_mask_texture.getTexture()));
+    window->draw(sf::Sprite(bloom_mask_texture.getTexture()), &alpha_correction);
     
     renderCircle();
     renderSelectedMaterial();
