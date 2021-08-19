@@ -16,7 +16,7 @@ struct Material {
 
 struct Air : Material {
     Air() {
-        color = {{90, 90, 90}};
+        color = {{91, 91, 91}};
         constant_force = 0;
     }
 };

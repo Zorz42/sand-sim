@@ -10,7 +10,7 @@ std::string bloom_shader_str =
         "uniform vec2 u_resolution;\n"
         "void main() {\n"
         "vec2 st = gl_FragCoord.st/u_resolution;\n"
-        "if(texture2D(u_scene_texture, vec2(st)).r * 0.2126 + texture2D(u_scene_texture, vec2(st)).g * 0.7152 + texture2D(u_scene_texture, vec2(st)).b * 0.0722 > 0.8){;\n"
+        "if(mod(floor(texture2D(u_scene_texture, vec2(st)).r * 255), 2) == 0){;\n"
         "gl_FragColor = texture2D(u_scene_texture, vec2(st));\n"
         "}\n"
         "else{\n"

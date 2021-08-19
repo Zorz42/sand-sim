@@ -10,7 +10,7 @@ void lightLava(int x, int y, ParticleContainer* container);
 
 
 Sand::Sand() {
-    color = {{245, 210, 92}, {237, 205, 88}, {239, 207, 90}, {235, 203, 86}, {230, 200, 84}};
+    color = {{245, 210, 92}, {237, 205, 88}, {239, 207, 90}, {235, 203, 86}, {231, 200, 84}};
     random_spawn = 80;
 }
 
@@ -47,12 +47,12 @@ void Sand::update(ParticleContainer* container, int x, int y, bool even) {
 }
 
 Wood::Wood() {
-    color = {{155, 116, 54}, {154, 115, 53}, {156, 117, 55}, {150, 111, 51}};
+    color = {{155, 116, 54}, {153, 115, 53}, {157, 117, 55}, {151, 111, 51}};
     constant_force = 0;
 }
 
 Gunpowder::Gunpowder() {
-    color = {{36, 36, 36}};
+    color = {{37, 37, 37}};
     random_spawn = 40;
 }
 
@@ -89,7 +89,7 @@ void Gunpowder::update(ParticleContainer* container, int x, int y, bool even) {
 }
 
 Water::Water() {
-    color = {{52, 145, 173}, {53, 147, 176}, {47, 140, 169}};
+    color = {{53, 145, 173}, {53, 147, 176}, {47, 140, 169}};
     random_spawn = 80;
 }
 
@@ -163,7 +163,7 @@ void Water::update(ParticleContainer* container, int x, int y, bool even) {
 }
 
 Oil::Oil() {
-    color = {{10, 10, 10}, {12, 12, 12}, {9, 9, 9}};
+    color = {{11, 11, 11}, {11, 12, 12}, {9, 9, 9}};
     random_spawn = 40;
 }
 
@@ -305,7 +305,7 @@ void Fire::update(ParticleContainer* container, int x, int y, bool even) {
 }
 
 Smoke::Smoke() {
-    color = {{65, 65, 59}, {60, 60, 54}, {70, 70, 64}};
+    color = {{65, 65, 59}, {61, 60, 54}, {69, 70, 64}};
     random_spawn = 40;
 }
 
@@ -391,7 +391,7 @@ void Smoke::update(ParticleContainer* container, int x, int y, bool even){
 }
 
 Acid::Acid() {
-    color = {{31, 255, 61}, {32, 255, 62}, {31, 255, 61}};
+    color = {{30, 255, 61}, {32, 255, 62}, {32, 255, 61}};
     random_spawn = 40;
 }
 
