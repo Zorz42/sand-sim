@@ -178,7 +178,7 @@ void ParticleRenderer::render() {
     applyShader(bloom_mask, bloom_mask_texture);
     bloom_mask_texture.display();
 
-    int blur_intensity = 64, quality = 2;
+    int blur_intensity = 8, quality = 2;
     blur.setUniform("source", bloom_mask_texture.getTexture());
 
     while(blur_intensity >= 1.f) {
