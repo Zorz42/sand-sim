@@ -4,7 +4,7 @@ project(sand_sim)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(sand_sim
-        SandSimulation/main.cpp SandSimulation/particles/particles.cpp SandSimulation/particleEngine/particleEngine.cpp SandSimulation/particleRenderer/particleRenderer.cpp)
+        SandSimulation/main.cpp SandSimulation/particles/particles.cpp SandSimulation/particleEngine/particleEngine.cpp SandSimulation/particleRenderer/particleRenderer.cpp SandSimulation/particleRenderer/shaders.cpp SandSimulation/particleRenderer/shaders.hpp)
 
 target_include_directories(sand_sim PUBLIC SandSimulation/materialClass SandSimulation/particleEngine SandSimulation/particleRenderer SandSimulation/particles)
 

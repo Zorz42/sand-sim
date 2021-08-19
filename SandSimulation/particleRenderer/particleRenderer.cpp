@@ -1,6 +1,7 @@
 #include <iostream>
 #include "particleRenderer.hpp"
 #include <cmath>
+#include "shaders.hpp"
 
 #define RADIUS 10
 
@@ -170,7 +171,9 @@ void ParticleRenderer::render() {
     prev_mouse_y = getMouseY();
     
     updateTexture();
-    window->draw(sf::Sprite(texture));
+    bloom_shader.setUniform("u_scene_texture", texture);
+    bloom_shader.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
+    window->draw(sf::Sprite(texture), &bloom_shader);
     
     renderCircle();
     renderSelectedMaterial();
