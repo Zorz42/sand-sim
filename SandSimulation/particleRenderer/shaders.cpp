@@ -10,8 +10,8 @@ std::string bloom_mask_str =
         "uniform vec2 u_resolution;\n"
         "void main() {\n"
         "vec2 st = gl_FragCoord.st/u_resolution;\n"
-        "if(mod(floor(texture2D(u_scene_texture, vec2(st.x * 2, 1 - st.y * 2)).r * 255), 2) == 0){;\n"
-        "gl_FragColor = texture2D(u_scene_texture, vec2(st.x * 2, 1 - st.y * 2));\n"
+        "if(mod(floor(texture2D(u_scene_texture, vec2(st.x * 2.0, 1.0 - st.y * 2.0)).r * 255.0), 2.0) == 0.0){;\n"
+        "gl_FragColor = texture2D(u_scene_texture, vec2(st.x * 2.0, 1.0 - st.y * 2.0));\n"
         "}\n"
         "else{\n"
         "gl_FragColor = vec4(0,0,0.0,0);\n"
@@ -23,8 +23,8 @@ std::string combine_str =
         "uniform vec2 u_resolution;\n"
         "void main(){\n"
         "vec2 st = gl_FragCoord.st/u_resolution;\n"
-        "gl_FragColor.a *= 1\n;"
-        "gl_FragColor += texture2D(u_scene_texture, vec2(st.x, 1 - st.y)) * (1 - gl_FragColor.a);\n"
+        "gl_FragColor.a *= 1.0\n;"
+        "gl_FragColor += texture2D(u_scene_texture, vec2(st.x, 1.0 - st.y)) * (1.0 - gl_FragColor.a);\n"
         "}";
 
 
