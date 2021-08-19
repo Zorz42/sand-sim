@@ -39,7 +39,7 @@ void Particle::update(ParticleContainer* container, int x, int y, bool even) {
     if(material->type != MaterialType::SOLID) {
         speed_y *= 0.995;
         speed_x *= 0.995;
-        speed_y += material->constant_force;
+        speed_y += 0.1;
     }
     
     if(material->type == MaterialType::POWDER) {
@@ -75,13 +75,11 @@ void Particle::update(ParticleContainer* container, int x, int y, bool even) {
 
 Air::Air() {
     color = {{91, 91, 91}};
-    constant_force = 0;
     type = MaterialType::SOLID;
 }
 
 Stone::Stone() {
     color = {{133, 133, 133}, {135, 135, 135}, {131, 131, 131}};
-    constant_force = 0;
     type = MaterialType::SOLID;
 }
 
