@@ -4,28 +4,25 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+enum class MaterialType {SOLID, POWDER, LIQUID, GAS};
+
 class ParticleContainer;
 
 struct Material {
     std::vector<sf::Color> color;
     float constant_force = 0.08;
     int random_spawn = 0;
-    
+    MaterialType type;
+
     virtual void update(ParticleContainer* container, int x, int y, bool even) {}
 };
 
 struct Air : Material {
-    Air() {
-        color = {{91, 91, 91}};
-        constant_force = 0;
-    }
+    Air();
 };
 
 struct Stone : Material {
-    Stone() {
-        color = {{133, 133, 133}, {135, 135, 135}, {131, 131, 131}};
-        constant_force = 0;
-    }
+    Stone();
 };
 
 namespace Materials {
@@ -38,6 +35,7 @@ class Particle {
 public:
     Particle(Material* material) : material(material) {}
     Particle() = default;
+    void update(ParticleContainer* container, int x, int y, bool even);
     Material* material = Materials::air;
     int texture_color = rand();
     float speed_x = 0, speed_y = 0;
