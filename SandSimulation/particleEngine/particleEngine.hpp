@@ -54,3 +54,5 @@ public:
     void updateAll();
     Particle& getParticle(unsigned short x, unsigned short y);
 };
+
+void swapParticles(Particle& particle1, Particle& particle2);

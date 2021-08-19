@@ -4,7 +4,6 @@
 
 struct Sand : Material {
     Sand();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
 };
 
 struct Water : Material {
@@ -28,7 +27,6 @@ struct Smoke : Material {
 
 struct Gunpowder : Material {
     Gunpowder();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
 };
 
 struct Acid : Material {

@@ -4,6 +4,8 @@ ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), he
     map = new Particle[size_x * size_y];
 }
 
+bool powderSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
+
 void ParticleContainer::updateAll() {
     static int frameCount = 0;
     frameCount++;
@@ -34,9 +36,40 @@ unsigned int ParticleContainer::getMapSize() {
 }
 
 void Particle::update(ParticleContainer* container, int x, int y, bool even) {
-    speed_y *= 0.995;
-    speed_x *= 0.995;
-    speed_y += material->constant_force;
+    if(material->type != MaterialType::SOLID) {
+        speed_y *= 0.995;
+        speed_x *= 0.995;
+        speed_y += material->constant_force;
+    }
+    
+    if(material->type == MaterialType::POWDER) {
+        Particle* self = &container->getParticle(x, y);
+
+        int i = 0;
+        while(i < self->speed_y) {
+            Particle& particle_below = container->getParticle(x, y + 1);
+            if(self->updated == even) {
+                if(particle_below.material == Materials::air || particle_below.material->type == MaterialType::LIQUID) {
+                    swapParticles(*self, particle_below);
+                    if(i + 1 > particle_below.speed_y)
+                        particle_below.updated = !even;
+                    y++;
+                    self = &container->getParticle(x, y);
+                } else if(rand() % 2 == 1) {
+                    if(!powderSwap(container, x, y, x - 1, y + 1, even, i))
+                        if(!powderSwap(container, x, y, x + 1, y + 1, even, i)) {
+                            self->speed_y = 0;
+                            break;
+                        }
+                } else if(!powderSwap(container, x, y, x + 1, y + 1, even, i))
+                    if(!powderSwap(container, x, y, x - 1, y + 1, even, i)) {
+                        self->speed_y = 0;
+                        break;
+                }
+            }
+            i++;
+        }
+    }
     material->update(container, x, y, even);
 }
 
@@ -50,4 +83,25 @@ Stone::Stone() {
     color = {{133, 133, 133}, {135, 135, 135}, {131, 131, 131}};
     constant_force = 0;
     type = MaterialType::SOLID;
+}
+
+void swapParticles(Particle& particle1, Particle& particle2) {
+    Particle temporary_particle = particle1;
+    particle1 = particle2;
+    particle2 = temporary_particle;
+}
+
+bool powderSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i) {
+    Particle& target_particle = container->getParticle(target_x, target_y);
+    Particle& self = container->getParticle(x, y);
+    if(self.updated == even && (target_particle.material == Materials::air || target_particle.material->type == MaterialType::LIQUID)) {
+        swapParticles(self, target_particle);
+        if(i + 1 > self.speed_y)
+            target_particle.updated = !even;
+        y = target_y;
+        x = target_x;
+        return true;
+    }
+    else
+        return false;
 }

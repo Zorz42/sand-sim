@@ -1,7 +1,5 @@
 #include "particles.hpp"
 
-void swapParticles(Particle& particle1, Particle& particle2);
-bool sandSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 void lightFire(int x, int y, ParticleContainer* container);
 void acidCorrode(int x, int y, ParticleContainer* container);
 void fireWaterContact(int x, int y, ParticleContainer* container);
@@ -15,35 +13,6 @@ Sand::Sand() {
     type = MaterialType::POWDER;
 }
 
-void Sand::update(ParticleContainer* container, int x, int y, bool even) {
-    Particle* self = &container->getParticle(x, y);
-
-    int i = 0;
-    while(i < self->speed_y) {
-        Particle& particle_below = container->getParticle(x, y + 1);
-        if(self->updated == even) {
-            if(particle_below.material == Materials::air || particle_below.material == Materials::water || particle_below.material == Materials::acid || particle_below.material == Materials::oil) {
-                swapParticles(*self, particle_below);
-                if(i + 1 > particle_below.speed_y)
-                    particle_below.updated = !even;
-                y++;
-                self = &container->getParticle(x, y);
-            } else if(rand() % 2 == 1) {
-                if(!sandSwap(container, x, y, x - 1, y + 1, even, i))
-                    if(!sandSwap(container, x, y, x + 1, y + 1, even, i)) {
-                        self->speed_y = 0;
-                        break;
-                    }
-            } else if(!sandSwap(container, x, y, x + 1, y + 1, even, i))
-                if(!sandSwap(container, x, y, x - 1, y + 1, even, i)) {
-                    self->speed_y = 0;
-                    break;
-            }
-        }
-        i++;
-    }
-}
-
 Wood::Wood() {
     color = {{155, 116, 54}, {153, 115, 53}, {157, 117, 55}, {151, 111, 51}};
     constant_force = 0;
@@ -54,35 +23,6 @@ Gunpowder::Gunpowder() {
     color = {{37, 37, 37}};
     random_spawn = 40;
     type = MaterialType::POWDER;
-}
-
-void Gunpowder::update(ParticleContainer* container, int x, int y, bool even) {
-    Particle* self = &container->getParticle(x, y);
-
-    int i = 0;
-    while(i < self->speed_y) {
-        Particle& particle_below = container->getParticle(x, y + 1);
-        if(self->updated == even) {
-            if(particle_below.material == Materials::air || particle_below.material == Materials::water || particle_below.material == Materials::acid || particle_below.material == Materials::oil) {
-                swapParticles(*self, particle_below);
-                if(i + 1 > particle_below.speed_y)
-                    particle_below.updated = !even;
-                y++;
-                self = &container->getParticle(x, y);
-            } else if(rand() % 2 == 1) {
-                if(!sandSwap(container, x, y, x - 1, y + 1, even, i))
-                    if(!sandSwap(container, x, y, x + 1, y + 1, even, i)) {
-                        self->speed_y = 0;
-                        break;
-                    }
-            } else if(!sandSwap(container, x, y, x + 1, y + 1, even, i))
-                if(!sandSwap(container, x, y, x - 1, y + 1, even, i)) {
-                    self->speed_y = 0;
-                    break;
-            }
-        }
-        i++;
-    }
 }
 
 Water::Water() {
@@ -463,26 +403,6 @@ void Acid::update(ParticleContainer* container, int x, int y, bool even) {
     acidCorrode(x, y, container);
 }
 
-void swapParticles(Particle& particle1, Particle& particle2) {
-    Particle temporary_particle = particle1;
-    particle1 = particle2;
-    particle2 = temporary_particle;
-}
-
-bool sandSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i) {
-    Particle& target_particle = container->getParticle(target_x, target_y);
-    Particle& self = container->getParticle(x, y);
-    if(self.updated == even && (target_particle.material == Materials::air || target_particle.material == Materials::water || target_particle.material == Materials::acid || target_particle.material == Materials::oil)) {
-        swapParticles(self, target_particle);
-        if(i + 1 > self.speed_y)
-            target_particle.updated = !even;
-        y = target_y;
-        x = target_x;
-        return true;
-    }
-    else
-        return false;
-}
 
 void lightFire(int x, int y, ParticleContainer* container) {
     Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
