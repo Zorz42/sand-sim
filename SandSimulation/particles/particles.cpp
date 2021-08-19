@@ -9,6 +9,11 @@ void lavaWaterContact(int x, int y, ParticleContainer* container);
 void lightLava(int x, int y, ParticleContainer* container);
 
 
+Sand::Sand() {
+    color = {{245, 210, 92}, {237, 205, 88}, {239, 207, 90}, {235, 203, 86}, {230, 200, 84}};
+    random_spawn = 80;
+}
+
 void Sand::update(ParticleContainer* container, int x, int y, bool even) {
     Particle* self = &container->getParticle(x, y);
     self->speed_y *= 0.995;
@@ -41,6 +46,16 @@ void Sand::update(ParticleContainer* container, int x, int y, bool even) {
     }
 }
 
+Wood::Wood() {
+    color = {{155, 116, 54}, {154, 115, 53}, {156, 117, 55}, {150, 111, 51}};
+    constant_force = 0;
+}
+
+Gunpowder::Gunpowder() {
+    color = {{36, 36, 36}};
+    random_spawn = 40;
+}
+
 void Gunpowder::update(ParticleContainer* container, int x, int y, bool even) {
     Particle* self = &container->getParticle(x, y);
     self->speed_y *= 0.995;
@@ -71,6 +86,11 @@ void Gunpowder::update(ParticleContainer* container, int x, int y, bool even) {
         }
         i++;
     }
+}
+
+Water::Water() {
+    color = {{52, 145, 173}, {53, 147, 176}, {47, 140, 169}};
+    random_spawn = 80;
 }
 
 void Water::update(ParticleContainer* container, int x, int y, bool even) {
@@ -142,6 +162,11 @@ void Water::update(ParticleContainer* container, int x, int y, bool even) {
     }
 }
 
+Oil::Oil() {
+    color = {{10, 10, 10}, {12, 12, 12}, {9, 9, 9}};
+    random_spawn = 40;
+}
+
 void Oil::update(ParticleContainer* container, int x, int y, bool even) {
     Particle* self = &container->getParticle(x, y);
     self->speed_y *= 0.995;
@@ -191,6 +216,11 @@ void Oil::update(ParticleContainer* container, int x, int y, bool even) {
 
         self->updated = even;
     }
+}
+
+Lava::Lava() {
+    color = {{252, 91, 16}, {252, 95, 16}, {252, 97, 16}, {252, 102, 16}, {252, 142, 16}};
+    random_spawn = 40;
 }
 
 void Lava::update(ParticleContainer* container, int x, int y, bool even) {
@@ -250,6 +280,11 @@ void Lava::update(ParticleContainer* container, int x, int y, bool even) {
     lightLava(x, y, container);
 }
 
+Fire::Fire() {
+    color = {{222, 70, 12}, {222, 120, 16}, {222, 125, 16}, {222, 127, 16}, {222, 130, 16}, {222, 182, 16}};
+    constant_force = 0;
+}
+
 void Fire::update(ParticleContainer* container, int x, int y, bool even) {
     Particle* self = &container->getParticle(x, y);
     if(self->timer == 0)
@@ -267,6 +302,11 @@ void Fire::update(ParticleContainer* container, int x, int y, bool even) {
     fireWaterContact(x, y, container);
     if(container->getParticle(x, y - 1).material == Materials::air && rand() % 10 == 0)
         container->getParticle(x, y - 1).material = Materials::smoke;
+}
+
+Smoke::Smoke() {
+    color = {{65, 65, 59}, {60, 60, 54}, {70, 70, 64}};
+    random_spawn = 40;
 }
 
 void Smoke::update(ParticleContainer* container, int x, int y, bool even){
@@ -297,9 +337,6 @@ void Smoke::update(ParticleContainer* container, int x, int y, bool even){
         colorChange++;
     if(colorChange % 64 == 0)
         self->texture_color++;
-
-    lightFire(x, y, container);
-    fireWaterContact(x, y, container);
 
     if(std::abs(self->speed_x) < 1 && container->getParticle(x, y - 1).material != Materials::air) {
         if(self->speed_x > 0)
@@ -351,6 +388,11 @@ void Smoke::update(ParticleContainer* container, int x, int y, bool even){
 
         self->updated = even;
     }
+}
+
+Acid::Acid() {
+    color = {{31, 255, 61}, {32, 255, 62}, {31, 255, 61}};
+    random_spawn = 40;
 }
 
 void Acid::update(ParticleContainer* container, int x, int y, bool even) {

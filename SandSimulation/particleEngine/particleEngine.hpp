@@ -7,19 +7,25 @@
 class ParticleContainer;
 
 struct Material {
-    Material(std::vector<sf::Color> color, float constant_force, int random_spawn);
-    const std::vector<sf::Color> color;
-    const float constant_force;
-    const int random_spawn;
+    std::vector<sf::Color> color;
+    float constant_force = 0.08;
+    int random_spawn = 0;
+    
     virtual void update(ParticleContainer* container, int x, int y, bool even) {}
 };
 
 struct Air : Material {
-    Air() : Material({{90, 90, 90}}, 0, 0) {}
+    Air() {
+        color = {{90, 90, 90}};
+        constant_force = 0;
+    }
 };
 
 struct Stone : Material {
-    Stone() : Material({{133, 133, 133}, {135, 135, 135}, {131, 131, 131}}, 0, 0) {}
+    Stone() {
+        color = {{133, 133, 133}, {135, 135, 135}, {131, 131, 131}};
+        constant_force = 0;
+    }
 };
 
 namespace Materials {
