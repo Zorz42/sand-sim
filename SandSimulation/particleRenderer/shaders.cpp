@@ -10,11 +10,11 @@ std::string bloom_mask_str =
         "uniform vec2 u_resolution;\n"
         "void main() {\n"
         "vec2 st = gl_FragCoord.st/u_resolution;\n"
-        "if(mod(floor(texture2D(u_scene_texture, vec2(st.x * 2.0, 1.0 - st.y * 2.0)).r), 2.0) == 0.0){;\n"
+        "if(mod(floor(texture2D(u_scene_texture, vec2(st.x * 2.0, 1.0 - st.y * 2.0)).r * 255), 2.0) == 0.0){;\n"
         "gl_FragColor = texture2D(u_scene_texture, vec2(st.x * 2.0, 1.0 - st.y * 2.0));\n"
         "}\n"
         "else{\n"
-        "gl_FragColor = vec4(0,0,0.0,0);\n"
+        "gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
         "}\n"
         "}";
 
@@ -23,19 +23,16 @@ std::string combine_str =
         "uniform vec2 u_resolution;\n"
         "void main(){\n"
         "vec2 st = gl_FragCoord.st/u_resolution;\n"
-        "gl_FragColor.a *= 1.0\n;"
-        "gl_FragColor += texture2D(u_scene_texture, vec2(st.x, 1.0 - st.y)) * (1.0 - gl_FragColor.a);\n"
+        "vec4 blurtext = gl_FragColor;\n"
+        "gl_FragColor = texture2D(u_scene_texture, vec2(st.x, 1.0 - st.y)) * (1.0 - blurtext.a) + blurtext;\n"
         "}";
-
-
-
 
 std::string blur_str =
         "uniform sampler2D source;\n"
         "uniform vec2 offset;\n"
         "void main() {\n"
         "    vec2 textureCoordinates = gl_TexCoord[0].xy;\n"
-        "    vec4 color = vec4(0.0);\n"
+        "    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);\n"
         "    color += texture2D(source, textureCoordinates - 10.0 * offset) * 0.0012;\n"
         "    color += texture2D(source, textureCoordinates - 9.0 * offset) * 0.0015;\n"
         "    color += texture2D(source, textureCoordinates - 8.0 * offset) * 0.0038;\n"

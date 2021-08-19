@@ -184,7 +184,7 @@ void ParticleRenderer::render() {
     int quality = 2;
     blur.setUniform("source", bloom_mask_texture.getTexture());
 
-    while(blur_intensity >= 1.f) {
+    /*while(blur_intensity >= 1.f) {
         blur.setUniform("offset", sf::Vector2f(blur_intensity / bloom_mask_texture.getSize().x, 0));
         applyShader(blur, bloom_mask_texture);
 
@@ -195,10 +195,12 @@ void ParticleRenderer::render() {
             blur_intensity = 1;
         else
             blur_intensity /= quality;
-    }
+    }*/
 
     combine.setUniform("u_scene_texture", texture);
     combine.setUniform("u_resolution", sf::Glsl::Vec2{window->getSize()});
+
+    applyShader(combine, bloom_mask_texture);
 
     bloom_mask_texture.display();
     window->draw(sf::Sprite(bloom_mask_texture.getTexture()), &combine);
