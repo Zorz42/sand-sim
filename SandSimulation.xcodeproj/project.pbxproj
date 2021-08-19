@@ -114,10 +114,10 @@
 		366665C726C821D40009A9DC /* particleRenderer */ = {
 			isa = PBXGroup;
 			children = (
-				366665EE26CE82440009A9DC /* shaders.cpp */,
-				366665EF26CE82440009A9DC /* shaders.hpp */,
 				366665C926C821E50009A9DC /* particleRenderer.hpp */,
 				366665C826C821E50009A9DC /* particleRenderer.cpp */,
+				366665EF26CE82440009A9DC /* shaders.hpp */,
+				366665EE26CE82440009A9DC /* shaders.cpp */,
 			);
 			path = particleRenderer;
 			sourceTree = "<group>";
