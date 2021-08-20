@@ -158,6 +158,9 @@ void ParticleRenderer::render() {
                 case sf::Keyboard::Key::Num8:
                     selected_material = Materials::oil;
                     break;
+                case sf::Keyboard::Key::P:
+                    is_paused = !is_paused;
+                    break;
                 default:;
             }
         }
@@ -204,6 +207,17 @@ void ParticleRenderer::render() {
     
     renderCircle();
     renderSelectedMaterial();
+    
+    if(is_paused) {
+        sf::RectangleShape pause_rect;
+        pause_rect.setSize({(float)window->getSize().x / 2 - 20, (float)window->getSize().y / 2 - 20});
+        pause_rect.setPosition(10, 10);
+        pause_rect.setOutlineColor({225, 10, 10, 155});
+        pause_rect.setFillColor({0, 0, 0, 0});
+        pause_rect.setOutlineThickness(10);
+        window->draw(pause_rect);
+    }
+    
     window->display();
 }
 
@@ -233,3 +247,7 @@ void ParticleRenderer::applyShader(const sf::Shader &shader, sf::RenderTexture &
     output.draw(vertices, states);
 }
 
+
+bool ParticleRenderer::isPaused() {
+    return is_paused;
+}

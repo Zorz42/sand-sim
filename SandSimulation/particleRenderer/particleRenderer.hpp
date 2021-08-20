@@ -15,6 +15,7 @@ class ParticleRenderer {
     bool left_button_pressed = false, right_button_pressed = false;
     Material* selected_material = Materials::sand;
     sf::Text fps_text;
+    bool is_paused = false;
     
     short getMouseX();
     short getMouseY();
@@ -27,6 +28,7 @@ class ParticleRenderer {
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
     bool isRunning();
+    bool isPaused();
     void render();
     ~ParticleRenderer();
     void applyShader(const sf::Shader& shader, sf::RenderTexture& output);

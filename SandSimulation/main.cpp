@@ -11,7 +11,8 @@ int main() {
     loadShader();
 
     while(renderer.isRunning()) {
-        container.updateAll();
+        if(!renderer.isPaused())
+            container.updateAll();
         renderer.render();
     }
     return 0;
