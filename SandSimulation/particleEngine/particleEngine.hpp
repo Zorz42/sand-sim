@@ -10,7 +10,6 @@ class ParticleContainer;
 
 struct Material {
     std::vector<sf::Color> color;
-    float constant_force = 0.08;
     int random_spawn = 0;
     MaterialType type;
 

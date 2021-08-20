@@ -8,7 +8,6 @@ Sand::Sand() {
 
 Wood::Wood() {
     color = {{155, 116, 54}, {153, 115, 53}, {157, 117, 55}, {151, 111, 51}};
-    constant_force = 0;
     type = MaterialType::SOLID;
 }
 
@@ -227,7 +226,6 @@ void Lava::update(ParticleContainer* container, int x, int y, bool even) {
 
 Fire::Fire() {
     color = {{222, 70, 12}, {222, 120, 16}, {222, 125, 16}, {222, 127, 16}, {222, 130, 16}, {222, 182, 16}};
-    constant_force = 0;
     type = MaterialType::SOLID;
 }
 
