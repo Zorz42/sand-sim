@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <array>
 
 enum class MaterialType {SOLID, POWDER, LIQUID, GAS};
 
@@ -56,6 +56,7 @@ public:
     void initMap();
     void updateAll();
     Particle& getParticle(unsigned short x, unsigned short y);
+    std::array<Particle*, 4> getNeighbors(int x, int y);
 };
 
 void swapParticles(Particle& particle1, Particle& particle2);

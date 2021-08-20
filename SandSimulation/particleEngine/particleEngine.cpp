@@ -4,6 +4,10 @@ ParticleContainer::ParticleContainer(int size_x, int size_y) : width(size_x), he
     map = new Particle[size_x * size_y];
 }
 
+std::array<Particle*, 4> ParticleContainer::getNeighbors(int x, int y) {
+    return {&getParticle(x, y + 1), &getParticle(x + 1, y), &getParticle(x - 1, y), &getParticle(x, y - 1)};
+}
+
 bool powderSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i);
 
 void ParticleContainer::updateAll() {
