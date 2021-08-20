@@ -12,6 +12,9 @@ struct Material {
     std::vector<sf::Color> color;
     int random_spawn = 0;
     MaterialType type;
+    int burn_time = 0;
+    float flamability = 0;
+    int burn_factor = 1;
 
     virtual void update(ParticleContainer* container, int x, int y, bool even) {}
 };
