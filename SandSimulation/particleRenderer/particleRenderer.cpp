@@ -198,6 +198,14 @@ void ParticleRenderer::render() {
                 case sf::Keyboard::Key::P:
                     is_paused = !is_paused;
                     break;
+                case sf::Keyboard::Key::C: {
+                    Particle* iter = container->getMapBegin();
+                    for(int i = 0; i < container->getMapSize(); i++) {
+                        iter->material = Materials::air;
+                        iter++;
+                    }
+                    break;
+                }
                 default:;
             }
         }
