@@ -8,7 +8,7 @@ struct Sand : Material {
 
 struct Water : Material {
     Water();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
+    void update(ParticleContainer* container, int& x, int& y, bool even) override;
 };
 
 struct Wood : Material {
@@ -17,12 +17,12 @@ struct Wood : Material {
 
 struct Fire : Material {
     Fire();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
+    void update(ParticleContainer* container, int& x, int& y, bool even) override;
 };
 
 struct Smoke : Material {
     Smoke();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
+    void update(ParticleContainer* container, int& x, int& y, bool even) override;
 };
 
 struct Gunpowder : Material {
@@ -31,17 +31,17 @@ struct Gunpowder : Material {
 
 struct Acid : Material {
     Acid();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
+    void update(ParticleContainer* container, int& x, int& y, bool even) override;
 };
 
 struct Oil : Material {
     Oil();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
+    void update(ParticleContainer* container, int& x, int& yy, bool even) override;
 };
 
 struct Lava : Material {
     Lava();
-    void update(ParticleContainer* container, int x, int y, bool even) override;
+    void update(ParticleContainer* container, int& x, int& y, bool even) override;
 };
 
 

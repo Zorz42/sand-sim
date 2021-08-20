@@ -27,10 +27,9 @@ Water::Water() {
     type = MaterialType::LIQUID;
 }
 
-void Water::update(ParticleContainer* container, int x, int y, bool even) {
+void Water::update(ParticleContainer* container, int& x, int& y, bool even) {
     Particle* self = &container->getParticle(x, y);
 
-    if(self->updated != even) {
         if(self->timer == 0)
         self->timer = 3600;
 
@@ -89,10 +88,6 @@ void Water::update(ParticleContainer* container, int x, int y, bool even) {
                 }
             }
         }
-
-
-        self->updated = even;
-    }
 }
 
 Oil::Oil() {
@@ -103,10 +98,9 @@ Oil::Oil() {
     burn_time = 120;
 }
 
-void Oil::update(ParticleContainer* container, int x, int y, bool even) {
+void Oil::update(ParticleContainer* container, int& x, int& y, bool even) {
     Particle* self = &container->getParticle(x, y);
 
-    if(self->updated != even) {
         for(int i = 0; i < self->speed_y; i++) {
             if(container->getParticle(x, y + 1).material != Materials::air && container->getParticle(x, y + 1).material != Materials::smoke && container->getParticle(x, y + 1).material != Materials::fire) {
                 self->speed_y = 0;
@@ -145,9 +139,6 @@ void Oil::update(ParticleContainer* container, int x, int y, bool even) {
                 }
             }
         }
-
-        self->updated = even;
-    }
 }
 
 Lava::Lava() {
@@ -157,10 +148,9 @@ Lava::Lava() {
     burn_factor = 2;
 }
 
-void Lava::update(ParticleContainer* container, int x, int y, bool even) {
+void Lava::update(ParticleContainer* container, int& x, int& y, bool even) {
     Particle* self = &container->getParticle(x, y);
 
-    if(self->updated != even) {
         for(int i = 0; i < self->speed_y; i++) {
             if(container->getParticle(x, y + 1).material != Materials::air && container->getParticle(x, y + 1).material != Materials::smoke && container->getParticle(x, y + 1).material != Materials::fire) {
                 self->speed_y = 0;
@@ -204,30 +194,26 @@ void Lava::update(ParticleContainer* container, int x, int y, bool even) {
             }
         }
 
-        self->updated = even;
-    }
-    
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
+        Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
 
-    for(Particle* particle : particles)
-        if(particle->material == Materials::water) {
-            container->getParticle(x, y - 2).material = Materials::smoke;
-            particle->material = Materials::stone;
-            self->material = Materials::stone;
-            particle->texture_color = 0;
-        } else if(particle->material == Materials::acid) {
-            self->material = Materials::stone;
-            particle->material = Materials::air;
-        }
-    
-    for(Particle* particle : particles)
-        if(particle->material->flamability != 0) {
-            if((double)rand() / RAND_MAX < particle->material->flamability * self->material->burn_factor) {
-                particle->timer = particle->material->burn_time - rand() % (particle->material->burn_time / 10);
-                particle->material = Materials::fire;
+        for(Particle* particle : particles)
+            if(particle->material == Materials::water) {
+                container->getParticle(x, y - 2).material = Materials::smoke;
+                particle->material = Materials::stone;
+                self->material = Materials::stone;
+                particle->texture_color = 0;
+            } else if(particle->material == Materials::acid) {
+                self->material = Materials::stone;
+                particle->material = Materials::air;
             }
-        }
-
+        
+        for(Particle* particle : particles)
+            if(particle->material->flamability != 0) {
+                if((double)rand() / RAND_MAX < particle->material->flamability * self->material->burn_factor) {
+                    particle->timer = particle->material->burn_time - rand() % (particle->material->burn_time / 10);
+                    particle->material = Materials::fire;
+                }
+            }
 }
 
 Fire::Fire() {
@@ -235,44 +221,45 @@ Fire::Fire() {
     type = MaterialType::SOLID;
 }
 
-void Fire::update(ParticleContainer* container, int x, int y, bool even) {
+void Fire::update(ParticleContainer* container, int& x, int& y, bool even) {
     Particle* self = &container->getParticle(x, y);
     
-    if(self->timer == 0)
-        self->timer = 300 + rand() % 150;
-    if(self->timer == 1)
-        self->material = Materials::air;
-    self->timer--;
+        if(self->timer == 0)
+            self->timer = 300 + rand() % 150;
+        if(self->timer == 1)
+            self->material = Materials::air;
+        self->timer--;
 
-    static int colorChange = 0;
-    colorChange++;
-    if(colorChange % 32 == 0)
-        self->texture_color++;
+        static int colorChange = 0;
+        colorChange++;
+        if(colorChange % 32 == 0)
+            self->texture_color++;
 
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
-    for(Particle* particle : particles)
-        if(particle->material->flamability != 0) {
-            if((double)rand() / RAND_MAX < particle->material->flamability * self->material->burn_factor) {
-                particle->timer = particle->material->burn_time - rand() % (particle->material->burn_time / 10);
-                particle->material = Materials::fire;
+        Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x, y - 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y)};
+        for(Particle* particle : particles)
+            if(particle->material->flamability != 0) {
+                if((double)rand() / RAND_MAX < particle->material->flamability * self->material->burn_factor) {
+                    particle->timer = particle->material->burn_time - rand() % (particle->material->burn_time / 10);
+                    particle->material = Materials::fire;
+                }
             }
-        }
 
-    for(Particle* particle : particles)
-        if(particle->material == Materials::water) {
-            particle->material = Materials::smoke;
-            self->material = Materials::smoke;
-            self->texture_color = 0;
-            particle->texture_color = 0;
-        } else if(particle->material == Materials::acid) {
-            self->material = Materials::smoke;
-            self->timer = 60;
-            self->texture_color = 0;
-            particle->material = Materials::air;
-        }
+        for(Particle* particle : particles)
+            if(particle->material == Materials::water) {
+                particle->material = Materials::smoke;
+                self->material = Materials::smoke;
+                self->texture_color = 0;
+                particle->texture_color = 0;
+            } else if(particle->material == Materials::acid) {
+                self->material = Materials::smoke;
+                self->timer = 60;
+                self->texture_color = 0;
+                particle->material = Materials::air;
+            }
 
-    if(container->getParticle(x, y - 1).material == Materials::air && rand() % 10 == 0)
-        container->getParticle(x, y - 1).material = Materials::smoke;
+        if(container->getParticle(x, y - 1).material == Materials::air && rand() % 10 == 0)
+            container->getParticle(x, y - 1).material = Materials::smoke;
+        
 }
 
 Smoke::Smoke() {
@@ -281,42 +268,40 @@ Smoke::Smoke() {
     type = MaterialType::GAS;
 }
 
-void Smoke::update(ParticleContainer* container, int x, int y, bool even) {
+void Smoke::update(ParticleContainer* container, int& x, int& y, bool even) {
     Particle* self = &container->getParticle(x, y);
 
-    if(self->timer == 0)
-        self->timer = 600;
+        if(self->timer == 0)
+            self->timer = 600;
 
-    if(y == 0 && self->timer > 30)
-        self->timer = 30;
+        if(y == 0 && self->timer > 30)
+            self->timer = 30;
 
-    if(container->getParticle(x, y + 1).material == Materials::air || y == 0)
-        self->timer--;
-    else
-        self->timer++;
-
-    if(self->timer == 1) {
-        self->speed_y = 0;
-        self->speed_x = 1;
-        self->material = Materials::air;
-        self->timer = 0;
-    }
-
-    static int colorChange = 0;
-    if(even)
-        colorChange++;
-    if(colorChange % 64 == 0)
-        self->texture_color++;
-
-    if(std::abs(self->speed_x) < 1 && container->getParticle(x, y - 1).material != Materials::air) {
-        if(self->speed_x > 0)
-            self->speed_x++;
+        if(container->getParticle(x, y + 1).material == Materials::air || y == 0)
+            self->timer--;
         else
-            self->speed_x--;
-    }
+            self->timer++;
 
+        if(self->timer == 1) {
+            self->speed_y = 0;
+            self->speed_x = 1;
+            self->material = Materials::air;
+            self->timer = 0;
+        }
 
-    if(self->updated != even) {
+        static int colorChange = 0;
+        if(even)
+            colorChange++;
+        if(colorChange % 64 == 0)
+            self->texture_color++;
+
+        if(std::abs(self->speed_x) < 1 && container->getParticle(x, y - 1).material != Materials::air) {
+            if(self->speed_x > 0)
+                self->speed_x++;
+            else
+                self->speed_x--;
+        }
+        
         for(int i = 0; i < self->speed_y; i++) {
             if(container->getParticle(x, y - 1).material != Materials::air) {
                 self->speed_y = 0;
@@ -356,8 +341,6 @@ void Smoke::update(ParticleContainer* container, int x, int y, bool even) {
             }
         }
 
-        self->updated = even;
-    }
 }
 
 Acid::Acid() {
@@ -366,33 +349,31 @@ Acid::Acid() {
     type = MaterialType::LIQUID;
 }
 
-void Acid::update(ParticleContainer* container, int x, int y, bool even) {
+void Acid::update(ParticleContainer* container, int& x, int& y, bool even) {
     Particle* self = &container->getParticle(x, y);
+    
+        if(self->timer == 0)
+            self->timer = 3600;
 
-    if(self->timer == 0)
-        self->timer = 3600;
-
-    if(container->getParticle(x, y - 1).material == Materials::air)
-        self->timer--;
-    else
-        self->timer++;
-
-    if(self->timer == 1){
-        self->speed_y = 0;
-        self->speed_x = 1;
-        self->material = Materials::air;
-        self->timer = 0;
-    }
-
-    if(std::abs(self->speed_x) < 1 && container->getParticle(x, y + 1).material != Materials::air) {
-        if(self->speed_x > 0)
-            self->speed_x++;
+        if(container->getParticle(x, y - 1).material == Materials::air)
+            self->timer--;
         else
-            self->speed_x--;
-    }
+            self->timer++;
 
+        if(self->timer == 1){
+            self->speed_y = 0;
+            self->speed_x = 1;
+            self->material = Materials::air;
+            self->timer = 0;
+        }
 
-    if(self->updated != even) {
+        if(std::abs(self->speed_x) < 1 && container->getParticle(x, y + 1).material != Materials::air) {
+            if(self->speed_x > 0)
+                self->speed_x++;
+            else
+                self->speed_x--;
+        }
+        
         for(int i = 0; i < self->speed_y; i++) {
             if(container->getParticle(x, y + 1).material != Materials::air &&
             container->getParticle(x, y + 1).material != Materials::smoke &&
@@ -436,18 +417,16 @@ void Acid::update(ParticleContainer* container, int x, int y, bool even) {
                 }
             }
         }
-        self->updated = even;
-
-    }
-    
-    Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y), &container->getParticle(x, y - 1)};
-    for(Particle* particle : particles)
-        if((particle->material == Materials::wood || particle->material == Materials::sand) && rand() % 20 == 0){
-            container->getParticle(x, y).material = Materials::air;
-            if(rand() % 10 == 0)
-                particle->material = Materials::air;
-            else
+        //self->updated = even;
+        
+        Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y), &container->getParticle(x, y - 1)};
+        for(Particle* particle : particles)
+            if((particle->material == Materials::wood || particle->material == Materials::sand) && rand() % 20 == 0){
+                container->getParticle(x, y).material = Materials::air;
+                if(rand() % 10 == 0)
+                    particle->material = Materials::air;
+                else
+                    particle->material = Materials::acid;
+            } else if(particle->material == Materials::water && rand() % 4 == 0)
                 particle->material = Materials::acid;
-        }else if(particle->material == Materials::water && rand() % 4 == 0)
-            particle->material = Materials::acid;
 }

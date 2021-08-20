@@ -16,7 +16,7 @@ struct Material {
     float flamability = 0;
     int burn_factor = 1;
 
-    virtual void update(ParticleContainer* container, int x, int y, bool even) {}
+    virtual void update(ParticleContainer* container, int& x, int& y, bool even) {}
 };
 
 struct Air : Material {

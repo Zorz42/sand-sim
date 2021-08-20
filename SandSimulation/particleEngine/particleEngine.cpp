@@ -36,19 +36,19 @@ unsigned int ParticleContainer::getMapSize() {
 }
 
 void Particle::update(ParticleContainer* container, int x, int y, bool even) {
-    if(material->type != MaterialType::SOLID) {
-        speed_y *= 0.995;
-        speed_x *= 0.995;
-        speed_y += 0.1;
+    Particle* self = this;
+    
+    if(self->material->type != MaterialType::SOLID) {
+        self->speed_y *= 0.995;
+        self->speed_x *= 0.995;
+        self->speed_y += 0.1;
     }
     
-    if(material->type == MaterialType::POWDER) {
-        Particle* self = &container->getParticle(x, y);
-
-        int i = 0;
-        while(i < self->speed_y) {
-            Particle& particle_below = container->getParticle(x, y + 1);
-            if(self->updated == even) {
+    if(self->updated != even) {
+        if(self->material->type == MaterialType::POWDER) {
+            int i = 0;
+            while(i < self->speed_y) {
+                Particle& particle_below = container->getParticle(x, y + 1);
                 if(particle_below.material == Materials::air || particle_below.material->type == MaterialType::LIQUID) {
                     swapParticles(*self, particle_below);
                     if(i + 1 > particle_below.speed_y)
@@ -66,11 +66,15 @@ void Particle::update(ParticleContainer* container, int x, int y, bool even) {
                         self->speed_y = 0;
                         break;
                 }
+                i++;
             }
-            i++;
         }
+        
+        self->material->update(container, x, y, even);
+        
+        self = &container->getParticle(x, y);
+        self->updated = even;
     }
-    material->update(container, x, y, even);
 }
 
 Air::Air() {
@@ -92,7 +96,7 @@ void swapParticles(Particle& particle1, Particle& particle2) {
 bool powderSwap(ParticleContainer* container, int& x, int& y, int target_x, int target_y, bool even, int i) {
     Particle& target_particle = container->getParticle(target_x, target_y);
     Particle& self = container->getParticle(x, y);
-    if(self.updated == even && (target_particle.material == Materials::air || target_particle.material->type == MaterialType::LIQUID)) {
+    if((target_particle.material == Materials::air || target_particle.material->type == MaterialType::LIQUID)) {
         swapParticles(self, target_particle);
         if(i + 1 > self.speed_y)
             target_particle.updated = !even;
