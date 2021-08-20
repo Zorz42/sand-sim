@@ -93,7 +93,7 @@ void Water::update(ParticleContainer* container, int x, int y, bool even) {
 
 Oil::Oil() {
     color = {{11, 11, 11}, {11, 12, 12}, {9, 9, 9}};
-    random_spawn = 40;
+    random_spawn = 4;
     type = MaterialType::LIQUID;
 }
 
@@ -102,7 +102,7 @@ void Oil::update(ParticleContainer* container, int x, int y, bool even) {
 
     if(self->updated != even) {
         for(int i = 0; i < self->speed_y; i++) {
-            if(container->getParticle(x, y + 1).material != Materials::air && container->getParticle(x, y + 1).material != Materials::smoke) {
+            if(container->getParticle(x, y + 1).material != Materials::air && container->getParticle(x, y + 1).material != Materials::smoke && container->getParticle(x, y + 1).material != Materials::fire) {
                 self->speed_y = 0;
             } else {
                 swapParticles(*self, container->getParticle(x, y + 1));
