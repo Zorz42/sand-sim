@@ -43,7 +43,6 @@ public:
     float speed_x = 0, speed_y = 0;
     unsigned short timer = 0;
     bool updated = false;
-    unsigned short pressure = 0;
 };
 
 class ParticleContainer {
