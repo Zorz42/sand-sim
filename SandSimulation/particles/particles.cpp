@@ -90,6 +90,7 @@ void Water::update(ParticleContainer* container, int x, int y, bool even) {
             }
         }
 
+
         self->updated = even;
     }
 }
@@ -435,8 +436,8 @@ void Acid::update(ParticleContainer* container, int x, int y, bool even) {
                 }
             }
         }
-
         self->updated = even;
+
     }
     
     Particle* particles[] = {&container->getParticle(x, y + 1), &container->getParticle(x + 1, y), &container->getParticle(x - 1, y), &container->getParticle(x, y - 1)};
