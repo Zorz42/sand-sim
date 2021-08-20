@@ -19,7 +19,7 @@ std::string alpha_correction_str =
         "void main() {\n"
         "    vec2 textureCoordinates = gl_TexCoord[0].xy;\n"
         "    vec4 color = texture2D(source, textureCoordinates);\n"
-        "    color.a = sqrt(1.0 - (color.a - 1.0) * (color.a - 1.0));\n"
+        "    color.a = sqrt(sqrt(1.0 - (color.a - 1.0) * (color.a - 1.0)));\n"
         "    gl_FragColor = color;\n"
         "}";
 

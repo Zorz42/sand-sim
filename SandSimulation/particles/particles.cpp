@@ -2,7 +2,7 @@
 
 Sand::Sand() {
     color = {{245, 210, 92}, {237, 205, 88}, {239, 207, 90}, {235, 203, 86}, {231, 200, 84}};
-    random_spawn = 80;
+    random_spawn = 20;
     type = MaterialType::POWDER;
 }
 
@@ -13,13 +13,13 @@ Wood::Wood() {
 
 Gunpowder::Gunpowder() {
     color = {{37, 37, 37}};
-    random_spawn = 40;
+    random_spawn = 20;
     type = MaterialType::POWDER;
 }
 
 Water::Water() {
     color = {{53, 145, 173}, {53, 147, 176}, {47, 140, 169}};
-    random_spawn = 80;
+    random_spawn = 20;
     type = MaterialType::LIQUID;
 }
 
@@ -92,7 +92,7 @@ void Water::update(ParticleContainer* container, int x, int y, bool even) {
 
 Oil::Oil() {
     color = {{11, 11, 11}, {11, 12, 12}, {9, 9, 9}};
-    random_spawn = 4;
+    random_spawn = 20;
     type = MaterialType::LIQUID;
 }
 
@@ -145,7 +145,7 @@ void Oil::update(ParticleContainer* container, int x, int y, bool even) {
 
 Lava::Lava() {
     color = {{252, 91, 16}, {252, 95, 16}, {252, 97, 16}, {252, 102, 16}, {252, 142, 16}};
-    random_spawn = 40;
+    random_spawn = 20;
     type = MaterialType::LIQUID;
 }
 
@@ -274,7 +274,7 @@ void Fire::update(ParticleContainer* container, int x, int y, bool even) {
 
 Smoke::Smoke() {
     color = {{65, 65, 59}, {61, 60, 54}, {69, 70, 64}};
-    random_spawn = 40;
+    random_spawn = 20;
     type = MaterialType::GAS;
 }
 
@@ -359,7 +359,7 @@ void Smoke::update(ParticleContainer* container, int x, int y, bool even){
 
 Acid::Acid() {
     color = {{30, 255, 61}, {32, 255, 62}, {32, 255, 61}};
-    random_spawn = 40;
+    random_spawn = 20;
     type = MaterialType::LIQUID;
 }
 
