@@ -21,6 +21,7 @@ Gunpowder::Gunpowder() {
     burn_time = 20;
 }
 
+
 Water::Water() {
     color = {{53, 145, 173}, {53, 147, 176}, {47, 140, 169}};
     random_spawn = 20;
