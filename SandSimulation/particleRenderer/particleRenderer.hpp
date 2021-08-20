@@ -25,10 +25,13 @@ class ParticleRenderer {
     void placeCircle(short target_x, short target_y, Material* material, int line_length);
     void placeCirclesFromTo(short x1, short y1, short x2, short y2, Material* material);
     void renderSelectedMaterial();
+    void renderPauseRect();
+    void updateBloomMask();
 public:
     ParticleRenderer(ParticleContainer* container, unsigned short window_width, unsigned short window_height);
     bool isRunning();
     bool isPaused();
+    
     void render();
     ~ParticleRenderer();
     void applyShader(const sf::Shader& shader, sf::RenderTexture& output);

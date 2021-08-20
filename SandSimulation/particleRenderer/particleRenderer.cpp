@@ -119,6 +119,43 @@ void ParticleRenderer::renderSelectedMaterial() {
     window->draw(selected_material_rect);
 }
 
+void ParticleRenderer::renderPauseRect() {
+    sf::RectangleShape pause_rect;
+    pause_rect.setSize({(float)window->getSize().x / 2 - 20, (float)window->getSize().y / 2 - 20});
+    pause_rect.setPosition(10, 10);
+    pause_rect.setOutlineColor({225, 10, 10, 155});
+    pause_rect.setFillColor({0, 0, 0, 0});
+    pause_rect.setOutlineThickness(10);
+    window->draw(pause_rect);
+}
+
+void ParticleRenderer::updateBloomMask() {
+    bloom_mask.setUniform("source", texture);
+    bloom_mask.setUniform("resolution", sf::Glsl::Vec2{window->getSize()});
+    
+    applyShader(bloom_mask, bloom_mask_texture);
+    bloom_mask_texture.display();
+    
+    float blur_intensity = 8;
+    float quality = 1.3;
+    blur.setUniform("source", bloom_mask_texture.getTexture());
+    
+    while(blur_intensity >= 1.f) {
+        blur.setUniform("offset", sf::Vector2f(blur_intensity / bloom_mask_texture.getSize().x, 0));
+        applyShader(blur, bloom_mask_texture);
+        
+        blur.setUniform("offset", sf::Vector2f(0, blur_intensity / bloom_mask_texture.getSize().y));
+        applyShader(blur, bloom_mask_texture);
+        
+        if(blur_intensity < quality && blur_intensity != 1)
+            blur_intensity = 1;
+        else
+            blur_intensity /= quality;
+    }
+    
+    bloom_mask_texture.display();
+}
+
 void ParticleRenderer::render() {
     sf::Event event;
     while(window->pollEvent(event)) {
@@ -175,48 +212,16 @@ void ParticleRenderer::render() {
     prev_mouse_y = getMouseY();
     
     updateTexture();
-
-
-    bloom_mask.setUniform("source", texture);
-    bloom_mask.setUniform("resolution", sf::Glsl::Vec2{window->getSize()});
-
-    applyShader(bloom_mask, bloom_mask_texture);
-    bloom_mask_texture.display();
-
-    float blur_intensity = 8;
-    float quality = 1.3;
-    blur.setUniform("source", bloom_mask_texture.getTexture());
-
-    while(blur_intensity >= 1.f) {
-        blur.setUniform("offset", sf::Vector2f(blur_intensity / bloom_mask_texture.getSize().x, 0));
-        applyShader(blur, bloom_mask_texture);
-
-        blur.setUniform("offset", sf::Vector2f(0, blur_intensity / bloom_mask_texture.getSize().y));
-        applyShader(blur, bloom_mask_texture);
-
-        if(blur_intensity < quality && blur_intensity != 1)
-            blur_intensity = 1;
-        else
-            blur_intensity /= quality;
-    }
-
-    //applyShader(alpha_correction, bloom_mask_texture);
-    bloom_mask_texture.display();
+    updateBloomMask();
+    
     window->draw(sf::Sprite(texture));
     window->draw(sf::Sprite(bloom_mask_texture.getTexture()), &alpha_correction);
 
     renderCircle();
     renderSelectedMaterial();
     
-    if(is_paused) {
-        sf::RectangleShape pause_rect;
-        pause_rect.setSize({(float)window->getSize().x / 2 - 20, (float)window->getSize().y / 2 - 20});
-        pause_rect.setPosition(10, 10);
-        pause_rect.setOutlineColor({225, 10, 10, 155});
-        pause_rect.setFillColor({0, 0, 0, 0});
-        pause_rect.setOutlineThickness(10);
-        window->draw(pause_rect);
-    }
+    if(is_paused)
+        renderPauseRect();
     
     window->display();
 }
