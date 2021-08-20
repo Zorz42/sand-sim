@@ -180,7 +180,7 @@ void ParticleRenderer::render() {
     applyShader(bloom_mask, bloom_mask_texture);
     bloom_mask_texture.display();
 
-    float blur_intensity = 4;
+    float blur_intensity = 8;
     float quality = 1.3;
     blur.setUniform("source", bloom_mask_texture.getTexture());
 
@@ -201,7 +201,7 @@ void ParticleRenderer::render() {
     bloom_mask_texture.display();
     window->draw(sf::Sprite(texture));
     window->draw(sf::Sprite(bloom_mask_texture.getTexture()), &alpha_correction);
-    
+
     renderCircle();
     renderSelectedMaterial();
     window->display();
